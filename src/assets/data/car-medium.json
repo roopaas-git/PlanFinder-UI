@@ -1,0 +1,12 @@
+{
+    "data":[
+        {"vin":"a1653d4d","brand":"VW","year":1998,"color":"White","price":10000},
+        {"vin":"7d2d22b0","brand":"VW","year":1993,"color":"Maroon","price":40000},
+        {"vin":"1083ee40","brand":"VW","year":1984,"color":"Silver","price":215000},
+        {"vin":"cec593d7","brand":"VW","year":1992,"color":"Blue","price":36000},
+        {"vin":"24622f70","brand":"Test","year":1973,"color":"Maroon","price":36000},
+        {"vin":"24622f70","brand":"Test","year":1974,"color":"White","price":46000},
+        {"vin":"24622f70","brand":"Test","year":1975,"color":"Blue","price":37000},
+        {"vin":"24622f70","brand":"Test","year":1976,"color":"Silver","price":76000}
+    ]
+}

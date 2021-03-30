@@ -1,0 +1,169 @@
+<div class="pc-sidebar-filter ">
+    <div class="pc-sidebar-header px-3">
+        <div class="d-flex justify-content-between mb-2">
+            <div>Filters</div>
+            <div>
+                <a role="btn" href="#">Clear</a>
+            </div>
+        </div>
+        <div class="pc-sidebar-filter-applied">
+            <div class="badge badge-pill badge-light">
+                <span>Premium</span>
+                <button type="button" class="close ml-2" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="badge badge-pill badge-light">
+                <span>MOOP</span>
+                <button type="button" class="close ml-2" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="badge badge-pill badge-light">
+                <span>Deductible</span>
+                <button type="button" class="close ml-2" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="badge badge-pill badge-light">
+                <span>Standard</span>
+                <button type="button" class="close ml-2" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="filter-divider border-bottom my-4"></div>
+    <div class="pc-sidebar-filter-item px-3">
+        <h3 class="pc-sidebar-filter-title mb-3">Premium</h3>
+        <div class="pc-sidebar-filter-slider mb-3 pl-2">
+            <p-slider id="premiumRangeSlider" [(ngModel)]="premiumRangeValues" [range]="true"></p-slider>
+        </div>
+        <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+            <div class="pc-sidebar-filter-min d-flex align-items-center">
+                <label class="m-0" for="premiumMin">From</label>
+                <input type="text" id="premiumMin" class="form-control form-control-sm d-inline-flex ml-2"
+                    value="{{premiumRangeValues[0]}}" disabled>
+            </div>
+            <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
+                <label class="m-0" for="premiumMax">To</label>
+                <input type="text" id="premiumMax" class="form-control form-control-sm d-inline-flex ml-2"
+                    value="{{premiumRangeValues[1]}}" disabled>
+            </div>
+        </div>
+        <div class="pc-sidebar-filter-check">
+            <div class="form-check form-check-right custom-checkbox mb-3">
+                <input type="checkbox" class="form-check-input d-none" id="premiumD">
+                <label class="form-check-label" for="premiumD">
+                    <span class="w-100">Plans with only part D premium</span>
+                </label>
+            </div>
+            <div class="form-check form-check-right custom-checkbox mb-3">
+                <input type="checkbox" class="form-check-input d-none" id="premiumB">
+                <label class="form-check-label" for="premiumB">
+                    <span class="w-100">Plans with part B Giveback</span>
+                </label>
+            </div>
+            <div class="form-check form-check-right custom-checkbox mb-3">
+                <input type="checkbox" class="form-check-input d-none" id="premiumHealthDrugCoverage">
+                <label class="form-check-label" for="premiumHealthDrugCoverage">
+                    <span class="w-100">Provides health and drug coverage</span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <div class="filter-divider border-bottom mt-5 mb-4"></div>
+    <div class="pc-sidebar-filter-item px-3">
+        <h3 class="pc-sidebar-filter-title mb-3">Enrollment</h3>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <label class="mb-0" for="enrollMonth">Enrollment Month</label>
+            <select class="form-control form-control-sm w-auto d-inline-flex ml-2">
+                <option selected>April 19</option>
+                <option value="1">May 19</option>
+                <option value="2">June 19</option>
+                <option value="3">July 19</option>
+            </select>
+        </div>
+        <div class="d-flex align-items-center justify-content-between  bg-light border p-2 mb-4">
+            <div class="w-25 left">
+                Enr <br> Range
+            </div>
+            <div class="w-75 right flex-grow-1 ml-2">
+                <div class="range-val d-flex align-items-center justify-content-between mb-2">
+                    <div class="left range-val-min">{{premiumRangeValues[0]}}</div>
+                    <div class="right range-val-max">{{premiumRangeValues[1]}}</div>
+                </div>
+                <div class="pc-sidebar-filter-slider mb-2 pl-2">
+                    <p-slider id="premiumRangeSlider" [(ngModel)]="premiumRangeValues" [range]="true"></p-slider>
+                </div>
+            </div>
+        </div>
+        <div class=" mb-3">
+            <div class="bg-secondary border-secondary text-white p-2 text-center">Change in Enrollment</div>
+            <div
+                class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2">
+                <div class="pc-sidebar-filter-min d-flex align-items-center">
+                    <label class="m-0" for="enrRangeMin">From</label>
+                    <select id="enrRangeMin" class="form-control form-control-sm w-auto d-inline-flex ml-2">
+                        <option selected>Apr 19</option>
+                        <option value="1">May 19</option>
+                        <option value="2">Jun 19</option>
+                        <option value="3">Jul 19</option>
+                    </select>
+                </div>
+                <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
+                    <label class="m-0" for="enrRangeMax">To</label>
+                    <select id="enrRangeMax" class="form-control form-control-sm w-auto d-inline-flex ml-2">
+                        <option selected>Apr 19</option>
+                        <option value="1">May 19</option>
+                        <option value="2">Jun 19</option>
+                        <option value="3">Jul 19</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="filter-divider border-bottom mt-5 mb-4"></div>
+    <div class="pc-sidebar-filter-item px-3">
+        <h3 class="pc-sidebar-filter-title mb-3">Deductible</h3>
+        <div class="pc-sidebar-filter-check">
+            <div class="form-check form-check-right custom-checkbox mb-3">
+                <input type="checkbox" class="form-check-input d-none" id="premiumD">
+                <label class="form-check-label" for="premiumD">
+                    <span class="w-100">Health Deductible</span>
+                </label>
+            </div>
+            <div class="form-check form-check-right custom-checkbox mb-3">
+                <input type="checkbox" class="form-check-input d-none" id="premiumB">
+                <label class="form-check-label" for="premiumB">
+                    <span class="w-100">Drug Deductible</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="filter-divider border-bottom mt-5 mb-4"></div>
+    <div class="pc-sidebar-filter-item px-3">
+        <h3 class="pc-sidebar-filter-title mb-3">MOOP</h3>
+        <div class="pc-sidebar-filter-slider mb-3 pl-2">
+            <p-slider id="premiumRangeSlider" [(ngModel)]="premiumRangeValues" [range]="true"></p-slider>
+        </div>
+        <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+            <div class="pc-sidebar-filter-min d-flex align-items-center">
+                <label class="m-0" for="moopMin">From</label>
+                <input type="text" id="moopMin" class="form-control form-control-sm d-inline-flex ml-2"
+                    value="{{premiumRangeValues[0]}}" disabled>
+            </div>
+            <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
+                <label class="m-0" for="moopMax">To</label>
+                <input type="text" id="moopMax" class="form-control form-control-sm d-inline-flex ml-2"
+                    value="{{premiumRangeValues[1]}}" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="filter-divider border-bottom mt-5 mb-4"></div>
+    <div class="pc-sidebar-filter-action d-flex justify-content-end px-3">
+        <button class="btn btn-sm btn-primary pc-sidebar-filter-action-btn px-5 ml-auto">Apply</button>
+    </div>
+</div>

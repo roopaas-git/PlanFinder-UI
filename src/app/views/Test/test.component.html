@@ -1,0 +1,58 @@
+<div class="pc hw-page bg-light d-flex flex-column">
+  <app-header></app-header>
+  <div class="hw-pagecontent">
+    <div class="pc-header">
+      <app-pc-header-filters></app-pc-header-filters>
+    </div>
+    <div class="pc-body d-flex flex-grow-1">
+      <div class="pc-sidebar bg-white borer shadow-sm m-2 py-3">
+        <app-pc-sidebar></app-pc-sidebar>
+      </div>
+      <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm m-2 p-3">
+        <div class="pc-plans-header pc-plans-sort d-flex align-items-start mb-4">
+          <div class="filter-wrapper d-flex align-items-center mr-3">
+            <div class="mr-3">Sort by</div>
+            <button type="button" class="btn btn-secondary btn-sm px-4 mr-3">Premium</button>
+            <button type="button" class="btn btn-primary btn-sm px-4 mr-3">TPV</button>
+            <button type="button" class="btn btn-secondary btn-sm px-4 mr-3">OOPC</button>
+            <button type="button" class="btn btn-secondary btn-sm px-4 mr-3">Enrollment</button>
+          </div>
+          <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
+            <button type="button" class="btn btn-primary btn-sm px-4 mr-3">Color Code</button>
+            <button type="button" class="btn btn-secondary btn-sm px-4 mr-3">YOY</button>
+          </div>
+        </div>
+        <div class="pc-plans-body flex-grow-1">
+          <div *ngIf="!showPlanCompare">
+            <div class="pc-plans">
+              <app-pc-plan></app-pc-plan>
+            </div>
+          </div>
+          <div *ngIf="">
+            <div class="pc-plans-compare">
+
+            </div>
+          </div>
+          <div *ngIf="">
+            <div class="pc-plans-footer d-flex mt-4">
+              <div class="ml-auto">
+                <button class="btn btn-primary px-4">
+                  Compare
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="">
+            <a role="button" class="text-primary pc-plan-compare-back-btn bg-light rounded-circle">
+              <svg width="40" height="40" viewBox="0 0 16 16" class="bi bi-arrow-left-circle-fill" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.646 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L6.207 7.5H11a.5.5 0 0 1 0 1H6.207l2.147 2.146z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

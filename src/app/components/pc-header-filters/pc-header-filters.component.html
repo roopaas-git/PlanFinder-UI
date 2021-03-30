@@ -1,0 +1,56 @@
+<div class="pc-header-filter pc-filter d-flex flex-column px-2 pt-3 mb-2">
+    <div class="pc-filter-group-wrap d-flex align-items-center">
+        <div class="left pc-filter-group-name mr-2 my-2 pl-3">
+            Dropdown Filters
+        </div>
+        <div class="center pc-filter-group d-flex ml-2">
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'Select State'" [settings]="stateDropdownSettings"
+                    [data]="states" [(ngModel)]="selectedStateItems" class="pc-filter-multiselect" id="pcFilterState">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'Sales Region'" [settings]="salesRegionDropdownSettings"
+                    [data]="salesRegions" [(ngModel)]="selectedSalesRegionItems" class="pc-filter-multiselect"
+                    id="pcFilterSalesRegion">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'County'" [settings]="countyDropdownSettings" [data]="counties"
+                    [(ngModel)]="selectedCountyItems" class="pc-filter-multiselect" id="pcFilterCounty">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'Plan Type'" [settings]="planTypeDropdownSettings"
+                    [data]="plantypes" [(ngModel)]="selectedPlantypeItems" class="pc-filter-multiselect"
+                    id="pcFilterPlanType">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'Select Snptypes'" [settings]="snptypeDropdownSettings"
+                    [data]="snptypes" [(ngModel)]="selectedSnptypesItems" class="pc-filter-multiselect"
+                    id="pcFilterSNP">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <ng-multiselect-dropdown [placeholder]="'Crosswalk'" [settings]="crossWalkDropdownSettings"
+                    [data]="crosswalk" [(ngModel)]="selectedCrosswalkItems" class="pc-filter-multiselect"
+                    id="pcFilterCrosswalk">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                <button class="btn btn-sm btn-primary pc-sidebar-filter-action-btn px-5 ml-auto">Apply</button>
+            </div>
+        </div>
+    </div>
+    <div class="pc-filter-group-wrap d-flex align-items-center">
+        <div class="right pc-view-group ml-auto">
+            <select class="form-control form-control-sm w-auto d-inline-flex ml-2 my-2">
+                <option selected>View</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+    </div>
+</div>

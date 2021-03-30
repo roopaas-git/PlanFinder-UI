@@ -1,0 +1,48 @@
+.ui-slider .ui-slider-range
+{
+    background-color:#5C276B !important;
+}
+
+.ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover{
+    border: 2px solid #5C276B !important;
+}
+
+.ui-slider .ui-slider-handle:focus
+{
+    box-shadow: 0 0 0 0.1em #cfa1dd !important;
+}
+
+.new-car {
+    background-color: #1CA979 !important;
+    color: #ffffff !important;
+}
+.old-car {
+    background-color: #2CA8B1 !important;
+    color: #ffffff !important;
+}
+
+.btn-primary{
+    background-color: #5c276e;
+    padding-top: 5px;
+}
+
+.btn-primary-disabled{
+    background-color: lightgray;
+    padding-top: 5px;
+}
+
+.multiselect-dropdown[_ngcontent-fid-c47] .dropdown-btn[_ngcontent-fid-c47] .selected-item[_ngcontent-fid-c47] {
+    border: 1px solid #5c276e !important;
+    margin-right: 4px;
+    background: #5c276e !important;
+    padding: 0 5px;
+    color: #fff;
+    border-radius: 2px;
+    float: left;
+}
+
+.headerText {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

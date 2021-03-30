@@ -1,0 +1,14 @@
+{
+    "data": [
+        {"brand": "VW", "year": 2020, "color": "Orange", "vin": "dsad231ff"},
+        {"brand": "VW", "year": 2019, "color": "Black", "vin": "gwregre345"},
+        {"brand": "VW", "year": 2020, "color": "Gray", "vin": "h354htr"},
+        {"brand": "BMW", "year": 2019, "color": "Blue", "vin": "j6w54qgh"},
+        {"brand": "Mercedes", "year": 2020, "color": "Orange", "vin": "hrtwy34"},
+        {"brand": "Volvo", "year": 2019, "color": "Black", "vin": "jejtyj"},
+        {"brand": "Honda", "year": 2020, "color": "Yellow", "vin": "g43gr"},
+        {"brand": "Jaguar", "year": 2019, "color": "Orange", "vin": "greg34"},
+        {"brand": "Ford", "year": 2020, "color": "Black", "vin": "h54hw5"},
+        {"brand": "Fiat", "year": 2019, "color": "Red", "vin": "245t2s"}
+    ]
+}

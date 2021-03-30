@@ -1,0 +1,18 @@
+{
+    "Orddate": "10/06/2017",
+    "orderId": "10",
+    "status": "pending",
+    "orderTotal": "2000",
+    "totalLines": "4",
+    "SupplierName": "Xyz Stationaries",
+    "lines": [
+        {
+            "orderlineId": "101",
+            "productID": "123",
+            "productName": "Bottle",
+            "qty": "20",
+            "unitPrice": "10",
+            "linePrice": "200"
+        }
+    ]
+}

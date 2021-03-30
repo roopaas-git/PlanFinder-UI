@@ -1,0 +1,61 @@
+SortOrder,SortColumn,SortGroup
+1,Parent Organization,Plan Information
+2,Overall Star Ratings,Plan Indicator
+3,Estimated OOPC,Plan Indicator
+4,HealthWorks True Plan Value Total,Plan Indicator
+5,TPV Part C,Plan Indicator
+6,TPV Part D,Plan Indicator
+7,Supplemental Benefit Value Add,Plan Indicator
+8,Actuarial Value(%),Plan Indicator
+9,Monthly Premium,Cost Information
+10,Health Premium,Cost Information
+11,Drug Premium,Cost Information
+12,Annual Health Deductible,Cost Information
+13,Annual Drug Deductible,Cost Information
+14,MOOP,Cost Information
+15,Acupuncture Services,Acupuncture
+16,Acupuncture Coinsurance Copay,Acupuncture
+17,Ambulatory Surgical Center Services Coinsurance Copay,Ambulatory Surgical Center Services
+18,Cardiac and Pulmonary Rehabilitation Services Coinsurance Copay,Cardiac and Pulmonary Rehabilitation Services
+19,Chiropractic Services,Chiropractic Services
+20,Chiropractic Services Coinsurance Copay,Chiropractic Services
+21,Comprehensive Dental Max Coverage Amount,Comprehensive Dental
+22,Comprehensive Dental Coinsurance Copay,Comprehensive Dental
+23,Diabetes Coinsurance Copay,Diabetes
+24,DME  Coinsurance Copay,DME
+25,Emergency Care Coinsurance Copay,Emergency Care
+26,Eye Exams Max Coverage amount,Eye Exams
+27,Eye Exams Coinsurance Copay,Eye Exams
+28,Ground and Air Ambulance Coinsurance Copay,Ground and Air Ambulance
+29,Hearing Aids Max Coverage Amount,Hearing Aids
+30,Hearing Aids Coinsurance Copay,Hearing Aids
+31,Hearing Exams Coinsurance Copay,Hearing Exams
+32,Home Health Coinsurance Copay,Home Health
+33,Inpatient Hospital-Acute Copay Tier 1,Inpatient Hospital Psychiatric
+34,Inpatient Hospital-Acute MC stay Coinsurance Copay,Inpatient Hospital Psychiatric
+35,Kidney Disease Coinsurance Copay,Kidney Disease
+36,Meal Benefit Coinsurance Copay,Meal Benefit
+37,Days Meals (beyond limited basis) last,Meal Benefit
+38,Maximum number of meals the benefit provides,Meal Benefit
+39,Occupational Therapy Coinsurance Copay,Occupational Therapy
+40,OTC Max Coverage Amt,OTC
+41,OTC Coinsurance Copay,OTC
+42,Outpatient Blood Services Coinsurance Copay,Outpatient Blood Services
+43,Outpatient Drug Coinsurance Copay,Outpatient Drug
+44,Outpatient Hospital Services Coinsurance Copay,Outpatient Hospital Services
+45,Outpatient Procedures Test Lab Coinsurance Copay,Outpatient Procedures Test Lab
+46,Outpatient Substance Abuse Coinsurance Copay,Outpatient Substance Abuse
+47,Outpatient X-Rays Coinsurance Copay,Outpatient X-Rays
+48,Physical Therapy and Speech-Language Pathology Coinsurance Copay,Physical Therapy and Speech-Language Pathology
+49,Physician Specialist Coinsurance Copay,Physician Specialist
+50,Podiatry Services Max Coverage amount,Podiatry Services
+51,Podiatry Services Coinsurance Copay,Podiatry Services
+52,Preventive Dental Services,Preventive Dental
+53,Preventive Dental Coinsurance Copay,Preventive Dental
+54,Transport Benefit Description,Transport
+55,Transport Coinsurance Copay,Transport
+56,Urgent Care Coinsurance Copay,Urgent Care
+57,MRx Alt Cov Lmt Amt,Mrx
+58,INP Cost,Mrx
+59,INPP Cost,Mrx
+60,INNPP Cost,Mrx

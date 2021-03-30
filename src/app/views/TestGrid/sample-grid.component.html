@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-10">
+        <h3>Min and Max Slider</h3>
+        <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'14em'}" (onChange)="ChangeMin($event)"
+            [max]="rangeMaxValue" [min]="rangeMinDefaultValue"></p-slider>
+    </div>
+</div>
+<br />
+<br />
+
+<input type="number" [(ngModel)]="rangeValues[0]" (ngModelChange)="rangeValues =[rangeValues[0], rangeValues[1]]" (keyup)="preventInput($event.target.value)" />
+<input type="number" [(ngModel)]="rangeValues[1]" (ngModelChange)="rangeValues =[rangeValues[0], rangeValues[1]]" />
+<button class="btn btn-sm btn-primary pc-filter-apply-btn px-4" (click)="getPreviousYears()">
+    YOY
+</button>
+<!-- <div class="col-12">
+    <p-table #pTableId [columns]='cols' [value]='cars'>
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+                <button type="button" pButton icon="pi pi-file-o" iconPos="left" label="CSV"
+                    style="margin-right: 0.5em;"></button>
+                <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL"
+                    style="margin-right: 0.5em;" class="ui-button-success"></button>
+                <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()"
+                    class="ui-button-warning"></button>
+                <button type="button" pButton icon="pi pi-file" iconPos="left" label="CSV - Selection Only"
+                    style="float:right"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr *ngIf="rowData.year != previousYear ? true : false">
+                <td *ngFor="let col of columns" [ngClass]="rowData[col.field] <= 2010 ? 'old-car' : null">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div> -->
+
+<div class="col-12">
+    <p-table [value]="cars" [columns]='cols' sortField="brand" rowGroupMode="rowspan" [style]="{'margin-top':'50px'}">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr *ngIf="rowData.year != previousYear ? true : false">
+                <td *ngFor="let col of columns; let i = index"
+                    [ngClass]="rowData[col.field] <= 2010 ? 'old-car' : null">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

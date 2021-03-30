@@ -1,0 +1,68 @@
+<div class="pc-plan card" *ngFor="let n of [0,1,2,3,4]">
+    <div class="card-body pb-1">
+      <div class="d-flex">
+        <div class="left mr-4 w-50">
+          <h3 class="pc-plan-name">AARP VALUE (H9999_999_0_{{n}})</h3>
+          <div>
+            <div class="pc-plan-rating badge badge-info px-2">
+              <span class="pc-plan-rating-val mr-2">4.3</span>
+              <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="currentColor">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </div>
+            <div class="pc-plan-mem-count badge badge-light ml-3 px-2 font-weight-normal">
+              4,532 members
+            </div>
+          </div>
+        </div>
+        <div class="right d-flex ml-auto w-50">
+          <div class="border-right px-3 w-50">
+            <div>Premium: $0</div>
+            <div>MOOP: $6700</div>
+            <div>Deductible: $0</div>
+            <div>OOPC: $0</div>
+            <div>TPV: $0</div>
+          </div>
+          <div class="px-3 w-50">
+            <div>PCP: $0</div>
+            <div>Specialist: $65</div>
+            <div class="d-flex">
+              <div>Inpatient: </div>
+              <div>$340/day for days 1-4, $0 for days 5-90</div>
+            </div>
+            <div>OTC: 20%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex card-footer bg-transparent border-0">
+      <div class="left">
+        <div class="form-check form-check-left custom-checkbox">
+          <input type="checkbox" class="form-check-input d-none" id="addToCompare-{{n}}">
+          <label class="form-check-label" for="addToCompare-{{n}}">
+            <span>Add to Compare</span>
+          </label>
+        </div>
+      </div>
+      <div class="right d-flex flex-grow-1 align-items-start justify-content-around">
+        <div class="badge badge-success pc-plan-tag">
+          <span class="pc-plan-tag-name pr-2">Comprehensive Dental</span>
+          <span class="pc-plan-tag-icon">✓</span>
+        </div>
+        <div class="badge badge-success pc-plan-tag">
+          <span class="pc-plan-tag-name pr-2">Chiropractor</span>
+          <span class="pc-plan-tag-icon">✓</span>
+        </div>
+        <div class="badge badge-secondary pc-plan-tag">
+          <span class="pc-plan-tag-name pr-2">Meal</span>
+          <span class="pc-plan-tag-icon"></span>
+        </div>
+        <div class="badge badge-success pc-plan-tag">
+          <span class="pc-plan-tag-name pr-2">Fitness</span>
+          <span class="pc-plan-tag-icon">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
