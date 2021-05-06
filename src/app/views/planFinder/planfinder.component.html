@@ -374,14 +374,22 @@
                             </option>
                         </select>
                     </div>
+                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-3"><div class="mr-3">Benefits</div>
+                        <ng-multiselect-dropdown [placeholder]="'Select Benefits'" [settings]="filterBenefitDropdownSettings"
+                        [data]="filterBenefits" [(ngModel)]="selectedFilterBenefitsItems" class="pc-filter-multiselect" 
+                        (onSelect)="onAllBenefitsItemSelect()" (onDeSelect)="onAllBenefitsDeSelect()"
+                        (onSelectAll)="onAllBenefitsSelectAll($event)" (onDeSelectAll)="onAllBenefitsDeSelectAll($event)" 
+                         id="pcFilterBenefit">
+                        </ng-multiselect-dropdown>
+                    </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
-                                data-toggle="modal" data-target="#colorModal">Color Code</button>
+                                data-toggle="modal" data-target="#colorModal" disabled>Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}" 
-                                (click)="getYOY()">YOY</button>
+                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"
+                                (click)="getYOY()"  disabled>YOY</button>
                         </div>
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"

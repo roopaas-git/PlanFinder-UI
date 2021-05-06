@@ -32,6 +32,7 @@ import { ScenarioService } from 'src/app/services/scenario.service';
 import { IScenario, IScenarioResults } from 'src/app/model/scenario.model';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'src/app/model/comparePlans.model';
 import { IPeriod } from 'src/app/model/period.model';
+import { IAllBenefit } from 'src/app/model/IAllBenefit.model';
 
 @Component({
   selector: 'app-planfinder',
@@ -176,6 +177,11 @@ export class PlanfinderComponent implements OnInit {
   basePlan: string = '';
   isEnrollmentGrowthEnabled: boolean = true;
 
+  filterBenefits: IAllBenefit[];
+  selectedFilterBenefits: string;
+  selectedFilterBenefitsItems = [];
+  filterBenefitDropdownSettings: IDropdownSettings;
+
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
@@ -210,6 +216,7 @@ export class PlanfinderComponent implements OnInit {
     this.dropdownsettings();
     this.bindRangeDefaultValues();
     this.bindBenifits();
+    this.bindAllPlanBenifits();
     this.bindScenarioNames();
     this.bindMaxperiod();
     this.bindMaxperiodYOY();
@@ -240,7 +247,8 @@ export class PlanfinderComponent implements OnInit {
       .subscribe((result: any[]) => {
         console.log(" Result : ", result);
         if (result.length > 0) {
-          this.plansBenefits = result;
+          this.plansBenefits = result;        
+         
           console.log("Plan Benifits Count : ", this.plansBenefits.length);
           console.log("Plan Benifits : ", this.plansBenefits);
           this.getColumns(this.plansBenefits);
@@ -341,13 +349,44 @@ export class PlanfinderComponent implements OnInit {
     })
   }
 
+  bindAllPlanBenifits() {
+    this._comparePlansService.getAllBenefits().subscribe((result: IAllBenefit[]) => {
+      if (result.length > 0) {
+        this.filterBenefits = result;
+        for (let i = 0; i < result.length; i++) {
+          this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
+        }
+        this.selectedFilterBenefitsItems = result;     
+      }
+    })
+  }
+
+  loadAllPlanBenifitsValues(userPlanBenefits: string[]) {
+    this.selectedFilterBenefitsItems = [];
+    this._comparePlansService.getAllBenefits().subscribe((result: IAllBenefit[]) => {
+      if (result != null) {        
+        this.filterBenefits = result;        
+        let userSelectedFilterBenefitsItems = [];
+        result.forEach(element => {
+          if (userPlanBenefits.includes(element.id.toString())) {
+            userSelectedFilterBenefitsItems.push({ id: element.id, benefit: element.benefit });
+          }
+        });
+        for (let i = 0; i < result.length; i++) {
+          this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
+        }
+        this.selectedFilterBenefitsItems = userSelectedFilterBenefitsItems;        
+      }
+    });
+  }
+
   getStatesDefaultValues() {
     this._stateService.getStates().subscribe((result: IState[]) => {
       console.log(result);
       if (result) {
         this.states = result;
-        this.selectedStateItems = [{ id: result[30].id, state: result[30].state }];
-        this.getSalesRegionDefault(this.clientId, result[30].id);
+        this.selectedStateItems = [{ id: result[33].id, state: result[33].state }];
+        this.getSalesRegionDefault(this.clientId, result[33].id);
       }
     });
   }
@@ -373,10 +412,13 @@ export class PlanfinderComponent implements OnInit {
         this.selectedSalesRegion = salesRegionId;
         this.counties = result;
         this.selectedCounties = [];
-        result.forEach(element => {
-          this.selectedCounties.push(element.id);
-        });
-        this.selectedCountyItems = result;
+        console.log(" County Result : ", result)
+        // result.forEach(element => {
+        //   this.selectedCounties.push(element.id);
+        // });
+        this.selectedCountyItems = [{id : result[17].id, counties : result[17].counties}]
+        this.selectedCounties.push(result[17].id);
+        //this.selectedCountyItems = result;
         this.getPlantypeDefault(this.selectedCounties);
       }
     });
@@ -896,6 +938,31 @@ export class PlanfinderComponent implements OnInit {
   onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems(); }
   onCrossWalkDeSelect() { this.clearLeftSideItems(); }
 
+  onAllBenefitsItemSelect() {        
+    this.selectedFilterBenefits = "";
+    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
+      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+    }    
+  }
+
+  onAllBenefitsDeSelect() {       
+    this.selectedFilterBenefits = "";
+    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
+      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+    }
+  }
+
+  onAllBenefitsSelectAll(items: any) {    
+    this.selectedFilterBenefitsItems = items;
+    this.selectedFilterBenefits = "";
+    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
+      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+    }
+  }
+
+  onAllBenefitsDeSelectAll(items: any) {  
+  }
+
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
       this.valuesFromPython = [];
@@ -1235,6 +1302,16 @@ export class PlanfinderComponent implements OnInit {
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
+
+    this.filterBenefitDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'benefit',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: true
+    };  
   }
 
   handleClick(items: any) {
@@ -1384,7 +1461,8 @@ export class PlanfinderComponent implements OnInit {
       isPers: this.isPersChecked,
       UserId: this.userId,
       IsEnrollmentSelected: this.isEnrollmentSelected,
-      isSortBy: this.selectedBenifit
+      isSortBy: this.selectedBenifit,
+      PlanBenefits:this.selectedFilterBenefits
     }
 
     this._userInputService.addUserInputs(userInputData).subscribe((res: IApiResponse) => {
@@ -1541,7 +1619,7 @@ export class PlanfinderComponent implements OnInit {
           }
         });
         this.selectedCountyItems = userSelectedCountyItems;
-        this.loadPlantypeValues(this.selectedCounties, planTypes, snpTypes, crossWalks);
+        this.loadPlantypeValues(this.selectedCounties, planTypes, snpTypes, crossWalks);        
       }
     });
   }
@@ -1741,8 +1819,10 @@ export class PlanfinderComponent implements OnInit {
       this.isHomeSupportChecked = this.userSelectedScenarioResults[0].ishomeSupport;
       this.isHomeSafteyChecked = this.userSelectedScenarioResults[0].isHomeSaftey;
       this.isPersChecked = this.userSelectedScenarioResults[0].isPers;
-      this.selectedBenifit = this.userSelectedScenarioResults[0].isSortBy;
+      this.selectedBenifit = this.userSelectedScenarioResults[0].isSortBy;      
       this.loadFilterPlanValues();
+      let planBenefits = this.userSelectedScenarioResults[0].planBenefits.split(",");
+      this.loadAllPlanBenifitsValues(planBenefits);
     }
   }
 
