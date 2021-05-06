@@ -19,7 +19,7 @@ export class ScenarioService {
 
     getScenarioResultsById(scenarioId: number) {
         return this.http.get<IScenarioResults[]>(`${this.config.apiEndpoint}Scenario/GetResults/${scenarioId}`).pipe(map((data: any) => {
-            console.log(" Data : ", data.result);
+            
             return data.result;
         }));
     }

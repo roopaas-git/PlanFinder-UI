@@ -15,8 +15,7 @@ export class EnrollmentService {
         let body = JSON.stringify(county);
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<IEnrollmentPeriod[]>(`${this.config.apiEndpoint}Enrollment/Get/${stateId}`, county, { headers: headers })
-            .pipe(map((data: any) => {
-                console.log(" Data.Result.Enrollments :", data.result.enrollments);
+            .pipe(map((data: any) => {                
                 return data.result
             }))
     }

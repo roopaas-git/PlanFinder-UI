@@ -13,7 +13,6 @@ export class BenefitService {
 
     getBenefits(): Observable<IBenefit[]> {
         return this.http.get<IBenefit[]>(`${this.config.apiEndpoint}Benefit/Get`).pipe(map((data: any) => {
-            console.log(data.result.benefits);
             return data.result.benefits
         }))
     }

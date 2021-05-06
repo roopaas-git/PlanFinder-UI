@@ -363,22 +363,24 @@
                                     d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                             </svg>
                             <span class="ml-2">Go back</span>
-                        </button>                        
+                        </button>
                     </div>
-                    <div  *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox">
-                        <input type="checkbox" class="form-check-input d-none"
-                            id="SelectAll" [(ngModel)]="isSelectAllChecked"
-                            (change)="checkUncheckAll()" value="SelectAll" />
+                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox">
+                        <input type="checkbox" class="form-check-input d-none" id="SelectAll"
+                            [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                         <label class="form-check-label" for="SelectAll">
                             <span>Select All</span>
                         </label>
                     </div>
+
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
+                          
                             <div class="mr-3">Sort by</div>
                             <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
                                 (change)="OnBenefitSelect($event.target.value)">
-                                <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id" [selected]="benefit.benefit == selectedBenifit">
+                                <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
+                                    [selected]="benefit.benefit == selectedBenifit">
                                     {{benefit.benefit}}
                                 </option>
                             </select>
@@ -388,10 +390,10 @@
                                 [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal">Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}" 
+                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"
                                 (click)="getYOY()">YOY</button>
                         </div>
-                       
+
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -870,7 +872,8 @@
                                                 <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
                                                     [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
                                                     class="sortOrderTd">
-                                                    <span class="textRotation">{{rowData.sortGroup}}</span></td>
+                                                    <span class="textRotation">{{rowData.sortGroup}}</span>
+                                                </td>
                                                 <td *ngIf=" i > 0 && i != 2 "
                                                     [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
                                                     (click)="handleClick(col.field)"> {{rowData[col.field]}}

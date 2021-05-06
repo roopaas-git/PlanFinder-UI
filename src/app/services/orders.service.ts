@@ -7,8 +7,7 @@ export class OrderService {
     constructor(private http: HttpClient) { }
 
     getOrders() {
-        return this.http.get('assets/data/orders.json').pipe(map((data: any) => {
-            console.log("Order Service Data: ", data);
+        return this.http.get('assets/data/orders.json').pipe(map((data: any) => {            
             return data;
         }))
     }

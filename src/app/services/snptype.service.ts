@@ -16,7 +16,7 @@ export class SnptypeService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<ISnptype[]>(`${this.config.apiEndpoint}Snptype/Get/${state}/${plantype}`, body, { headers: headers })
             .pipe(map((data: any) => {
-                console.log(data.result.snpTypes)
+                
                 return data.result.snpTypes
             }))
     }
