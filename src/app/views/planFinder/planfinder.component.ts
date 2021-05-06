@@ -96,6 +96,7 @@ export class PlanfinderComponent implements OnInit {
   selectedPlantypes: string;
   selectedSnptypes: string;
   icChecked: boolean = false;
+  isSelectAllChecked: boolean=false;
   showPlanCompare: boolean = false;
   showScrollTopBtn: boolean;
   topPosToStartShowing = 100;
@@ -537,6 +538,26 @@ export class PlanfinderComponent implements OnInit {
     this.selectedMoopMinValue = this.moopMinValue;
     this.selectedMoopMaxValue = this.selectedMoopMaxValue;
   }
+  checkSelectTrue(val) {
+    console.log(val);
+    this.isSelectAllChecked= val ? true : false;
+  }
+  checkUncheckAll() {
+    this.selectedBidIds=[]; 
+
+    if(this.isSelectAllChecked)
+    {
+    for (var i = 0; i < this.plans.length; i++) {
+      this.selectedBidIds.push(this.plans[i].bidId);
+      
+      //this.categoryList[i].isSelected = this.isMasterSel;
+
+    }
+  }
+    //this.getCheckedItemList();
+    console.log(this.selectedBidIds)
+    this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
+  }
 
   getCheckedBidId(plan: IPlans) {
     if (this.selectedBidIds.length > 0) {
@@ -716,6 +737,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.clearLeftSideItems();
     this.getSalesRegionDefault(this.clientId, this.selectedStateItems[0].id);
+    this.isSelectAllChecked=false;
   }
 
   onStateDeSelect() {
@@ -725,6 +747,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
   }
 
   onSalesRegionSelect() {
@@ -733,7 +756,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+   
   }
 
   onSalesRegionSelectAll(items: any) {
@@ -743,7 +768,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedSalesRegionItems = items;
+    this.isSelectAllChecked=false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+   
   }
 
   onSalesRegionDeSelectAll(items: any) {
@@ -752,6 +779,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
   }
 
   onSalesRegionDeSelect() {
@@ -760,7 +788,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+     
   }
 
   onCountyItemSelect() {
@@ -770,6 +800,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -784,6 +815,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedCountyItems = items
     this.selectedCounties = [];
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -797,6 +829,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -808,6 +841,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
   }
 
   onPlanTypeItemSelect() {
@@ -816,6 +850,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -829,6 +864,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedPlantypeItems = items;
     this.selectedPlantypes = "";
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -839,6 +875,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
   }
 
   onPlanTypeDeSelect() {
@@ -847,6 +884,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -858,6 +896,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -870,6 +909,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
     this.selectedSnptypesItems = items;
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -880,6 +920,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
+    this.isSelectAllChecked=false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -889,12 +930,13 @@ export class PlanfinderComponent implements OnInit {
   onSnptypeDeSelectAll(items: any) {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked=false;
   }
 
-  onCrossWalkItemSelect() { this.clearLeftSideItems(); }
-  onCrossWalkSelectAll(items: any) { this.clearLeftSideItems(); }
-  onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems(); }
-  onCrossWalkDeSelect() { this.clearLeftSideItems(); }
+  onCrossWalkItemSelect() { this.clearLeftSideItems();this.isSelectAllChecked=false; }
+  onCrossWalkSelectAll(items: any) { this.clearLeftSideItems();this.isSelectAllChecked=false; }
+  onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems();this.isSelectAllChecked=false; }
+  onCrossWalkDeSelect() { this.clearLeftSideItems();this.isSelectAllChecked=false; }
 
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
@@ -1086,6 +1128,8 @@ export class PlanfinderComponent implements OnInit {
   }
 
   FilterAllPlans() {
+    console.log(this.isHealthDeductibleChecked)
+    //this.isSelectAllChecked=false;
     let partD = this.isPremiumChecked == true ? 0 : -1;
     let partB = this.isPartBChecked == true ? 0 : -1;
     let planCoverage = this.isPlanCoverageChecked == true ? 'MA' : 'Test';
@@ -1159,7 +1203,18 @@ export class PlanfinderComponent implements OnInit {
       }
     }
 
+    if(this.isSelectAllChecked)
+    {
+      this.selectedBidIds=[];      
+      for (var i = 0; i < this.plans.length; i++) {
+        this.selectedBidIds.push(this.plans[i].bidId);
+        
+        //this.categoryList[i].isSelected = this.isMasterSel;
+  
+      }
+    }
     if (this.selectedBidIds.length > 0) {
+      console.log(this.selectedBidIds);
       let bidIds = [...this.selectedBidIds];
       bidIds.forEach(element => {
         var res = this.plans.filter(x => x.bidId == element);
