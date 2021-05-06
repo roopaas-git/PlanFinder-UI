@@ -97,6 +97,7 @@ export class PlanfinderComponent implements OnInit {
   selectedPlantypes: string;
   selectedSnptypes: string;
   icChecked: boolean = false;
+  isSelectAllChecked: boolean = false;
   showPlanCompare: boolean = false;
   showScrollTopBtn: boolean;
   topPosToStartShowing = 100;
@@ -245,12 +246,8 @@ export class PlanfinderComponent implements OnInit {
 
     this._comparePlansService.getBenefitDetails(bidId)
       .subscribe((result: any[]) => {
-        console.log(" Result : ", result);
         if (result.length > 0) {
-          this.plansBenefits = result;        
-         
-          console.log("Plan Benifits Count : ", this.plansBenefits.length);
-          console.log("Plan Benifits : ", this.plansBenefits);
+          this.plansBenefits = result;
           this.getColumns(this.plansBenefits);
         }
       }, err => {
@@ -261,12 +258,10 @@ export class PlanfinderComponent implements OnInit {
 
   getColumns(planBenefits: any) {
     let val = planBenefits[0];
-    console.log(" Header : ", val);
     let col = Object.keys(val);
     col.forEach(items => {
       this.plansBenifitsList.push({ field: items, header: items });
     });
-    console.log("Plans List : ", this.plansBenifitsList);
     this.cols = this.plansBenifitsList;
     this.updateRowGroupMetaData();
     this.spinner.hide();
@@ -305,12 +300,10 @@ export class PlanfinderComponent implements OnInit {
   bindScenarioNames() {
     this._scenarioService.getScenarios(this.userId).subscribe((result: IScenario[]) => {
       if (result.length > 0) {
-        console.log(" Scenarios Result : ", result);
         this.scenarios = result;
         result.forEach(element => {
           this.scenarioNamesOnly.push(element.scenario.toString().toLowerCase());
         });
-        console.log("Scenario Names : ", this.scenarios);
       }
     })
   }
@@ -321,9 +314,6 @@ export class PlanfinderComponent implements OnInit {
         this.currentYear = result[0].currentYear;
         this.previousYear = result[0].previousYear;
         this.previousYears = result[0].previousYear.toString();
-        console.log("Current Year : ", this.currentYear);
-        console.log("Current Year : ", this.previousYear);
-        console.log("Current Year : ", this.previousYears);
       }
     })
   }
@@ -334,9 +324,6 @@ export class PlanfinderComponent implements OnInit {
         this.currentBenifitYear = result[0].currentYear;
         this.previousBenifitYear = result[0].previousYear;
         this.previousBenifitYears = result[0].previousYear.toString();
-        console.log("Current Benifit Year : ", this.currentBenifitYear);
-        console.log("Current Benifit Year : ", this.previousBenifitYear);
-        console.log("Current Benifit Year : ", this.previousBenifitYears);
       }
     })
   }
@@ -382,7 +369,6 @@ export class PlanfinderComponent implements OnInit {
 
   getStatesDefaultValues() {
     this._stateService.getStates().subscribe((result: IState[]) => {
-      console.log(result);
       if (result) {
         this.states = result;
         this.selectedStateItems = [{ id: result[33].id, state: result[33].state }];
@@ -406,7 +392,6 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getCountiesDefault(state: number, salesRegionId: string) {
-    console.log("Sales Region : ", salesRegionId)
     this._countyService.getCounties(state, salesRegionId, this.clientId).subscribe((result) => {
       if (result != null) {
         this.selectedSalesRegion = salesRegionId;
@@ -425,9 +410,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getPlantypeDefault(county: any) {
-    console.log("Selected Counties : ", county);
     this._plantypeService.getPlantypes(this.selectedState, county).subscribe((result) => {
-      console.log("PlanTypes : ", result);
       if (result != null) {
         this.selectedCounty = county;
         this.plantypes = result;
@@ -442,7 +425,6 @@ export class PlanfinderComponent implements OnInit {
 
   getSnptypeDefault(plantype: string) {
     this._snptypeService.getSnptypes(this.selectedState, plantype, this.selectedCounty).subscribe((result) => {
-      console.log("SnpTypes : ", result)
       if (result != null) {
         this.selectedPlantype = plantype;
         this.snptypes = result;
@@ -484,7 +466,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result.sort((a, b) => { return a.premiumCD - b.premiumCD });
           this.copyOfPlans = result.sort((a, b) => { return a.premiumCD - b.premiumCD });
-          console.log("Plans Count : ", this.plans.length);
           this.bindBenifits();
           this.getFilterValues();
         }
@@ -499,7 +480,6 @@ export class PlanfinderComponent implements OnInit {
           this.CurrentPeriod = result.selectedMonth;
           this.fromPeriod = result.selectedMonth;
           this.toPeriod = result.selectedMonth;
-          console.log("Current Period : ", this.CurrentPeriod);
         }
       });
   }
@@ -579,6 +559,20 @@ export class PlanfinderComponent implements OnInit {
     this.selectedMoopMinValue = this.moopMinValue;
     this.selectedMoopMaxValue = this.selectedMoopMaxValue;
   }
+  checkSelectTrue(val) {
+    this.isSelectAllChecked = val ? true : false;
+  }
+  checkUncheckAll() {
+    this.selectedBidIds = [];
+
+    if (this.isSelectAllChecked) {
+      for (var i = 0; i < this.plans.length; i++) {
+        this.selectedBidIds.push(this.plans[i].bidId);
+      }
+    }
+   
+    this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
+  }
 
   getCheckedBidId(plan: IPlans) {
     if (this.selectedBidIds.length > 0) {
@@ -612,10 +606,7 @@ export class PlanfinderComponent implements OnInit {
 
   ChangeEnrollmentIn(enrollmentChangeValue) {
     this.selectedEnrollmentChangeMinValue = enrollmentChangeValue.values[0];
-    this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];
-
-    console.log(" Change Min : ", this.selectedEnrollmentChangeMinValue);
-    console.log(" Change Max : ", this.selectedEnrollmentChangeMaxValue);
+    this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];    
     this.FilterAllPlans();
   }
 
@@ -644,7 +635,6 @@ export class PlanfinderComponent implements OnInit {
     }
     else {
       this.selectedPremiumMaxValue = + newValue.replace('$', '');
-      console.log(" Max Value : ", this.selectedPremiumMaxValue);
       this.bindRangeValues();
       this.FilterAllPlans();
     }
@@ -676,7 +666,6 @@ export class PlanfinderComponent implements OnInit {
 
   getStates() {
     this._stateService.getStates().subscribe((result: IState[]) => {
-      console.log(result);
       if (result) {
         this.states = result;
       }
@@ -697,7 +686,6 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getCounties(state: number, salesRegionId: string) {
-    console.log("Sales Region : ", salesRegionId)
     this._countyService.getCounties(state, salesRegionId, this.clientId).subscribe((result) => {
       if (result != null) {
         this.selectedSalesRegion = salesRegionId
@@ -712,7 +700,6 @@ export class PlanfinderComponent implements OnInit {
 
   getPlantype(county: any) {
     this._plantypeService.getPlantypes(this.selectedState, county).subscribe((result) => {
-      console.log("PlanTypes : ", result)
       if (result != null) {
         this.selectedCounty = county
         this.planTypedisable = false
@@ -726,7 +713,6 @@ export class PlanfinderComponent implements OnInit {
 
   getSnptype(plantype: string) {
     this._snptypeService.getSnptypes(this.selectedState, plantype, this.selectedCounty).subscribe((result) => {
-      console.log("SnpTypes : ", result)
       if (result != null) {
         this.selectedPlantype = plantype
         this.snptypedisable = false
@@ -743,8 +729,7 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedSnptype = snptype
         this.crossWalkdisabled = false
-        this.crosswalk = result
-        console.log("Crosswalks : ", this.crosswalk);
+        this.crosswalk = result        
       }
     });
   }
@@ -758,6 +743,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.clearLeftSideItems();
     this.getSalesRegionDefault(this.clientId, this.selectedStateItems[0].id);
+    this.isSelectAllChecked = false;
   }
 
   onStateDeSelect() {
@@ -767,6 +753,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
   }
 
   onSalesRegionSelect() {
@@ -775,7 +762,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+
   }
 
   onSalesRegionSelectAll(items: any) {
@@ -785,7 +774,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedSalesRegionItems = items;
+    this.isSelectAllChecked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+
   }
 
   onSalesRegionDeSelectAll(items: any) {
@@ -794,6 +785,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
   }
 
   onSalesRegionDeSelect() {
@@ -802,7 +794,9 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+
   }
 
   onCountyItemSelect() {
@@ -812,6 +806,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -826,6 +821,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedCountyItems = items
     this.selectedCounties = [];
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -839,6 +835,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -850,6 +847,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
   }
 
   onPlanTypeItemSelect() {
@@ -858,6 +856,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -871,6 +870,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedPlantypeItems = items;
     this.selectedPlantypes = "";
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -881,6 +881,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
   }
 
   onPlanTypeDeSelect() {
@@ -889,6 +890,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -900,6 +902,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -912,6 +915,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
     this.selectedSnptypesItems = items;
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -922,6 +926,7 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
+    this.isSelectAllChecked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -931,12 +936,13 @@ export class PlanfinderComponent implements OnInit {
   onSnptypeDeSelectAll(items: any) {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
+    this.isSelectAllChecked = false;
   }
 
-  onCrossWalkItemSelect() { this.clearLeftSideItems(); }
-  onCrossWalkSelectAll(items: any) { this.clearLeftSideItems(); }
-  onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems(); }
-  onCrossWalkDeSelect() { this.clearLeftSideItems(); }
+  onCrossWalkItemSelect() { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
+  onCrossWalkSelectAll(items: any) { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
+  onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
+  onCrossWalkDeSelect() { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
 
   onAllBenefitsItemSelect() {        
     this.selectedFilterBenefits = "";
@@ -992,16 +998,12 @@ export class PlanfinderComponent implements OnInit {
           tpv: tpv,
           OOPC: oopc,
           enrollmentGrowth: enrollmentGrowth
-        }
-
-        console.log("Compare Plans Sort : ", comparePlansSort);
+        }        
 
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
-              this.plansBenefits = result;
-              console.log("Plan Benifits Count : ", this.plansBenefits.length);
-              console.log("Plan Benifits : ", this.plansBenefits);
+              this.plansBenefits = result;              
               this.getColumns(this.plansBenefits);
             }
           }, err => {
@@ -1012,7 +1014,7 @@ export class PlanfinderComponent implements OnInit {
       else {
         if (this.selectedBenifit == "Premium") {
           this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 });
-          console.log("Plans After Premium : ", this.plans);
+          
         }
 
         if (this.selectedBenifit == "TPV") {
@@ -1025,7 +1027,7 @@ export class PlanfinderComponent implements OnInit {
 
         if (this.selectedBenifit == "Enrollment Growth") {
           this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
-         
+
         }
       }
     }
@@ -1040,7 +1042,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log("Plans Count : ", this.plans.length);
           this.isEnrollmentSelected = 2;
           this.getChangeInEnrollmentFilters();
           this.FilterAllPlans();
@@ -1057,7 +1058,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log("Plans Count : ", this.plans.length);
           this.isEnrollmentSelected = 2;
           this.getChangeInEnrollmentFilters();
           this.FilterAllPlans();
@@ -1072,7 +1072,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log("Plans Count : ", this.plans.length);
           this.isEnrollmentSelected = 1;
           this.getFilterValues();
           this.FilterAllPlans();
@@ -1226,6 +1225,12 @@ export class PlanfinderComponent implements OnInit {
       }
     }
 
+    if (this.isSelectAllChecked) {
+      this.selectedBidIds = [];
+      for (var i = 0; i < this.plans.length; i++) {
+        this.selectedBidIds.push(this.plans[i].bidId);
+      }
+    }
     if (this.selectedBidIds.length > 0) {
       let bidIds = [...this.selectedBidIds];
       bidIds.forEach(element => {
@@ -1238,9 +1243,8 @@ export class PlanfinderComponent implements OnInit {
     }
 
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
-
-    console.log("Count of plans after Filters : ", this.plans.length);
   }
+
 
   dropdownsettings() {
     this.stateDropdownSettings = {
@@ -1317,6 +1321,7 @@ export class PlanfinderComponent implements OnInit {
   handleClick(items: any) {
     console.log("Selected Column : ", items);
   }
+  
 
   onBasePlanSelect(selectedPlan: string) {
     this.spinner.show();
@@ -1334,7 +1339,6 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getCompareBasePlanS(basePlan: string, comparePlans: string) {
-    console.log(" In CompareBase Plan :");
     let compareWithBasePlan: ICompareWithBasePlans = {
       basePlan: basePlan,
       comparePlan: comparePlans
@@ -1342,7 +1346,6 @@ export class PlanfinderComponent implements OnInit {
 
     this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan)
       .subscribe((result: any[]) => {
-        console.log("Result in getCompareBasePlans :", result);
         if (result.length > 0) {
           this.plansBenefits = [];
           this.plansBenifitsList = [];
@@ -1359,7 +1362,6 @@ export class PlanfinderComponent implements OnInit {
 
   runscript(basePlan: string, compareBidIds: string, userId: string) {
     this._comparePlansService.runPythonScript(basePlan, compareBidIds, userId).subscribe((result: string) => {
-      console.log("Result From Script : ", result);
       if (result) {
         this.getValuesfromJsonReturnByPython(result);
       }
@@ -1370,7 +1372,6 @@ export class PlanfinderComponent implements OnInit {
     this._comparePlansService.readDataFromJson(userId).subscribe((result: any[]) => {
       if (result) {
         this.valuesFromPython = result;
-        console.log(" Python : ", this.valuesFromPython);
       }
     })
     this.spinner.hide();
@@ -1557,14 +1558,11 @@ export class PlanfinderComponent implements OnInit {
   }
 
   OnScenarioSelect(id: number) {
-    console.log(" Selected Scenario Id : ", id);
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
         this.closeOpenModal.nativeElement.click();
-        console.log(" State Id : ", result[0].stateId);
         this.userSelectedScenarioResults = result;
-        console.log(" Sce Result : ", this.userSelectedScenarioResults);
         let planTypes = result[0].planTypeId.split(",");
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
@@ -1575,7 +1573,6 @@ export class PlanfinderComponent implements OnInit {
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
     this._stateService.getStates().subscribe((result: IState[]) => {
-      console.log(result);
       if (result) {
         this.states = result;
         this.selectedStateItems = [{ id: result[id - 1].id, state: result[id - 1].state }];
@@ -1630,7 +1627,6 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedCounty = county;
         this.plantypes = result;
-        console.log("Result Plan Types : ", result);
         let userSelectedPlanTypeItems = [];
         result.forEach(element => {
           if (userPlanTypes.includes(element.id.toString())) {
@@ -1652,7 +1648,6 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedPlantype = plantype;
         this.snptypes = result;
-        console.log("Result Snp Types : ", result);
         let userSelectedSnpTypeItems = [];
         result.forEach(element => {
           if (userSnpTypes.includes(element.id.toString())) {
@@ -1704,8 +1699,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log(" Plans Result : ", this.plans);
-          console.log("Plans Count : ", this.plans.length);
           this.loadDefaultRangeValues();
           this.loadLeftFilterValues();
           this.loadBidIds();
@@ -1719,7 +1712,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log("Plans Count : ", this.plans.length);
           this.isEnrollmentSelected = 1;
           this.loadDefaultRangeValues();
           this.loadLeftFilterValues();
@@ -1738,7 +1730,6 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
-          console.log("Plans Count : ", this.plans.length);
           this.isEnrollmentSelected = 2;
           this.loadDefaultRangeValues();
           this.loadLeftFilterValues();
@@ -1847,8 +1838,6 @@ export class PlanfinderComponent implements OnInit {
 
     if (this.isPremiumChecked == true) {
 
-      console.log("Count of plans after Filters : ", this.plans.length);
-
       this.plans = plans1.filter(x => x.premiumCD == x.partD && x.partD != partD && x.partBGiveBack != partB && x.planCoverage != planCoverage &&
         x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible && x.premiumCD >= this.selectedPremiumMinValue &&
         x.premiumCD <= this.selectedPremiumMaxValue && x.moop >= this.selectedMoopMinValue && x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) &&
@@ -1897,8 +1886,6 @@ export class PlanfinderComponent implements OnInit {
     if (this.selectedBenifit == "Enrollment Growth") {
       this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
     }
-
-    console.log("Count of plans after Filters : ", this.plans.length);
     this.spinner.hide();
   }
 
@@ -1910,7 +1897,6 @@ export class PlanfinderComponent implements OnInit {
       else {
         this.selectedBidIds = [];
       }
-      console.log(" Selected Bid Id's : ", this.selectedBidIds.length);
       this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
     }
   }

@@ -13,8 +13,7 @@ export class CarService {
     constructor(private http : HttpClient) {}
 
     getCarsSmall() {
-        return this.http.get<Car[]>('assets/data/car.json').pipe(map((data: any) => {
-            console.log(data.data);
+        return this.http.get<Car[]>('assets/data/car.json').pipe(map((data: any) => {           
             return data.data;
         }))
     }
