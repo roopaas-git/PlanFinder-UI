@@ -3,7 +3,7 @@
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
             <div class="pc-header-filter pc-filter d-flex flex-column px-3 pt-3 mb-3">
-                <div class="pc-filter-group-wrap d-flex align-items-center">
+                <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap d-flex align-items-center">
                     <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3">
                         Dropdown Filters
                     </div>
@@ -454,7 +454,7 @@
                         <div class="pc-plans">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
-                                    <h3 class="pc-plan-name">{{i+1}} {{plan.planName}} ({{plan.bidId}})</h3>
+                                    <h3 class="pc-plan-name">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
