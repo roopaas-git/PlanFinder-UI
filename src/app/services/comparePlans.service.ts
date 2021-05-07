@@ -5,12 +5,21 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from '../model/comparePlans.model';
 import { HttpHeaders } from '@angular/common/http';
+import { IAllBenefit } from "../model/IAllBenefit.model";
 
 
 @Injectable()
 export class ComparePlansservice {
     constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) { }
 
+    getAllBenefits(): Observable<IAllBenefit[]> {    
+        return this.http.get<IAllBenefit[]>(`${this.config.apiEndpoint}ComparePlans/GetAllBenefits/`).pipe(map((data: any) => {
+            console.log(data.result);
+            return data.result
+        }))
+    }
+
+    
     getBenefitDetails(bidId: IComparePlans): Observable<any[]> {
         let body = JSON.stringify(bidId);
         const headers = new HttpHeaders().set('content-type', 'application/json');

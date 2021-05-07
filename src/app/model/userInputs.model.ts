@@ -39,4 +39,5 @@ export interface IUserInputs {
     UserId : string;
     IsEnrollmentSelected : number;
     isSortBy : string;
+    PlanBenefits: string;
 }
