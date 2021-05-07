@@ -375,7 +375,13 @@
 
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
-                          
+                            <div *ngIf="! showPlanCompare" class="mr-3">
+                                <a href="#" (click)="QuickFilter(0);"data-toggle="modal"><span class="ml-2">All</span></a>
+                                |<a href="#" (click)="QuickFilter(5);"data-toggle="modal"><span class="ml-2">Top 5</span></a>
+                                |<a href="#" (click)="QuickFilter(10);"data-toggle="modal"><span class="ml-2">Top 10</span></a>
+                                |<a href="#" (click)="QuickFilter(15);" data-toggle="modal"><span class="ml-2">Top 15</span></a>
+                               
+                            </div>
                             <div class="mr-3">Sort by</div>
                             <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
                                 (change)="OnBenefitSelect($event.target.value)">

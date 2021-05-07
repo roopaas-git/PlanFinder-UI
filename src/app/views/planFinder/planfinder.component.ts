@@ -97,6 +97,7 @@ export class PlanfinderComponent implements OnInit {
   selectedSnptypes: string;
   icChecked: boolean = false;
   isSelectAllChecked: boolean = false;
+  showAll: number = 0;
   showPlanCompare: boolean = false;
   showScrollTopBtn: boolean;
   topPosToStartShowing = 100;
@@ -529,7 +530,7 @@ export class PlanfinderComponent implements OnInit {
         this.selectedBidIds.push(this.plans[i].bidId);
       }
     }
-   
+
     this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
   }
 
@@ -565,7 +566,7 @@ export class PlanfinderComponent implements OnInit {
 
   ChangeEnrollmentIn(enrollmentChangeValue) {
     this.selectedEnrollmentChangeMinValue = enrollmentChangeValue.values[0];
-    this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];    
+    this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];
     this.FilterAllPlans();
   }
 
@@ -688,7 +689,7 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedSnptype = snptype
         this.crossWalkdisabled = false
-        this.crosswalk = result        
+        this.crosswalk = result
       }
     });
   }
@@ -932,12 +933,12 @@ export class PlanfinderComponent implements OnInit {
           tpv: tpv,
           OOPC: oopc,
           enrollmentGrowth: enrollmentGrowth
-        }        
+        }
 
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
-              this.plansBenefits = result;              
+              this.plansBenefits = result;
               this.getColumns(this.plansBenefits);
             }
           }, err => {
@@ -948,7 +949,7 @@ export class PlanfinderComponent implements OnInit {
       else {
         if (this.selectedBenifit == "Premium") {
           this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 });
-          
+
         }
 
         if (this.selectedBenifit == "TPV") {
@@ -1159,6 +1160,10 @@ export class PlanfinderComponent implements OnInit {
       }
     }
 
+    if (this.showAll != 0) {
+      this.plans = this.plans.slice(0, this.showAll);
+      this.showAll=0;
+    }
     if (this.isSelectAllChecked) {
       this.selectedBidIds = [];
       for (var i = 0; i < this.plans.length; i++) {
@@ -1245,7 +1250,24 @@ export class PlanfinderComponent implements OnInit {
   handleClick(items: any) {
     console.log("Selected Column : ", items);
   }
-  
+  QuickFilter(count: number) {
+    this.showAll = count;
+    this.FilterAllPlans();
+    // let plans1 = [...this.copyOfPlans];
+    // if (count != 0) {
+    //   this.plans = plans1.slice(0, count);
+    // }
+    // else {
+    //   this.plans = plans1;
+    // }
+    // if (this.isSelectAllChecked) {
+    //   this.selectedBidIds = [];
+    //   for (var i = 0; i < this.plans.length; i++) {
+    //     this.selectedBidIds.push(this.plans[i].bidId);
+    //   }
+    // }
+
+  }
 
   onBasePlanSelect(selectedPlan: string) {
     this.spinner.show();
