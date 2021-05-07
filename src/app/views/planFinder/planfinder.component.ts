@@ -749,6 +749,10 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.getSalesRegionDefault(this.clientId, this.selectedStateItems[0].id);
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   onStateDeSelect() {
@@ -759,6 +763,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   onSalesRegionSelect() {
@@ -768,6 +776,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
 
   }
@@ -780,6 +792,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedSalesRegionItems = items;
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
 
   }
@@ -791,6 +807,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   onSalesRegionDeSelect() {
@@ -800,6 +820,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
 
   }
@@ -812,6 +836,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -827,6 +855,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCountyItems = items
     this.selectedCounties = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -841,6 +873,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedCounties = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -853,6 +889,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   onPlanTypeItemSelect() {
@@ -862,6 +902,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -876,6 +920,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = items;
     this.selectedPlantypes = "";
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -887,6 +935,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   onPlanTypeDeSelect() {
@@ -896,6 +948,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedPlantypes = "";
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
@@ -908,6 +964,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -921,6 +981,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptype = "";
     this.selectedSnptypesItems = items;
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -932,6 +996,10 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this.selectedSnptype = "";
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
     }
@@ -942,12 +1010,38 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
     this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
-  onCrossWalkItemSelect() { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
-  onCrossWalkSelectAll(items: any) { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
-  onCrossWalkDeSelectAll(items: any) { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
-  onCrossWalkDeSelect() { this.clearLeftSideItems(); this.isSelectAllChecked = false; }
+  onCrossWalkItemSelect() {
+    this.clearLeftSideItems();
+    this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+  }
+  onCrossWalkSelectAll(items: any) {
+    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+  }
+  onCrossWalkDeSelectAll(items: any) {
+    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+  }
+  onCrossWalkDeSelect() {
+    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+  }
 
   onAllBenefitsItemSelect() {
     this.selectedFilterBenefits = "";
@@ -1332,33 +1426,29 @@ export class PlanfinderComponent implements OnInit {
   }
   QuickFilter(count: number) {
     this.showAll = count;
-    if(count==0)
-    {
-      this.isAllClicked=true;
-      this.isTop5Clicked=false;
-      this.isTop10Clicked=false;
-      this.isTop15Clicked=false;
+    if (count == 0) {
+      this.isAllClicked = true;
+      this.isTop5Clicked = false;
+      this.isTop10Clicked = false;
+      this.isTop15Clicked = false;
     }
-    if(count==5)
-    {
-      this.isAllClicked=false;
-      this.isTop5Clicked=true;
-      this.isTop10Clicked=false;
-      this.isTop15Clicked=false;
+    if (count == 5) {
+      this.isAllClicked = false;
+      this.isTop5Clicked = true;
+      this.isTop10Clicked = false;
+      this.isTop15Clicked = false;
     }
-    if(count==10)
-    {
-      this.isAllClicked=false;
-      this.isTop5Clicked=false;
-      this.isTop10Clicked=true;
-      this.isTop15Clicked=false;
+    if (count == 10) {
+      this.isAllClicked = false;
+      this.isTop5Clicked = false;
+      this.isTop10Clicked = true;
+      this.isTop15Clicked = false;
     }
-    if(count==15)
-    {
-      this.isAllClicked=false;
-      this.isTop5Clicked=false;
-      this.isTop10Clicked=false;
-      this.isTop15Clicked=true;
+    if (count == 15) {
+      this.isAllClicked = false;
+      this.isTop5Clicked = false;
+      this.isTop10Clicked = false;
+      this.isTop15Clicked = true;
     }
 
     this.FilterAllPlans();
