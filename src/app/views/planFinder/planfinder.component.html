@@ -365,7 +365,7 @@
                             <span class="ml-2">Go back</span>
                         </button>
                     </div>
-                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox">
+                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox custom-selectAll">
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                             [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                         <label class="form-check-label" for="SelectAll">
