@@ -1096,6 +1096,7 @@ export class PlanfinderComponent implements OnInit {
     for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
       this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
     }
+    this.checkAllBenefitsSelected();
   }
 
   onAllBenefitsDeSelect() {
