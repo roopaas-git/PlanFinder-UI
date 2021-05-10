@@ -379,6 +379,9 @@
                         (onSelectAll)="onAllBenefitsSelectAll($event)" (onDeSelectAll)="onAllBenefitsDeSelectAll($event)" 
                          id="pcFilterBenefit">
                         </ng-multiselect-dropdown>
+                        <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4 custom-benefit-ddb" (click)="rebindPlanBenfefitDetails()">
+                            Apply
+                        </button>
                     </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
