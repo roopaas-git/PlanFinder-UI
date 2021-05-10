@@ -372,12 +372,14 @@
                             <span>Select All</span>
                         </label>
                     </div>
-                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-3"><div class="mr-3">Benefits</div>
-                        <ng-multiselect-dropdown [placeholder]="'Select Benefits'" [settings]="filterBenefitDropdownSettings"
-                        [data]="filterBenefits" [(ngModel)]="selectedFilterBenefitsItems" class="pc-filter-multiselect" 
-                        (onSelect)="onAllBenefitsItemSelect()" (onDeSelect)="onAllBenefitsDeSelect()"
-                        (onSelectAll)="onAllBenefitsSelectAll($event)" (onDeSelectAll)="onAllBenefitsDeSelectAll($event)" 
-                         id="pcFilterBenefit">
+                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-3">
+                        <div class="mr-3">Benefits</div>
+                        <ng-multiselect-dropdown [placeholder]="'Select Benefits'"
+                            [settings]="filterBenefitDropdownSettings" [data]="filterBenefits"
+                            [(ngModel)]="selectedFilterBenefitsItems" class="pc-filter-multiselect"
+                            (onSelect)="onAllBenefitsItemSelect()" (onDeSelect)="onAllBenefitsDeSelect()"
+                            (onSelectAll)="onAllBenefitsSelectAll($event)"
+                            (onDeSelectAll)="onAllBenefitsDeSelectAll($event)" id="pcFilterBenefit">
                         </ng-multiselect-dropdown>
                         <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4 custom-benefit-ddb" (click)="rebindPlanBenfefitDetails()">
                             Apply
@@ -385,7 +387,17 @@
                     </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
-                          
+                            <div *ngIf="! showPlanCompare" class="mr-3">
+                                <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);" data-toggle="modal"><span
+                                        class="ml-2">All</span></a>
+                                |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);" data-toggle="modal"><span class="ml-2">Top
+                                        5</span></a>
+                                |<a [attr.href]="isTop10Clicked ? null : '#'" (click)="QuickFilter(10);" data-toggle="modal"><span class="ml-2">Top
+                                        10</span></a>
+                                |<a [attr.href]="isTop15Clicked ? null : '#'" (click)="QuickFilter(15);" data-toggle="modal"><span class="ml-2">Top
+                                        15</span></a>
+
+                            </div>
                             <div class="mr-3">Sort by</div>
                             <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
                                 (change)="OnBenefitSelect($event.target.value)">
