@@ -365,7 +365,11 @@
                             <span class="ml-2">Go back</span>
                         </button>
                     </div>
+                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox custom-selectAll">
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
+                            [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
+                        <label class="form-check-label" for="SelectAll">
+                            <span>Select All</span>
                         </label>
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-3">
@@ -384,17 +388,15 @@
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
                             <div *ngIf="! showPlanCompare" class="mr-3">
-                                <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);"
-                                    data-toggle="modal"><span class="ml-2">All</span></a>
-                                |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);"
-                                    data-toggle="modal"><span class="ml-2">Top
+                                <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);" data-toggle="modal"><span
+                                        class="ml-2">All</span></a>
+                                |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);" data-toggle="modal"><span class="ml-2">Top
                                         5</span></a>
-                                |<a [attr.href]="isTop10Clicked ? null : '#'" (click)="QuickFilter(10);"
-                                    data-toggle="modal"><span class="ml-2">Top
+                                |<a [attr.href]="isTop10Clicked ? null : '#'" (click)="QuickFilter(10);" data-toggle="modal"><span class="ml-2">Top
                                         10</span></a>
-                                |<a [attr.href]="isTop15Clicked ? null : '#'" (click)="QuickFilter(15);"
-                                    data-toggle="modal"><span class="ml-2">Top
+                                |<a [attr.href]="isTop15Clicked ? null : '#'" (click)="QuickFilter(15);" data-toggle="modal"><span class="ml-2">Top
                                         15</span></a>
+
                             </div>
                             <div class="mr-3">Sort by</div>
                             <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
