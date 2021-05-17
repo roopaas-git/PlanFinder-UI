@@ -33,6 +33,8 @@ import { IScenario, IScenarioResults } from 'src/app/model/scenario.model';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'src/app/model/comparePlans.model';
 import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefit } from 'src/app/model/IAllBenefit.model';
+import * as ExcelJS from "exceljs/dist/exceljs.min.js"
+
 
 @Component({
   selector: 'app-planfinder',
@@ -1609,7 +1611,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.hide();
   }
 
-  applyColors(count, year, columnValue, headerValue) {
+  applyColors(count, year, columnValue, headerValue) {   
     if (year == this.previousBenifitYears) {
       return;
     }
@@ -1750,7 +1752,7 @@ export class PlanfinderComponent implements OnInit {
           }
         }
       }
-    }
+    }   
     this.spinner.hide();
   }
 
@@ -1763,15 +1765,164 @@ export class PlanfinderComponent implements OnInit {
     delete obj[oldKey];
   }
 
-  exportExcel() {
-    if (this.plansBenefits != null) {
-      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == this.CurrentPeriod);
-      import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(plansBenefitCopy);
-        const workbook = { Sheets: { 'Benefits': worksheet }, SheetNames: ['Benefits'] };
-        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "BenefitsFile");
-      });
+  exportExcel() {   
+       
+    if (this.plansBenefits != null) 
+    {           
+      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == "2021");
+     
+      let valuesFromPythonList = [];   
+      let pythonCols : string[];       
+        
+        let val = plansBenefitCopy[0];
+        let col = Object.keys(val);
+        let header = [];         
+
+          col.forEach(h => { 
+            header.push(h);                          
+          });
+
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet();          
+          const headerRow = worksheet.addRow(header); 
+      
+          if(this.isColorCodeSelected)
+          {      
+            valuesFromPythonList = this.valuesFromPython;            
+            pythonCols = Object.keys(valuesFromPythonList[0]);         
+          }         
+        
+          if (plansBenefitCopy) 
+          {
+              for (let i = 0; i < plansBenefitCopy.length; i++) 
+              {
+                  let rowData = plansBenefitCopy[i];    
+                  let newRow = [];     
+                  let isFoundInPythonOutPut = false;
+                  let tempPythonRow = [];
+                  let newRowColor = [];
+                  let count: number = 0;
+                  let isRowColorable :Boolean = false;
+                  
+                  for (let j = 0; j < col.length; j++) 
+                  {
+                    newRowColor.push(null);   
+                  }
+                            
+                    col.forEach(x => 
+                    {                
+                        newRow.push(rowData[x]);   
+
+                        if(this.isColorCodeSelected)
+                        {                    
+                          if(!isFoundInPythonOutPut)
+                          {          
+                            if((x.toString() != "sortGroup"  && x.toString() != "year"))
+                            {                                    
+                              let  checkBenefit = valuesFromPythonList.find((val) => (val.Benefit.toString().trim().replace(' ', '_')) === (rowData[x].toString().trim().replace(' ', '_')));   
+              
+                                if (checkBenefit!=null)
+                                {    
+                                  isFoundInPythonOutPut = true;
+                                  tempPythonRow = checkBenefit;      
+                                }
+                            }
+                          } 
+                          else
+                          {        
+                            if((x.toString() != "sortGroup" && x.toString() != "benefits" && x.toString() != "year"))
+                            {                              
+                              var bidID = x.substring(x.lastIndexOf("(") + 1, x.length - 1); 
+                              const cellIndex = pythonCols.findIndex(z => z === bidID.toString());                             
+                              newRowColor[count] = tempPythonRow[pythonCols[cellIndex]];     
+                            }
+                          }                          
+                        }                        
+                        count++;
+                    });        
+
+                  const row =  worksheet.addRow(newRow);         
+          
+                  if(this.isColorCodeSelected )
+                  {   
+                    if(this.isYOYSelected)
+                    {
+                      if((newRow[2] == this.previousBenifitYears))
+                      {
+                        isRowColorable = false;
+                      }
+                      else
+                      {
+                        isRowColorable = true;
+                      }
+                    }
+                    else
+                    {
+                      isRowColorable = true;
+                    } 
+            
+                    if(isRowColorable)
+                    {
+                      newRowColor.forEach((element, index) => {      
+
+                      if(index>2)
+                      {                
+                        let tempcell = row.getCell(index+1);          
+                  
+                        switch (element) 
+                        {
+                          case 0:
+                                //do nothing
+                                break;
+
+                          case 1:
+                                //red                    
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: 'FF0000' }
+                                }
+                                break;
+
+                          case 2:
+                                //green
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '92D050' }
+                                }
+                                break;
+
+                          case 3:
+                                //do nothing
+                                break;
+
+                          case 4:
+                                //gray
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '808080' }
+                                }
+                                break;                
+                          }               
+                      }           
+                      });     
+                    } 
+                  }                    
+              }
+          }          
+              
+          workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {  
+            import("file-saver").then(FileSaver => {
+              const blob = new Blob([plansBenefitCopy], {  
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+              });  
+              let EXCEL_EXTENSION = '.xlsx';
+              let fileName ="BenefitsFile";
+              FileSaver.saveAs(blob, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            });
+          });         
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Benefits is null' });

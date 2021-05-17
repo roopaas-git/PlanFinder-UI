@@ -12,3 +12,15 @@
 {
     padding: 0.6% 0 0 2.2%;
 }
+
+.green{
+    background-color:#c6e0b4 !important;
+}
+
+.red{
+    background-color: #FF7D7D !important;
+}
+
+.gray {
+    background-color: gray !important;
+}
