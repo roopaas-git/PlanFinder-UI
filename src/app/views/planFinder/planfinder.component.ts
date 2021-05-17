@@ -33,6 +33,8 @@ import { IScenario, IScenarioResults } from 'src/app/model/scenario.model';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'src/app/model/comparePlans.model';
 import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefit } from 'src/app/model/IAllBenefit.model';
+import * as ExcelJS from "exceljs/dist/exceljs.min.js"
+
 
 @Component({
   selector: 'app-planfinder',
@@ -187,6 +189,9 @@ export class PlanfinderComponent implements OnInit {
   selectedFilterBenefits: string;
   selectedFilterBenefitsItems = [];
   filterBenefitDropdownSettings: IDropdownSettings;
+  filterBenefitCount : number = 0;
+  isFilterBenefitEnabled: boolean = false;
+  masterPlansBenefits: any[];
 
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
@@ -236,7 +241,8 @@ export class PlanfinderComponent implements OnInit {
     this.isEnrollmentGrowthEnabled = false;
     this.isColorCodeSelected = false;
     this.goToTop();
-    this.bindBenifits()
+    this.bindBenifits();
+    //this.bindAllPlanBenifits();
     this.bindPlanBenfefitDetails();
   }
 
@@ -252,7 +258,25 @@ export class PlanfinderComponent implements OnInit {
     this._comparePlansService.getBenefitDetails(bidId)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
-          this.plansBenefits = result;
+          this.masterPlansBenefits = []; 
+          this.masterPlansBenefits = result;  
+          this.plansBenefits = [];
+
+          if(this.isFilterBenefitEnabled)
+          {  
+              this.masterPlansBenefits.forEach(element => {
+                let existItem = [];
+                existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
+           
+                if (existItem.length >= 1) {             
+                this.plansBenefits.push(element);
+                }  
+              });  
+          }
+          else
+          {  
+            this.plansBenefits = this.masterPlansBenefits;
+          }
           this.getColumns(this.plansBenefits);
         }
       }, err => {
@@ -261,7 +285,30 @@ export class PlanfinderComponent implements OnInit {
       });
   }
 
-  getColumns(planBenefits: any) {
+  rebindPlanBenfefitDetails()
+  {
+    this.plansBenefits = [];
+
+          if(this.isFilterBenefitEnabled)
+          {  
+              this.masterPlansBenefits.forEach(element => {
+                let existItem = [];
+                existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
+           
+                if (existItem.length >= 1) {             
+                this.plansBenefits.push(element);
+                }  
+              });  
+          }
+          else
+          {  
+            this.plansBenefits = this.masterPlansBenefits;
+          }
+          this.getColumns(this.plansBenefits);
+  }
+
+  getColumns(planBenefits: any) {    
+    this.plansBenifitsList = [];   
     let val = planBenefits[0];
     let col = Object.keys(val);
     col.forEach(items => {
@@ -348,12 +395,14 @@ export class PlanfinderComponent implements OnInit {
         for (let i = 0; i < result.length; i++) {
           this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
         }
-        this.selectedFilterBenefitsItems = result;
-      }
-    })
+        this.selectedFilterBenefitsItems = result;     
+        this.filterBenefitCount = result.length;      
+        this.isFilterBenefitEnabled = false;
+      }      
+    }) 
   }
 
-  loadAllPlanBenifitsValues(userPlanBenefits: string[]) {
+  loadAllPlanBenifitsValues(userPlanBenefits: string[]) {    
     this.selectedFilterBenefitsItems = [];
     this._comparePlansService.getAllBenefits().subscribe((result: IAllBenefit[]) => {
       if (result != null) {
@@ -367,7 +416,8 @@ export class PlanfinderComponent implements OnInit {
         for (let i = 0; i < result.length; i++) {
           this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
         }
-        this.selectedFilterBenefitsItems = userSelectedFilterBenefitsItems;
+        this.selectedFilterBenefitsItems = userSelectedFilterBenefitsItems;        
+        this.checkAllBenefitsSelected();
       }
     });
   }
@@ -454,7 +504,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getAllPlans() {
-    this.getSelectedCrossWalk();
+    this.getSelectedCrossWalk();    
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
   }
@@ -1048,6 +1098,7 @@ export class PlanfinderComponent implements OnInit {
     for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
       this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
     }
+    this.checkAllBenefitsSelected();
   }
 
   onAllBenefitsDeSelect() {
@@ -1055,17 +1106,35 @@ export class PlanfinderComponent implements OnInit {
     for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
       this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
     }
+    this.checkAllBenefitsSelected();
   }
 
-  onAllBenefitsSelectAll(items: any) {
+  onAllBenefitsSelectAll(items: any) {     
+    this.spinner.show(); 
     this.selectedFilterBenefitsItems = items;
     this.selectedFilterBenefits = "";
     for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
       this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
     }
+    this.checkAllBenefitsSelected();
   }
 
-  onAllBenefitsDeSelectAll(items: any) {
+  onAllBenefitsDeSelectAll(items: any) {  
+    this.spinner.show();
+    this.checkAllBenefitsSelected();
+  }
+
+  checkAllBenefitsSelected()
+  {
+    if(this.selectedFilterBenefitsItems.length == this.filterBenefitCount)
+    {
+      this.isFilterBenefitEnabled = false;
+    }
+    else
+    {
+      this.isFilterBenefitEnabled = true;
+    }
+    this.spinner.hide();
   }
 
   OnBenefitSelect(item: string) {
@@ -1102,7 +1171,27 @@ export class PlanfinderComponent implements OnInit {
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
-              this.plansBenefits = result;
+
+              this.masterPlansBenefits = []; 
+              this.masterPlansBenefits = result;  
+              this.plansBenefits = [];
+    
+              if(this.isFilterBenefitEnabled)
+              {  
+                  this.masterPlansBenefits.forEach(element => {
+                    let existItem = [];
+                    existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
+               
+                    if (existItem.length >= 1) {             
+                    this.plansBenefits.push(element);
+                    }  
+                  });  
+              }
+              else
+              {  
+                this.plansBenefits = this.masterPlansBenefits;
+              }
+            
               this.getColumns(this.plansBenefits);
             }
           }, err => {
@@ -1522,7 +1611,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.hide();
   }
 
-  applyColors(count, year, columnValue, headerValue) {
+  applyColors(count, year, columnValue, headerValue) {   
     if (year == this.previousBenifitYears) {
       return;
     }
@@ -1663,7 +1752,7 @@ export class PlanfinderComponent implements OnInit {
           }
         }
       }
-    }
+    }   
     this.spinner.hide();
   }
 
@@ -1676,15 +1765,164 @@ export class PlanfinderComponent implements OnInit {
     delete obj[oldKey];
   }
 
-  exportExcel() {
-    if (this.plansBenefits != null) {
-      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == this.CurrentPeriod);
-      import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(plansBenefitCopy);
-        const workbook = { Sheets: { 'Benefits': worksheet }, SheetNames: ['Benefits'] };
-        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "BenefitsFile");
-      });
+  exportExcel() {   
+       
+    if (this.plansBenefits != null) 
+    {           
+      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == "2021");
+     
+      let valuesFromPythonList = [];   
+      let pythonCols : string[];       
+        
+        let val = plansBenefitCopy[0];
+        let col = Object.keys(val);
+        let header = [];         
+
+          col.forEach(h => { 
+            header.push(h);                          
+          });
+
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet();          
+          const headerRow = worksheet.addRow(header); 
+      
+          if(this.isColorCodeSelected)
+          {      
+            valuesFromPythonList = this.valuesFromPython;            
+            pythonCols = Object.keys(valuesFromPythonList[0]);         
+          }         
+        
+          if (plansBenefitCopy) 
+          {
+              for (let i = 0; i < plansBenefitCopy.length; i++) 
+              {
+                  let rowData = plansBenefitCopy[i];    
+                  let newRow = [];     
+                  let isFoundInPythonOutPut = false;
+                  let tempPythonRow = [];
+                  let newRowColor = [];
+                  let count: number = 0;
+                  let isRowColorable :Boolean = false;
+                  
+                  for (let j = 0; j < col.length; j++) 
+                  {
+                    newRowColor.push(null);   
+                  }
+                            
+                    col.forEach(x => 
+                    {                
+                        newRow.push(rowData[x]);   
+
+                        if(this.isColorCodeSelected)
+                        {                    
+                          if(!isFoundInPythonOutPut)
+                          {          
+                            if((x.toString() != "sortGroup"  && x.toString() != "year"))
+                            {                                    
+                              let  checkBenefit = valuesFromPythonList.find((val) => (val.Benefit.toString().trim().replace(' ', '_')) === (rowData[x].toString().trim().replace(' ', '_')));   
+              
+                                if (checkBenefit!=null)
+                                {    
+                                  isFoundInPythonOutPut = true;
+                                  tempPythonRow = checkBenefit;      
+                                }
+                            }
+                          } 
+                          else
+                          {        
+                            if((x.toString() != "sortGroup" && x.toString() != "benefits" && x.toString() != "year"))
+                            {                              
+                              var bidID = x.substring(x.lastIndexOf("(") + 1, x.length - 1); 
+                              const cellIndex = pythonCols.findIndex(z => z === bidID.toString());                             
+                              newRowColor[count] = tempPythonRow[pythonCols[cellIndex]];     
+                            }
+                          }                          
+                        }                        
+                        count++;
+                    });        
+
+                  const row =  worksheet.addRow(newRow);         
+          
+                  if(this.isColorCodeSelected )
+                  {   
+                    if(this.isYOYSelected)
+                    {
+                      if((newRow[2] == this.previousBenifitYears))
+                      {
+                        isRowColorable = false;
+                      }
+                      else
+                      {
+                        isRowColorable = true;
+                      }
+                    }
+                    else
+                    {
+                      isRowColorable = true;
+                    } 
+            
+                    if(isRowColorable)
+                    {
+                      newRowColor.forEach((element, index) => {      
+
+                      if(index>2)
+                      {                
+                        let tempcell = row.getCell(index+1);          
+                  
+                        switch (element) 
+                        {
+                          case 0:
+                                //do nothing
+                                break;
+
+                          case 1:
+                                //red                    
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: 'FF0000' }
+                                }
+                                break;
+
+                          case 2:
+                                //green
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '92D050' }
+                                }
+                                break;
+
+                          case 3:
+                                //do nothing
+                                break;
+
+                          case 4:
+                                //gray
+                                tempcell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '808080' }
+                                }
+                                break;                
+                          }               
+                      }           
+                      });     
+                    } 
+                  }                    
+              }
+          }          
+              
+          workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {  
+            import("file-saver").then(FileSaver => {
+              const blob = new Blob([plansBenefitCopy], {  
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+              });  
+              let EXCEL_EXTENSION = '.xlsx';
+              let fileName ="BenefitsFile";
+              FileSaver.saveAs(blob, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+            });
+          });         
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Benefits is null' });

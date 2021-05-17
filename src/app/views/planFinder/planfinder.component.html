@@ -365,11 +365,7 @@
                             <span class="ml-2">Go back</span>
                         </button>
                     </div>
-                    <div *ngIf="!showPlanCompare" class="form-check form-check-left custom-checkbox">
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
-                            [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
-                        <label class="form-check-label" for="SelectAll">
-                            <span>Select All</span>
                         </label>
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-3">
@@ -381,6 +377,9 @@
                             (onSelectAll)="onAllBenefitsSelectAll($event)"
                             (onDeSelectAll)="onAllBenefitsDeSelectAll($event)" id="pcFilterBenefit">
                         </ng-multiselect-dropdown>
+                        <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4 custom-benefit-ddb" (click)="rebindPlanBenfefitDetails()">
+                            Apply
+                        </button>
                     </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
@@ -409,7 +408,7 @@
                         <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
-                                data-toggle="modal" data-target="#colorModal" disabled>Color Code</button>
+                                data-toggle="modal" data-target="#colorModal" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"
                                 (click)="getYOY()">YOY</button>
