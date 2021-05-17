@@ -448,12 +448,12 @@ export class PlanfinderComponent implements OnInit {
         this.counties = result;
         this.selectedCounties = [];
         console.log(" County Result : ", result)
-        // result.forEach(element => {
-        //   this.selectedCounties.push(element.id);
-        // });
-        this.selectedCountyItems = [{ id: result[17].id, counties: result[17].counties }]
-        this.selectedCounties.push(result[17].id);
-        //this.selectedCountyItems = result;
+        result.forEach(element => {
+          this.selectedCounties.push(element.id);
+        });
+        //this.selectedCountyItems = [{ id: result[17].id, counties: result[17].counties }]
+        //this.selectedCounties.push(result[17].id);
+        this.selectedCountyItems = result;
         this.getPlantypeDefault(this.selectedCounties);
       }
     });
