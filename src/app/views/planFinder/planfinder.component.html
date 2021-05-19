@@ -870,16 +870,21 @@
                     </div>
                     <div *ngIf="showPlanCompare">
                         <div class="pc-plans-compare">
-                            <div class="pc-plan-compare-table-wrap">
+                            <div class="pc-plan-compare-table-wrap" style="width:100%;max-width:1460px;height: 100%;" class="abc">
                                 <p-table [value]="plansBenefits" [columns]='cols'
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
-                                    [sortOrder]="0" (onSort)="onSort()">
+                                    [sortOrder]="0" (onSort)="onSort()"  [scrollable]="true">
+                                    <ng-template pTemplate="colgroup" let-columns *ngIf="selectedBidIds.length>5" >
+                                        <colgroup>
+                                            <col *ngFor="let col of columns" style="width:300px;" >
+                                        </colgroup>
+                                    </ng-template>
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
                                                 <th *ngIf=" i === 0 " style="width: 55px">
                                                 </th>
-                                                <th *ngIf=" i != 2 && i !=0 ">
+                                                <th *ngIf=" i != 2 && i !=0 " style="width:100px;">
                                                     {{col.header}}
                                                 </th>
                                             </ng-container>
