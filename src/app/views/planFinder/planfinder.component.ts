@@ -33,8 +33,16 @@ import { IScenario, IScenarioResults } from 'src/app/model/scenario.model';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'src/app/model/comparePlans.model';
 import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefit } from 'src/app/model/IAllBenefit.model';
-import * as ExcelJS from "exceljs/dist/exceljs.min.js"
+import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 
+declare var $ : any;
+
+declare global {
+  interface JQuery {
+    (selector: string): JQuery;
+    floatingScrollbar(): JQuery;
+  }
+}
 
 @Component({
   selector: 'app-planfinder',
@@ -42,7 +50,7 @@ import * as ExcelJS from "exceljs/dist/exceljs.min.js"
   styleUrls: ['./planfinder.component.css']
 })
 
-export class PlanfinderComponent implements OnInit {
+export class PlanfinderComponent implements OnInit { 
   userId: string;
   clientId: number;
   firstName: string;
@@ -216,13 +224,15 @@ export class PlanfinderComponent implements OnInit {
     private _plansService: PlansService, private _benefitService: BenefitService, private _enrollmentService: EnrollmentService,
     private _comparePlansService: ComparePlansservice, private _userInputService: UserInputsService,
     private _scenarioService: ScenarioService, private messageService: MessageService, private spinner: NgxSpinnerService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private eleRef: ElementRef) {
     this.route.queryParams.subscribe(params => {
       this.userId = route.snapshot.params.userId;
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {   
+  //  $(this.eleRef.nativeElement).find('table-plan-compare').floatingScroll();
     this.bindUserDetails();
     this.dropdownsettings();
     this.bindRangeDefaultValues();
@@ -276,6 +286,8 @@ export class PlanfinderComponent implements OnInit {
             this.plansBenefits = this.masterPlansBenefits;
           }
           this.getColumns(this.plansBenefits);
+          // $('.pc-plans-body').addClass("sample");
+          $('.pc-plans-body').floatingScrollbar();
         }
       }, err => {
         console.log('HTTP Error', err);
@@ -311,7 +323,7 @@ export class PlanfinderComponent implements OnInit {
     });
     this.cols = this.plansBenifitsList;
     this.updateRowGroupMetaData();
-    this.spinner.hide();
+    this.spinner.hide();    
   }
 
   toggleComparePlanBack() {
@@ -1742,7 +1754,7 @@ export class PlanfinderComponent implements OnInit {
           }
         }
       }
-    }
+    }      
     this.spinner.hide();
   }
 

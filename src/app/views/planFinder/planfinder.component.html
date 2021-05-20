@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         <div class="pc-body my-3 mr-3 d-flex flex-grow-1">
             <div *ngIf="!showPlanCompare">
                 <div class="pc-sidebar bg-white borer shadow-sm ml-3 py-3">
@@ -352,7 +352,7 @@
                     </div>
                 </div>
             </div>
-            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5">
+            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5" style="width: 100%;">
                 <div class="pc-plans-header pc-plans-sort d-flex align-items-start mb-4">
                     <div *ngIf="showPlanCompare">
                         <button role="button" class="btn btn-sm btn-outline-primary pc-plan-compare-back-btn mr-3"
@@ -473,7 +473,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1">
+                <div class="pc-plans-body flex-grow-1" style="overflow-x: scroll;">
                     <div *ngIf="!showPlanCompare">
                         <div class="pc-plans">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
@@ -870,10 +870,15 @@
                     </div>
                     <div *ngIf="showPlanCompare">
                         <div class="pc-plans-compare">
-                            <div class="pc-plan-compare-table-wrap">
-                                <p-table [value]="plansBenefits" [columns]='cols'
+                            <div class="pc-plan-compare-table-wrap" >
+                                <p-table [value]="plansBenefits" [columns]='cols' 
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
                                     [sortOrder]="0" (onSort)="onSort()">
+                                    <ng-template pTemplate="colgroup" let-columns *ngIf="selectedBidIds.length>5" >
+                                        <colgroup>
+                                            <col *ngFor="let col of columns | slice:0:selectedBidIds.length+2" style="width:300px;" >
+                                        </colgroup>
+                                    </ng-template>
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
@@ -903,7 +908,7 @@
                                             </ng-container>
                                         </tr>
                                     </ng-template>
-                                </p-table>
+                                </p-table>                                
                             </div>
                         </div>
                     </div>
