@@ -35,7 +35,7 @@ import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 
-declare var $ : any;
+declare var $: any;
 
 declare global {
   interface JQuery {
@@ -50,7 +50,7 @@ declare global {
   styleUrls: ['./planfinder.component.css']
 })
 
-export class PlanfinderComponent implements OnInit { 
+export class PlanfinderComponent implements OnInit {
   userId: string;
   clientId: number;
   firstName: string;
@@ -231,7 +231,7 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {   
+  ngOnInit() {
     this.bindUserDetails();
     this.dropdownsettings();
     this.bindRangeDefaultValues();
@@ -250,15 +250,15 @@ export class PlanfinderComponent implements OnInit {
     this.isEnrollmentGrowthEnabled = false;
     this.isColorCodeSelected = false;
     this.goToTop();
-    this.bindBenifits();
     this.bindPlanBenfefitDetails();
+    this.bindBenifits();
   }
 
   checkTrue(id) {
     return this.selectedBidIds.includes(id) ? true : false;
   }
 
-  bindPlanBenfefitDetails() {
+  bindPlanBenfefitDetails() {    
     let bidId: IComparePlans = {
       bidId: this.selectedBidIds.toString()
     }
@@ -279,7 +279,7 @@ export class PlanfinderComponent implements OnInit {
           }
           else {
             this.plansBenefits = this.masterPlansBenefits;
-          }          
+          }
           this.getColumns(this.plansBenefits);
           this.appfloatingscrollerStatus(true);
         }
@@ -289,20 +289,17 @@ export class PlanfinderComponent implements OnInit {
       });
   }
 
-  appfloatingscrollerStatus(statusType) {    
-    if(this.selectedBidIds.length>5)
-    {
-      if(statusType)
-      {
+  appfloatingscrollerStatus(statusType) {
+    if (this.selectedBidIds.length > 5) {
+      if (statusType) {
         $('.pc-plans-body').addClass("floating-container");
-        $('.floating-container').floatingScrollbar();        
-      }    
-      else
-      {
-        $('.pc-plans-body').removeClass("floating-container");     
+        $('.floating-container').floatingScrollbar();
+      }
+      else {
+        $('.pc-plans-body').removeClass("floating-container");
         $('#floating-scrollbar').remove();
-      }  
-    }          
+      }
+    }
   }
 
   rebindPlanBenfefitDetails() {
@@ -312,7 +309,7 @@ export class PlanfinderComponent implements OnInit {
         let existItem = [];
         existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefitGroup === element.sortGroup);
         if (existItem.length >= 1) {
-          this.plansBenefits.push(element);          
+          this.plansBenefits.push(element);
         }
       });
     }
@@ -331,7 +328,7 @@ export class PlanfinderComponent implements OnInit {
     });
     this.cols = this.plansBenifitsList;
     this.updateRowGroupMetaData();
-    this.spinner.hide();    
+    this.spinner.hide();
   }
 
   toggleComparePlanBack() {
@@ -468,7 +465,6 @@ export class PlanfinderComponent implements OnInit {
         this.selectedSalesRegion = salesRegionId;
         this.counties = result;
         this.selectedCounties = [];
-        console.log(" County Result : ", result)
         result.forEach(element => {
           this.selectedCounties.push(element.id);
         });
@@ -1759,7 +1755,7 @@ export class PlanfinderComponent implements OnInit {
           }
         }
       }
-    }      
+    }
     this.spinner.hide();
   }
 
@@ -1937,7 +1933,7 @@ export class PlanfinderComponent implements OnInit {
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-        this.showPlanCompare = false;
+       
       }
     });
   }
@@ -2263,12 +2259,17 @@ export class PlanfinderComponent implements OnInit {
   loadBidIds() {
     if (this.userSelectedScenarioResults != null) {
       if (this.userSelectedScenarioResults[0].bidId != "") {
-        this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");
+        this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");        
       }
       else {
         this.selectedBidIds = [];
       }
-      this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
+      this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;         
+      if (this.showPlanCompare) {          
+        this.bindPlanBenfefitDetails();
+        this.showCompareButton=false;
+      }
+
     }
   }
 
