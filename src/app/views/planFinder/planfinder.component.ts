@@ -32,7 +32,7 @@ import { ScenarioService } from 'src/app/services/scenario.service';
 import { IScenario, IScenarioResults } from 'src/app/model/scenario.model';
 import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'src/app/model/comparePlans.model';
 import { IPeriod } from 'src/app/model/period.model';
-import { IAllBenefit } from 'src/app/model/IAllBenefit.model';
+import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 
 declare var $ : any;
@@ -193,12 +193,12 @@ export class PlanfinderComponent implements OnInit {
   basePlan: string = '';
   isEnrollmentGrowthEnabled: boolean = true;
 
-  filterBenefits: IAllBenefit[];
-  selectedFilterBenefits: string;
-  selectedFilterBenefitsItems = [];
-  filterBenefitDropdownSettings: IDropdownSettings;
-  filterBenefitCount: number = 0;
-  isFilterBenefitEnabled: boolean = false;
+  filterBenefitGroups: IAllBenefitGroup[];
+  selectedFilterBenefitGroups: string;
+  selectedFilterBenefitGroupsItems = [];
+  filterBenefitGroupsDropdownSettings: IDropdownSettings;
+  filterBenefitGroupsCount: number = 0;
+  isFilterBenefitGroupsEnabled: boolean = false;
   masterPlansBenefits: any[];
 
   @ViewChild('saveModal') closeModal: ElementRef;
@@ -232,12 +232,11 @@ export class PlanfinderComponent implements OnInit {
   }
 
   ngOnInit() {   
-  //  $(this.eleRef.nativeElement).find('table-plan-compare').floatingScroll();
     this.bindUserDetails();
     this.dropdownsettings();
     this.bindRangeDefaultValues();
     this.bindBenifits();
-    this.bindAllPlanBenifits();
+    this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
     this.bindMaxperiodYOY();
@@ -252,7 +251,6 @@ export class PlanfinderComponent implements OnInit {
     this.isColorCodeSelected = false;
     this.goToTop();
     this.bindBenifits();
-    //this.bindAllPlanBenifits();
     this.bindPlanBenfefitDetails();
   }
 
@@ -264,19 +262,16 @@ export class PlanfinderComponent implements OnInit {
     let bidId: IComparePlans = {
       bidId: this.selectedBidIds.toString()
     }
-
     this._comparePlansService.getBenefitDetails(bidId)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.masterPlansBenefits = [];
           this.masterPlansBenefits = result;
           this.plansBenefits = [];
-
-          if (this.isFilterBenefitEnabled) {
+          if (this.isFilterBenefitGroupsEnabled) {
             this.masterPlansBenefits.forEach(element => {
               let existItem = [];
-              existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
-
+              existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefitGroup === element.sortGroup);
               if (existItem.length >= 1) {
                 this.plansBenefits.push(element);
               }
@@ -284,10 +279,9 @@ export class PlanfinderComponent implements OnInit {
           }
           else {
             this.plansBenefits = this.masterPlansBenefits;
-          }
+          }          
           this.getColumns(this.plansBenefits);
-          // $('.pc-plans-body').addClass("sample");
-          $('.pc-plans-body').floatingScrollbar();
+          this.appfloatingscrollerStatus(true);
         }
       }, err => {
         console.log('HTTP Error', err);
@@ -295,16 +289,30 @@ export class PlanfinderComponent implements OnInit {
       });
   }
 
+  appfloatingscrollerStatus(statusType) {    
+    if(this.selectedBidIds.length>5)
+    {
+      if(statusType)
+      {
+        $('.pc-plans-body').addClass("floating-container");
+        $('.floating-container').floatingScrollbar();        
+      }    
+      else
+      {
+        $('.pc-plans-body').removeClass("floating-container");     
+        $('#floating-scrollbar').remove();
+      }  
+    }          
+  }
+
   rebindPlanBenfefitDetails() {
     this.plansBenefits = [];
-
-    if (this.isFilterBenefitEnabled) {
+    if (this.isFilterBenefitGroupsEnabled) {
       this.masterPlansBenefits.forEach(element => {
         let existItem = [];
-        existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
-
+        existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefitGroup === element.sortGroup);
         if (existItem.length >= 1) {
-          this.plansBenefits.push(element);
+          this.plansBenefits.push(element);          
         }
       });
     }
@@ -327,6 +335,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   toggleComparePlanBack() {
+    this.appfloatingscrollerStatus(false);
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
     this.plansBenefits = [];
@@ -395,36 +404,36 @@ export class PlanfinderComponent implements OnInit {
     })
   }
 
-  bindAllPlanBenifits() {
-    this._comparePlansService.getAllBenefits().subscribe((result: IAllBenefit[]) => {
+  bindAllPlanBenefitGroups() {
+    this._comparePlansService.getAllBenefitGroups().subscribe((result: IAllBenefitGroup[]) => {
       if (result.length > 0) {
-        this.filterBenefits = result;
+        this.filterBenefitGroups = result;
         for (let i = 0; i < result.length; i++) {
-          this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
+          this.selectedFilterBenefitGroups = i == 0 ? result[i].id.toString() : this.selectedFilterBenefitGroups + "," + result[i].id.toString();
         }
-        this.selectedFilterBenefitsItems = result;
-        this.filterBenefitCount = result.length;
-        this.isFilterBenefitEnabled = false;
+        this.selectedFilterBenefitGroupsItems = result;
+        this.filterBenefitGroupsCount = result.length;
+        this.isFilterBenefitGroupsEnabled = false;
       }
     })
   }
 
-  loadAllPlanBenifitsValues(userPlanBenefits: string[]) {
-    this.selectedFilterBenefitsItems = [];
-    this._comparePlansService.getAllBenefits().subscribe((result: IAllBenefit[]) => {
+  loadAllPlanBenefitGroupsValues(userPlanBenefits: string[]) {
+    this.selectedFilterBenefitGroupsItems = [];
+    this._comparePlansService.getAllBenefitGroups().subscribe((result: IAllBenefitGroup[]) => {
       if (result != null) {
-        this.filterBenefits = result;
+        this.filterBenefitGroups = result;
         let userSelectedFilterBenefitsItems = [];
         result.forEach(element => {
           if (userPlanBenefits.includes(element.id.toString())) {
-            userSelectedFilterBenefitsItems.push({ id: element.id, benefit: element.benefit });
+            userSelectedFilterBenefitsItems.push({ id: element.id, benefitGroup: element.benefitGroup });
           }
         });
         for (let i = 0; i < result.length; i++) {
-          this.selectedFilterBenefits = i == 0 ? result[i].id.toString() : this.selectedFilterBenefits + "," + result[i].id.toString();
+          this.selectedFilterBenefitGroups = i == 0 ? result[i].id.toString() : this.selectedFilterBenefitGroups + "," + result[i].id.toString();
         }
-        this.selectedFilterBenefitsItems = userSelectedFilterBenefitsItems;
-        this.checkAllBenefitsSelected();
+        this.selectedFilterBenefitGroupsItems = userSelectedFilterBenefitsItems;
+        this.checkAllBenefitGroupsSelected();
       }
     });
   }
@@ -1100,43 +1109,43 @@ export class PlanfinderComponent implements OnInit {
     this.isTop15Clicked = false;
   }
 
-  onAllBenefitsItemSelect() {
-    this.selectedFilterBenefits = "";
-    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
-      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+  onAllBenefitGroupsItemSelect() {
+    this.selectedFilterBenefitGroups = "";
+    for (let i = 0; i < this.selectedFilterBenefitGroupsItems.length; i++) {
+      this.selectedFilterBenefitGroups = i == 0 ? this.selectedFilterBenefitGroupsItems[i].id.toString() : this.selectedFilterBenefitGroups + "," + this.selectedFilterBenefitGroupsItems[i].id.toString();
     }
-    this.checkAllBenefitsSelected();
+    this.checkAllBenefitGroupsSelected();
   }
 
-  onAllBenefitsDeSelect() {
-    this.selectedFilterBenefits = "";
-    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
-      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+  onAllBenefitGroupsDeSelect() {
+    this.selectedFilterBenefitGroups = "";
+    for (let i = 0; i < this.selectedFilterBenefitGroupsItems.length; i++) {
+      this.selectedFilterBenefitGroups = i == 0 ? this.selectedFilterBenefitGroupsItems[i].id.toString() : this.selectedFilterBenefitGroups + "," + this.selectedFilterBenefitGroupsItems[i].id.toString();
     }
-    this.checkAllBenefitsSelected();
+    this.checkAllBenefitGroupsSelected();
   }
 
-  onAllBenefitsSelectAll(items: any) {
+  onAllBenefitGroupsSelectAll(items: any) {
     this.spinner.show();
-    this.selectedFilterBenefitsItems = items;
-    this.selectedFilterBenefits = "";
-    for (let i = 0; i < this.selectedFilterBenefitsItems.length; i++) {
-      this.selectedFilterBenefits = i == 0 ? this.selectedFilterBenefitsItems[i].id.toString() : this.selectedFilterBenefits + "," + this.selectedFilterBenefitsItems[i].id.toString();
+    this.selectedFilterBenefitGroupsItems = items;
+    this.selectedFilterBenefitGroups = "";
+    for (let i = 0; i < this.selectedFilterBenefitGroupsItems.length; i++) {
+      this.selectedFilterBenefitGroups = i == 0 ? this.selectedFilterBenefitGroupsItems[i].id.toString() : this.selectedFilterBenefitGroups + "," + this.selectedFilterBenefitGroupsItems[i].id.toString();
     }
-    this.checkAllBenefitsSelected();
+    this.checkAllBenefitGroupsSelected();
   }
 
-  onAllBenefitsDeSelectAll(items: any) {
+  onAllBenefitGroupsDeSelectAll(items: any) {
     this.spinner.show();
-    this.checkAllBenefitsSelected();
+    this.checkAllBenefitGroupsSelected();
   }
 
-  checkAllBenefitsSelected() {
-    if (this.selectedFilterBenefitsItems.length == this.filterBenefitCount) {
-      this.isFilterBenefitEnabled = false;
+  checkAllBenefitGroupsSelected() {
+    if (this.selectedFilterBenefitGroupsItems.length == this.filterBenefitGroupsCount) {
+      this.isFilterBenefitGroupsEnabled = false;
     }
     else {
-      this.isFilterBenefitEnabled = true;
+      this.isFilterBenefitGroupsEnabled = true;
     }
     this.spinner.hide();
   }
@@ -1175,16 +1184,13 @@ export class PlanfinderComponent implements OnInit {
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
-
               this.masterPlansBenefits = [];
               this.masterPlansBenefits = result;
               this.plansBenefits = [];
-
-              if (this.isFilterBenefitEnabled) {
+              if (this.isFilterBenefitGroupsEnabled) {
                 this.masterPlansBenefits.forEach(element => {
                   let existItem = [];
-                  existItem = this.selectedFilterBenefitsItems.filter((val) => val.benefit === element.benefits);
-
+                  existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefit === element.benefits);
                   if (existItem.length >= 1) {
                     this.plansBenefits.push(element);
                   }
@@ -1193,7 +1199,6 @@ export class PlanfinderComponent implements OnInit {
               else {
                 this.plansBenefits = this.masterPlansBenefits;
               }
-
               this.getColumns(this.plansBenefits);
             }
           }, err => {
@@ -1501,10 +1506,10 @@ export class PlanfinderComponent implements OnInit {
       allowSearchFilter: true
     };
 
-    this.filterBenefitDropdownSettings = {
+    this.filterBenefitGroupsDropdownSettings = {
       singleSelection: false,
       idField: 'id',
-      textField: 'benefit',
+      textField: 'benefitGroup',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 1,
@@ -1699,7 +1704,7 @@ export class PlanfinderComponent implements OnInit {
       UserId: this.userId,
       IsEnrollmentSelected: this.isEnrollmentSelected,
       isSortBy: this.selectedBenifit,
-      PlanBenefits: this.selectedFilterBenefits
+      PlanBenefitGroups: this.selectedFilterBenefitGroups
     }
 
     this._userInputService.addUserInputs(userInputData).subscribe((res: IApiResponse) => {
@@ -1770,7 +1775,7 @@ export class PlanfinderComponent implements OnInit {
   exportExcel() {
 
     if (this.plansBenefits != null) {
-      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == "2021");
+      let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == this.currentBenifitYear);
 
       let valuesFromPythonList = [];
       let pythonCols: string[];
@@ -2178,8 +2183,8 @@ export class PlanfinderComponent implements OnInit {
       this.isPersChecked = this.userSelectedScenarioResults[0].isPers;
       this.selectedBenifit = this.userSelectedScenarioResults[0].isSortBy;
       this.loadFilterPlanValues();
-      let planBenefits = this.userSelectedScenarioResults[0].planBenefits.split(",");
-      this.loadAllPlanBenifitsValues(planBenefits);
+      let planBenefitGroups = this.userSelectedScenarioResults[0].planBenefitGroups.split(",");
+      this.loadAllPlanBenefitGroupsValues(planBenefitGroups);
     }
   }
 
