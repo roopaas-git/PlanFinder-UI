@@ -473,7 +473,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1">
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">
                     <div *ngIf="!showPlanCompare">
                         <div class="pc-plans">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">

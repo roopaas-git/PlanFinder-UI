@@ -292,12 +292,10 @@ export class PlanfinderComponent implements OnInit {
   appfloatingscrollerStatus(statusType) {
     if (this.selectedBidIds.length > 5) {
       if (statusType) {
-        $('.pc-plans-body').addClass("floating-container");
-        $('.floating-container').floatingScrollbar();
+        $('.pc-plans-body').floatingScrollbar();
       }
       else {
-        $('.pc-plans-body').removeClass("floating-container");
-        $('#floating-scrollbar').remove();
+        $('#floating-scrollbar').css("display", "none");
       }
     }
   }
