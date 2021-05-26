@@ -374,7 +374,7 @@
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1">
                         <div class="mr-1" style="width: 160px;">Benefit Group</div>
-                        <ng-multiselect-dropdown [placeholder]="'Select Benefit Group'"
+                        <ng-multiselect-dropdown [placeholder]="'Select Benefit Group'" 
                             [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
                             [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
                             (onSelect)="onAllBenefitGroupsItemSelect()" (onDeSelect)="onAllBenefitGroupsDeSelect()"
@@ -385,6 +385,9 @@
                             Apply
                         </button>
                     </div>
+                    <div *ngIf="showPlanCompare" style="padding-left: 10px;">
+                        <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"></ui-switch>
+                        </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
                             <div *ngIf="! showPlanCompare" class="mr-3">
@@ -412,7 +415,7 @@
                                 [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"
+                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"                                
                                 (click)="getYOY()">YOY</button>
                         </div>
 

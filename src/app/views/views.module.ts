@@ -15,6 +15,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SampleGridComponent } from './TestGrid/sample-grid.component';
 import { TestComponent } from './Test/test.component';
 import { TableComponent } from './tableRowSpan/table.component';
+import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'ngx-toggle-switch';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { TableComponent } from './tableRowSpan/table.component';
         NgMultiSelectDropDownModule,
         ComponentsModule,
         ToastModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        UiSwitchModule
     ],
     exports: [],
     providers: []

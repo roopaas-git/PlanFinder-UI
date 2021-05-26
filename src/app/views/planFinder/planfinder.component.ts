@@ -34,6 +34,7 @@ import { IComparePlans, IComparePlansWithOrder, ICompareWithBasePlans } from 'sr
 import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
+import { UiSwitchModule } from 'ngx-toggle-switch';
 
 declare var $: any;
 
@@ -200,6 +201,7 @@ export class PlanfinderComponent implements OnInit {
   filterBenefitGroupsCount: number = 0;
   isFilterBenefitGroupsEnabled: boolean = false;
   masterPlansBenefits: any[];
+  isCostShareOnly: boolean = true;
 
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
@@ -262,7 +264,7 @@ export class PlanfinderComponent implements OnInit {
     let bidId: IComparePlans = {
       bidId: this.selectedBidIds.toString()
     }
-    this._comparePlansService.getBenefitDetails(bidId)
+    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.masterPlansBenefits = [];
@@ -292,7 +294,7 @@ export class PlanfinderComponent implements OnInit {
   appfloatingscrollerStatus(statusType) {
     if (this.selectedBidIds.length > 5) {
       if (statusType) {
-        $('.pc-plans-body').floatingScrollbar();
+        $('.pc-plans-body').floatingScrollbar('initialize');   
       }
       else {
         $('#floating-scrollbar').css("display", "none");
@@ -400,7 +402,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   bindAllPlanBenefitGroups() {
-    this._comparePlansService.getAllBenefitGroups().subscribe((result: IAllBenefitGroup[]) => {
+    this._comparePlansService.getAllBenefitGroups(this.isCostShareOnly).subscribe((result: IAllBenefitGroup[]) => {
       if (result.length > 0) {
         this.filterBenefitGroups = result;
         for (let i = 0; i < result.length; i++) {
@@ -415,7 +417,7 @@ export class PlanfinderComponent implements OnInit {
 
   loadAllPlanBenefitGroupsValues(userPlanBenefits: string[]) {
     this.selectedFilterBenefitGroupsItems = [];
-    this._comparePlansService.getAllBenefitGroups().subscribe((result: IAllBenefitGroup[]) => {
+    this._comparePlansService.getAllBenefitGroups(this.isCostShareOnly).subscribe((result: IAllBenefitGroup[]) => {
       if (result != null) {
         this.filterBenefitGroups = result;
         let userSelectedFilterBenefitsItems = [];
@@ -1144,10 +1146,18 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.hide();
   }
 
+  onToggleChange(status: any)
+  {
+      this.spinner.show();
+      this.isCostShareOnly = status;
+      this.bindAllPlanBenefitGroups();
+      this.bindPlanBenfefitDetails();      
+  }
+
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
       this.valuesFromPython = [];
-      this.selectedBenifit = item;
+      this.selectedBenifit = item;      
       if (this.showPlanCompare) {
         this.spinner.show();
         this.plansBenefits = [];
@@ -1175,7 +1185,7 @@ export class PlanfinderComponent implements OnInit {
           enrollmentGrowth: enrollmentGrowth
         }
 
-        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort)
+        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort,this.isCostShareOnly)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
               this.masterPlansBenefits = [];
@@ -1184,7 +1194,7 @@ export class PlanfinderComponent implements OnInit {
               if (this.isFilterBenefitGroupsEnabled) {
                 this.masterPlansBenefits.forEach(element => {
                   let existItem = [];
-                  existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefit === element.benefits);
+                  existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefitGroup === element.sortGroup);
                   if (existItem.length >= 1) {
                     this.plansBenefits.push(element);
                   }
@@ -1200,7 +1210,7 @@ export class PlanfinderComponent implements OnInit {
             this.spinner.hide();
           });
       }
-      else {
+      else {        
         if (this.selectedBenifit == "Premium") {
           this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 });
 
@@ -1217,7 +1227,7 @@ export class PlanfinderComponent implements OnInit {
         if (this.selectedBenifit == "Enrollment Growth") {
           this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
 
-        }
+        }        
       }
     }
   }
@@ -1579,7 +1589,7 @@ export class PlanfinderComponent implements OnInit {
       comparePlan: comparePlans
     }
 
-    this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan)
+    this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.plansBenefits = [];
