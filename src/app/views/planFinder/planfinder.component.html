@@ -56,7 +56,7 @@
                             </ng-multiselect-dropdown>
                         </div>
                         <div class="d-inline-flex mr-2 my-2">
-                            <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4" (click)="getAllPlans()">
+                            <button class="btn btn-sm pc-filter-apply-btn px-4 new-btn" (click)="getAllPlans()">
                                 Apply
                             </button>
                         </div>
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                             <div class=" mb-3">
-                                <div class="bg-secondary border-secondary text-white p-2 text-center">Change in
+                                <div class="text-white p-2 text-center change-in-enrollment">Change in
                                     Enrollment</div>
                                 <div
                                     class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2">
@@ -355,14 +355,13 @@
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5" style="width: 100%;">
                 <div class="pc-plans-header pc-plans-sort d-flex align-items-start mb-4">
                     <div *ngIf="showPlanCompare">
-                        <button role="button" class="btn btn-sm btn-outline-primary pc-plan-compare-back-btn mr-3"
-                            (click)="toggleComparePlanBack()">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left"
-                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
+                            (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"  
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"> 
                                 <path fill-rule="evenodd"
                                     d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                             </svg>
-                            <span class="ml-2">Go back</span>
                         </button>
                     </div>
                     <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox custom-selectAll">
@@ -381,12 +380,12 @@
                             (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
                             (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
                         </ng-multiselect-dropdown>
-                        <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4 custom-benefit-ddb" (click)="rebindPlanBenfefitDetails()">
+                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb new-btn" (click)="rebindPlanBenfefitDetails()">
                             Apply
                         </button>
                     </div>
                     <div *ngIf="showPlanCompare" style="padding-left: 10px;">
-                        <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"></ui-switch>
+                        <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)" color="#F8C4C1" defaultBgColor="#AC91B4"></ui-switch>
                         </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
@@ -412,13 +411,12 @@
                         </div>
                         <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
+                                [ngClass]="{'new-btn-click' : isColorCodeSelected, 'new-btn' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}"                                
+                                [ngClass]="{'new-btn-click' : isYOYSelected, 'new-btn' : !isYOYSelected}"                                
                                 (click)="getYOY()">YOY</button>
                         </div>
-
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -464,7 +462,7 @@
                                     </svg>
                                     <span class="ml-2">Save as</span></a>
                                 <a class="dropdown-item" (click)="exportExcel()" [class.disabled]="isDownload"
-                                    style="cursor: pointer">
+                                    style="cursor: pointer" style="color: #333333 !important;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" class="feather feather-download">
@@ -481,21 +479,20 @@
                         <div class="pc-plans">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
-                                    <h3 class="pc-plan-name">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
+                                    <h3 class="pc-plan-name" style="display: inline-block;">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
+                                    <div class="pc-plan-mem-count badge badge-light ml-3 px-2 font-weight-normal" style="background-color: #7ABA6B;display: inline-block;float: right;">
+                                        {{plan.enrollment}} members
+                                      </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
-                                                <div class="pc-plan-rating badge badge-info px-2">
+                                                <div class="pc-plan-rating badge badge-info px-2" [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available'}">
                                                     <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
                                                     <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                                         <polygon
                                                             points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                                     </svg>
-                                                </div>
-                                                <div
-                                                    class="pc-plan-mem-count badge badge-light ml-3 px-2 font-weight-normal">
-                                                    {{plan.enrollment}} members
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-start">
@@ -916,7 +913,7 @@
                         </div>
                     </div>
                     <div *ngIf="showCompareButton">
-                        <button type="button" class="btn btn-sm btn-primary pc-plan-compare-btn px-4"
+                        <button type="button" class="btn btn-sm pc-plan-compare-btn px-4 new-btn"
                             (click)="toggleComparePlan()">
                             Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
                         </button>
