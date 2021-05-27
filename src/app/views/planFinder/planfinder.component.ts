@@ -1595,7 +1595,14 @@ export class PlanfinderComponent implements OnInit {
           this.plansBenefits = [];
           this.plansBenifitsList = [];
           this.cols = [];
-          this.plansBenefits = result;
+          //this.plansBenefits = result;
+          result.forEach(element => {
+            let existItem = [];
+            existItem = this.selectedFilterBenefitGroupsItems.filter((val) => val.benefitGroup === element.sortGroup);
+            if (existItem.length >= 1) {
+              this.plansBenefits.push(element);
+            }
+          });
           this.getColumns(this.plansBenefits);
           this.runscript(basePlan, comparePlans, this.userId);
         }
