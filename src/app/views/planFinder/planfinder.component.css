@@ -33,14 +33,15 @@
 
 /* app.floating-scroller CSS  */
 /* END  */
+
 /* UI CHANGES */
-.new-btn{
+.btn-hw-before{
     background-color: #9776a2;
     color: #fff;
     border-color: #9776a2;
     
 }
-.new-btn-click
+.btn-hw-click
 {
     background-color: #BDA7C4;
     color: #fff;
@@ -50,80 +51,105 @@
 .change-in-enrollment{
     background-color: #bda7c4;
 }
-.slider-color{
+.slider-color
+{
     background-color: linear-gradient(to right,#BDA7C4 , #7d538b);
 }
-:host(::ng-deep .ui-slider .ui-slider-range) {
+:host(::ng-deep .ui-slider .ui-slider-range) 
+{
     background: -webkit-linear-gradient(left, #BDA7C4  0%,#7d538b 50%) !important;          
 }
-:host(::ng-deep .ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover) {
+:host(::ng-deep .ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover)
+{
     border: 2px #976ea5;
     box-shadow: 0 0 0 0.2em #BDA7C4;
 }
-:host(::ng-deep .ui-slider .ui-slider-handle:focus) {
+:host(::ng-deep .ui-slider .ui-slider-handle:focus) 
+{
     border: 2px #7d538b;
     box-shadow: 0 0 0 0.2em #BDA7C4;
 }
-/* .ui-slider .ui-slider-handle.ui-slider-handle-active
-.ui-slider.ui-slider-horizontal .ui-slider-handle */
-/* .ui-slider .ui-slider-handle:focus box-shadow: 0 0 0 0.2em #ee98c7;
-.ui-slider:not(.ui-state-disabled) .ui-slider-handle:hover  border: 2px solid #d90000; */
-  
- :host(::ng-deep .multiselect-dropdown .dropdown-btn .selected-item) 
- {
+ 
+:host(::ng-deep .multiselect-dropdown .dropdown-btn .selected-item) 
+{
      /* background-color:  #BDA7C4 !important; */
      background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important;
      border:  #BDA7C4 !important;
- } 
- .back-to-top-btn
- {
+} 
+.back-to-top-btn
+{
      color: #9776a2;
- }
+}
  
  a:not([href])
  {
      color: #bda7c4 !important;
  }
+ /*colour for 'not enough data available'*/
 .star-rating
 {
     background-color: #bda7c4 !important;
 }
+/*back button*/
 .btn-outline-primary-new
 {
-    color:#f8c4c1 !important;
+    color:#fff !important;
     border-color:  #f8c4c1 !important;
+    background-color: #f8c4c1 !important;
 }
-.btn-outline-primary-new:hover
-{
-color:#fff !important;
-background-color: #d7c8dc !important;
-}
-.cl:focus
+/* focus of  drop down (premium,tv,etc) */
+.btn-sortby:focus
 {
     border: 3px #d5c7da;
     box-shadow: 0 0 0 0.2em #e4dde6;
 }
-/* .select-op
-{
-background-color: #bda7c4 ;
-} */
-/* :host(::ng-deep select.decorated option:hover){
-    box-shadow: 0 0 10px 100px green inset !important ;
-    background-color: greenyellow !important;
-    
-} */
-
-/* .multiselect-item-checkbox[_ngcontent-maw-c54] input[type=checkbox][_ngcontent-maw-c54]:checked + div[_ngcontent-maw-c54]:before
-.multiselect-item-checkbox[_ngcontent-qre-c54] input[type=checkbox][_ngcontent-qre-c54] + div[_ngcontent-qre-c54]:before
-.multiselect-item-checkbox[_ngcontent-maw-c54] input[type=checkbox][_ngcontent-maw-c54] + div[_ngcontent-maw-c54]:before border: 2px solid #337ab7 */
+/*Checkbox in the top dropdown*/
 :host(::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked + div:before)
 {
     background-color: #f4a39d!important;
     background: #f4a39d !important ;
+    
 }
-
+/*border of dropdown checkboxes*/
 :host(::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:before )
 {
     border: 2px solid #333333 !important;
     color: #9776a2 !important;
 }
+
+/*For custom width of toggle button*/
+:host(::ng-deep .switch-medium){
+    width: 115px !important;
+    height: 30px !important;
+    border-radius: 30px !important;
+}
+/*toggle button small width*/
+:host(::ng-deep .switch-medium.checked small){
+    left: 85px !important;
+
+}
+/*on and off toggle switch modifications*/
+:host(::ng-deep .switch .off)
+{
+    color: #fff !important;
+    margin-top: -0.7mm;
+}
+:host(::ng-deep .switch .on)
+{
+    color: #fff !important;
+    margin-top: -0.7mm;
+}
+/* For the open,save,download dropdown*/
+.dropdown-item.hover, .dropdown-item:hover
+ { 
+    color: #fff I !important;
+    text-decoration: none;
+    background-color: #f4a39d !important;
+  }
+/* select:focus > option:checked{ 
+    background: #000 !important;
+} */
+
+  
+   
+   

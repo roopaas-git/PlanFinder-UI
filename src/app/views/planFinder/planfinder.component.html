@@ -56,7 +56,7 @@
                             </ng-multiselect-dropdown>
                         </div>
                         <div class="d-inline-flex mr-2 my-2">
-                            <button class="btn btn-sm pc-filter-apply-btn px-4 new-btn" (click)="getAllPlans()">
+                            <button class="btn btn-sm pc-filter-apply-btn px-4 btn-hw-before" (click)="getAllPlans()">
                                 Apply
                             </button>
                         </div>
@@ -353,8 +353,8 @@
                 </div>
             </div>
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5" style="width: 100%;">
-                <div class="pc-plans-header pc-plans-sort d-flex align-items-start mb-4">
-                    <div *ngIf="showPlanCompare">
+                <div class="pc-plans-header pc-plans-sort d-flex  mb-4">
+                    <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                         <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
                             (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
                             <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"  
@@ -364,14 +364,14 @@
                             </svg>
                         </button>
                     </div>
-                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox custom-selectAll">
+                    <div *ngIf="! showPlanCompare" class="form-check form-check-left custom-checkbox custom-selectAll align-items-start">
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                             [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                         <label class="form-check-label" for="SelectAll">
                             <span>Select All</span>
                         </label>
                     </div>
-                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1">
+                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start">
                         <div class="mr-1" style="width: 160px;">Benefit Group</div>
                         <ng-multiselect-dropdown [placeholder]="'Select Benefit Group'" 
                             [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
@@ -380,12 +380,14 @@
                             (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
                             (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
                         </ng-multiselect-dropdown>
-                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb new-btn" (click)="rebindPlanBenfefitDetails()">
+                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before" (click)="rebindPlanBenfefitDetails()">
                             Apply
                         </button>
                     </div>
-                    <div *ngIf="showPlanCompare" style="padding-left: 10px;">
-                        <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)" color="#F8C4C1" defaultBgColor="#AC91B4"></ui-switch>
+                    <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
+                        <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  labelOn="LONG LIST" 
+                        labelOff="SHORT LIST" color="#F8C4C1" defaultBgColor="#AC91B4">
+                        </ui-switch>
                         </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
@@ -401,7 +403,7 @@
 
                             </div>
                             <div class="mr-3">Sort by</div>
-                            <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
+                            <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                 (change)="OnBenefitSelect($event.target.value)">
                                 <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
                                     [selected]="benefit.benefit == selectedBenifit">
@@ -409,12 +411,12 @@
                                 </option>
                             </select>
                         </div>
-                        <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
+                        <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3" >
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'new-btn-click' : isColorCodeSelected, 'new-btn' : !isColorCodeSelected}"
+                                [ngClass]="{'btn-hw-click' : isColorCodeSelected, 'btn-hw-before' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'new-btn-click' : isYOYSelected, 'new-btn' : !isYOYSelected}"                                
+                                [ngClass]="{'btn-hw-click' : isYOYSelected, 'btn-hw-before' : !isYOYSelected}"                                
                                 (click)="getYOY()">YOY</button>
                         </div>
                         <div class="dropdown ml-3">
@@ -913,7 +915,7 @@
                         </div>
                     </div>
                     <div *ngIf="showCompareButton">
-                        <button type="button" class="btn btn-sm pc-plan-compare-btn px-4 new-btn"
+                        <button type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
                             (click)="toggleComparePlan()">
                             Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
                         </button>
@@ -969,7 +971,7 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
+                    <select class="form-control form-control-md mb-4" (change)="ui($event.target.value)">
                         <option selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
