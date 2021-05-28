@@ -117,6 +117,12 @@
     color: #9776a2 !important;
 }
 
+:host(::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked+div:before) 
+{
+    -webkit-animation:.2s ease-in customHWmultiselectScale !important;
+    animation:.2s ease-in customHWmultiselectScale !important;
+}  
+
 /*For custom width of toggle button*/
 :host(::ng-deep .switch-medium){
     width: 115px !important;

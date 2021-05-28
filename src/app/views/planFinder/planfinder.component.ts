@@ -1154,6 +1154,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindPlanBenfefitDetails();  
       if (this.isColorCodeSelected == true) {
           this.isColorCodeSelected = false;
+          this.valuesFromPython = [];
       }
   }
 

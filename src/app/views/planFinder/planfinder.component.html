@@ -385,8 +385,8 @@
                         </button>
                     </div>
                     <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
-                        <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  labelOn="LONG LIST" 
-                        labelOff="SHORT LIST" color="#F8C4C1" defaultBgColor="#AC91B4">
+                        <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
+                            labelOn="SHORT LIST" labelOff="LONG LIST" color="#F8C4C1" defaultBgColor="#AC91B4">
                         </ui-switch>
                         </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
@@ -971,7 +971,7 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="ui($event.target.value)">
+                    <select class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
                         <option selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
