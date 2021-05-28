@@ -1151,7 +1151,10 @@ export class PlanfinderComponent implements OnInit {
       this.spinner.show();
       this.isCostShareOnly = status;
       this.bindAllPlanBenefitGroups();
-      this.bindPlanBenfefitDetails();      
+      this.bindPlanBenfefitDetails();  
+      if (this.isColorCodeSelected == true) {
+          this.isColorCodeSelected = false;
+      }
   }
 
   OnBenefitSelect(item: string) {
@@ -1715,7 +1718,8 @@ export class PlanfinderComponent implements OnInit {
       UserId: this.userId,
       IsEnrollmentSelected: this.isEnrollmentSelected,
       isSortBy: this.selectedBenifit,
-      PlanBenefitGroups: this.selectedFilterBenefitGroups
+      PlanBenefitGroups: this.selectedFilterBenefitGroups,
+      isCostShareOnly: this.isCostShareOnly,
     }
 
     this._userInputService.addUserInputs(userInputData).subscribe((res: IApiResponse) => {
@@ -1806,10 +1810,15 @@ export class PlanfinderComponent implements OnInit {
       if (this.isColorCodeSelected) {
         valuesFromPythonList = this.valuesFromPython;
         pythonCols = Object.keys(valuesFromPythonList[0]);
-      }
+      }      
 
       if (plansBenefitCopy) {
-        for (let i = 0; i < plansBenefitCopy.length; i++) {
+        for (let i = 0; i < plansBenefitCopy.length; i++) {          
+          if(i == 1 && this.isYOYSelected)
+          {
+
+          }
+          else{
           let rowData = plansBenefitCopy[i];
           let newRow = [];
           let isFoundInPythonOutPut = false;
@@ -1824,10 +1833,10 @@ export class PlanfinderComponent implements OnInit {
 
           col.forEach(x => {
             newRow.push(rowData[x]);
-
+            
             if (this.isColorCodeSelected) {
               if (!isFoundInPythonOutPut) {
-                if ((x.toString() != "sortGroup" && x.toString() != "year")) {
+                  if ((x.toString() == "benefits")) {                  
                   let checkBenefit = valuesFromPythonList.find((val) => (val.Benefit.toString().trim().replace(' ', '_')) === (rowData[x].toString().trim().replace(' ', '_')));
 
                   if (checkBenefit != null) {
@@ -1908,7 +1917,7 @@ export class PlanfinderComponent implements OnInit {
               });
             }
           }
-        }
+        }}
       }
 
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
@@ -2194,6 +2203,7 @@ export class PlanfinderComponent implements OnInit {
       this.isPersChecked = this.userSelectedScenarioResults[0].isPers;
       this.selectedBenifit = this.userSelectedScenarioResults[0].isSortBy;
       this.loadFilterPlanValues();
+      this.isCostShareOnly = this.userSelectedScenarioResults[0].isCostShareOnly;
       let planBenefitGroups = this.userSelectedScenarioResults[0].planBenefitGroups.split(",");
       this.loadAllPlanBenefitGroupsValues(planBenefitGroups);
     }

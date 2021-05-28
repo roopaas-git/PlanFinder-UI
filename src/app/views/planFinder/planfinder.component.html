@@ -386,7 +386,12 @@
                         </button>
                     </div>
                     <div *ngIf="showPlanCompare" style="padding-left: 10px;">
-                        <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"></ui-switch>
+                        <ui-switch 
+                            [(ngModel)]="isCostShareOnly" 
+                            (change)="onToggleChange($event)"
+                            labelOn="Cost Only" 
+                            labelOff="All">
+                        </ui-switch>
                         </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">

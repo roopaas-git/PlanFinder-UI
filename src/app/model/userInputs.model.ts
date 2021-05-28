@@ -40,4 +40,5 @@ export interface IUserInputs {
     IsEnrollmentSelected : number;
     isSortBy : string;
     PlanBenefitGroups: string;
+    isCostShareOnly: boolean;
 }

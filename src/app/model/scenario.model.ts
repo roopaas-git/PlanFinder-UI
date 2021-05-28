@@ -43,5 +43,6 @@ export interface IScenarioResults {
     enrollmentToMonth: string,
     isEnrollmentSelected : number,
     isSortBy : string,
-    planBenefitGroups: string
+    planBenefitGroups: string,
+    isCostShareOnly: boolean
 }
