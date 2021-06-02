@@ -171,3 +171,23 @@ color: #f28d86 !important;
 :host(::ng-deep .la-ball-fussion > div:nth-child(4)){
 color: #ed6f66 !important;
 }
+
+.fontBold
+{
+    font-weight: bold;
+
+}
+.dont-break-out {
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+.select[_ngcontent-xwr-c89] .option[_ngcontent-xwr-c89]:hover
+{
+    background-color: green !important;
+}
+  
+  
+  
+   
+   
