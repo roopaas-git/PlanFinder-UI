@@ -352,8 +352,8 @@
                     </div>
                 </div>
             </div>
-            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5" style="width: 100%;">
-                <div class="pc-plans-header pc-plans-sort d-flex  mb-4">
+            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5" style="width: 100%;">
+                <div class="pc-plans-header pc-plans-sort d-flex  mb-4" style="margin:0 1rem;">
                     <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                         <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
                             (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
@@ -478,12 +478,12 @@
                 </div>
                 <div class="pc-plans-body flex-grow-1" [ngStyle]="{'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">
                     <div *ngIf="!showPlanCompare">
-                        <div class="pc-plans">
+                        <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
-                                    <h3 class="pc-plan-name" style="display: inline-block;">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
-                                    <div class="pc-plan-mem-count badge badge-light ml-3 px-2 font-weight-normal" style="background-color: #7ABA6B;display: inline-block;float: right;">
-                                        {{plan.enrollment}} members
+                                    <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
+                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon" style="display: inline-block;float: right;">
+                                         <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members</span>
                                       </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
@@ -871,7 +871,7 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare">
-                        <div class="pc-plans-compare">
+                        <div class="pc-plans-compare" style="margin: 0 1rem;">
                             <div class="pc-plan-compare-table-wrap">
                                 <p-table [value]="plansBenefits" [columns]='cols' 
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
@@ -1030,8 +1030,8 @@
             </div>
         </div>
     </div>
-    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#FFA500">
-        <p style="color: #FFA500">Please Wait. </p>
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#f6b5b1">
+        <p style="color: #FFF">Please Wait. </p>
     </ngx-spinner>
     <p-toast position="top-right" class="custom-toast" sticky=false></p-toast>
 </div>

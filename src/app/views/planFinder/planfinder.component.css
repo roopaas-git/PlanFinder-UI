@@ -154,8 +154,20 @@
   }
 /* select:focus > option:checked{ 
     background: #000 !important;
-} */
+} */    
 
-  
-   
-   
+:host(::ng-deep .la-ball-fussion > div:first-child){
+color: #f6b5b1 !important;
+}
+
+:host(::ng-deep .la-ball-fussion > div:nth-child(2)){
+color: #f4a39d !important;
+}
+
+:host(::ng-deep .la-ball-fussion > div:nth-child(3)){
+color: #f28d86 !important;
+}
+
+:host(::ng-deep .la-ball-fussion > div:nth-child(4)){
+color: #ed6f66 !important;
+}

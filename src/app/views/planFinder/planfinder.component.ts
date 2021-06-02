@@ -202,6 +202,8 @@ export class PlanfinderComponent implements OnInit {
   isFilterBenefitGroupsEnabled: boolean = false;
   masterPlansBenefits: any[];
   isCostShareOnly: boolean = true;
+  isReInitializescroller : boolean = false;
+  isIncrementalLoad : boolean = false;
 
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
@@ -238,10 +240,10 @@ export class PlanfinderComponent implements OnInit {
     this.dropdownsettings();
     this.bindRangeDefaultValues();
     this.bindBenifits();
-    this.bindAllPlanBenefitGroups();
+   // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();
+    this.bindMaxperiodYOY();    
   }
 
   toggleComparePlan() {
@@ -252,6 +254,10 @@ export class PlanfinderComponent implements OnInit {
     this.isEnrollmentGrowthEnabled = false;
     this.isColorCodeSelected = false;
     this.goToTop();
+    this.isReInitializescroller = false;
+    if (this.userSelectedScenarioResults == null) {      
+      this.bindAllPlanBenefitGroups();
+    }
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
   }
@@ -282,8 +288,8 @@ export class PlanfinderComponent implements OnInit {
           else {
             this.plansBenefits = this.masterPlansBenefits;
           }
-          this.getColumns(this.plansBenefits);
-          this.appfloatingscrollerStatus(true);
+          this.appfloatingscrollerStatus(true, this.isReInitializescroller);
+          this.getColumns(this.plansBenefits);          
         }
       }, err => {
         console.log('HTTP Error', err);
@@ -291,14 +297,20 @@ export class PlanfinderComponent implements OnInit {
       });
   }
 
-  appfloatingscrollerStatus(statusType) {
+  appfloatingscrollerStatus(statusType, isReInitialize) {
     if (this.selectedBidIds.length > 5) {
       if (statusType) {
-        $('.pc-plans-body').floatingScrollbar('initialize');   
+        if (!isReInitialize) {  
+          $('.pc-plans-body').floatingScrollbar('initialize');     
+        }else{
+          $('.pc-plans-body').floatingScrollbar('reinitialize'); 
+        }        
       }
       else {
         $('#floating-scrollbar').css("display", "none");
       }
+    }else {
+      $('#floating-scrollbar').css("display", "none");
     }
   }
 
@@ -332,7 +344,8 @@ export class PlanfinderComponent implements OnInit {
   }
 
   toggleComparePlanBack() {
-    this.appfloatingscrollerStatus(false);
+    this.isReInitializescroller = false;
+    this.appfloatingscrollerStatus(false, this.isReInitializescroller);    
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
     this.plansBenefits = [];
@@ -430,6 +443,7 @@ export class PlanfinderComponent implements OnInit {
           this.selectedFilterBenefitGroups = i == 0 ? result[i].id.toString() : this.selectedFilterBenefitGroups + "," + result[i].id.toString();
         }
         this.selectedFilterBenefitGroupsItems = userSelectedFilterBenefitsItems;
+        this.isReInitializescroller = true;
         this.checkAllBenefitGroupsSelected();
       }
     });
@@ -509,13 +523,20 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedSnptype = snptype
         this.crosswalk = result
-        this.selectedCrosswalkItems = result;
-        this.getAllPlans();
-      }
-    });
-  }
+        this.selectedCrosswalkItems = result; 
+          if(!this.isIncrementalLoad){
+          this.getAllPlans();
+          this.isIncrementalLoad = true;
+          }
+          else{
+            this.spinner.hide();
+          }
+        }
+      });
+    }
 
   getAllPlans() {
+    this.spinner.show();
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();

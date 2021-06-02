@@ -565,3 +565,51 @@ select {
 
 @keyframes customHWmultiselectScale{50%{box-shadow:0 0 0 2px #f4a39d}}
 @-webkit-keyframes customHWmultiselectScale{50%{box-shadow:0 0 0 2px #f4a39d}}
+
+.plan-mem-ribbon:nth-child(even) {
+  margin-right: 4%;
+}
+@media (max-width: 500px) {
+  .plan-mem-ribbon {
+    width: 100%;
+  }
+  .plan-mem-ribbon:nth-child(even) {
+    margin-right: 0%;
+  }
+}
+
+.plan-mem-ribbon-inner {
+  width: 140px;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 15px;
+  position: absolute;
+  right: -8px;
+  top: 20px;
+  background: #58a946;
+  font-weight: 600;
+  color: #fff;
+  font-size: 12px;
+}
+.plan-mem-ribbon-inner:before, .plan-mem-ribbon-inner:after {
+  content: "";
+  position: absolute;
+}
+.plan-mem-ribbon-inner:before {
+  height: 0;
+  width: 0;
+  top: -8.5px;
+  right: 0.1px;
+  border-bottom: 9px solid #47873F;
+  border-left: 9px solid transparent;
+  transform: rotate(90deg);
+}
+.plan-mem-ribbon-inner:after {
+  height: 0;
+  width: 0;
+  left: -14.5px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 14px solid #58a946;
+  transform: rotate(180deg);
+}
