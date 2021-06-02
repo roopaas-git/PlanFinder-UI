@@ -380,7 +380,7 @@
                             (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
                             (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
                         </ng-multiselect-dropdown>
-                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before" (click)="rebindPlanBenfefitDetails()">
+                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before" (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
                             Apply
                         </button>
                     </div>
@@ -407,7 +407,7 @@
                                 (change)="OnBenefitSelect($event.target.value)">
                                 <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
                                     [selected]="benefit.benefit == selectedBenifit">
-                                    {{benefit.benefit}}
+                               {{benefit.benefit}}
                                 </option>
                             </select>
                         </div>
@@ -875,7 +875,7 @@
                             <div class="pc-plan-compare-table-wrap">
                                 <p-table [value]="plansBenefits" [columns]='cols' 
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
-                                    [sortOrder]="0" (onSort)="onSort()">
+                                    [sortOrder]="0" (onSort)="onSort()" >
                                     <ng-template pTemplate="colgroup" let-columns *ngIf="selectedBidIds.length>5" >
                                         <colgroup>
                                             <col *ngFor="let col of columns | slice:0:selectedBidIds.length+2" style="width:300px;" >
@@ -884,9 +884,9 @@
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
-                                                <th *ngIf=" i === 0 " style="width: 55px">
+                                                <th *ngIf=" i === 0 " style="width: 55px;">
                                                 </th>
-                                                <th *ngIf=" i != 2 && i !=0 " style="width:100px;">
+                                                <th *ngIf=" i != 2 && i !=0 " style="width:100px;;">
                                                     {{col.header}}
                                                 </th>
                                             </ng-container>
@@ -894,17 +894,19 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr *ngIf="rowData.year != previousBenifitYear ? true : false"
+                                        <tr class="dont-break-out" *ngIf="rowData.year != previousBenifitYear ? true : false"
                                             [ngClass]="{'previousYear' : rowData.year == previousBenifitYears}"
-                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears">
-                                            <ng-container *ngFor="let col of columns,let i = index">
+                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears" >
+                                            <ng-container *ngFor="let col of columns,let i = index"  >
                                                 <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
                                                     [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
-                                                    class="sortOrderTd">
-                                                    <span class="textRotation">{{rowData.sortGroup}}</span>
+                                                    class="sortOrderTd dont-break-out " style="font-weight: bold !important;">
+                                                    <span class="textRotation dont-break-out">{{rowData.sortGroup}}</span>
                                                 </td>
                                                 <td *ngIf=" i > 0 && i != 2 "
                                                     [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
+                                                    [ngClass]="{'fontBold' : i === 1}" 
+                                                    class="dont-break-out "
                                                     (click)="handleClick(col.field)"> {{rowData[col.field]}}
                                                 </td>
                                             </ng-container>
