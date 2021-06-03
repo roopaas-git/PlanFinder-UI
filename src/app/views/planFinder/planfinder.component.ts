@@ -376,7 +376,7 @@ export class PlanfinderComponent implements OnInit {
     })
   }
 
-  bindScenarioNames() {
+  bindScenarioNames() {    
     this._scenarioService.getScenarios(this.userId).subscribe((result: IScenario[]) => {
       if (result.length > 0) {
         this.scenarios = result;
@@ -1970,7 +1970,7 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  OnScenarioSelect(id: number) {
+  OnScenarioSelect(id: number) {    
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
@@ -1980,9 +1980,9 @@ export class PlanfinderComponent implements OnInit {
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-       
+        this.bindScenarioNames();
       }
-    });
+    });    
   }
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
