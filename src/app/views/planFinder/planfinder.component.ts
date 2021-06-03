@@ -7,7 +7,7 @@ import { PlantypeService } from 'src/app/services/plantype.service';
 import { IPlantype } from 'src/app/model/plantype.model';
 import { ISnptype } from 'src/app/model/snptype.model';
 import { SnptypeService } from 'src/app/services/snptype.service';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { IDropdownSettings, MultiSelectComponent } from 'ng-multiselect-dropdown';
 import { IPlans, IPlansList } from 'src/app/model/plans.model';
 import { PlansService } from 'src/app/services/plans.service';
 import { ISalesRegion } from 'src/app/model/salesRegion.model';
@@ -209,7 +209,6 @@ export class PlanfinderComponent implements OnInit {
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
   @ViewChild('colorModal') closeColorModal: ElementRef;
-
   @HostListener('window:scroll')
 
   checkScroll() {
@@ -263,7 +262,9 @@ export class PlanfinderComponent implements OnInit {
   }
 
   checkTrue(id) {
+
     return this.selectedBidIds.includes(id) ? true : false;
+    
   }
 
   bindPlanBenfefitDetails() {    
@@ -2322,7 +2323,7 @@ export class PlanfinderComponent implements OnInit {
 
   checkScenarioName() {
     if (this.scenarioNamesOnly.includes(this.SaveScenarioName.toLowerCase())) {
-      this.scenarioAlreadyExists = "Scenario Name Alredy Exist";
+      this.scenarioAlreadyExists = "Scenario Name Already Exists";
     }
     else {
       this.scenarioAlreadyExists = "";
@@ -2331,7 +2332,7 @@ export class PlanfinderComponent implements OnInit {
 
   checkSaveASScenarioName() {
     if (this.scenarioNamesOnly.includes(this.scenarioName.toLowerCase())) {
-      this.scenarioAlreadyExists = "Scenario Name Alredy Exist";
+      this.scenarioAlreadyExists = "Scenario Name Already Exists";
     }
     else {
       this.scenarioAlreadyExists = "";
