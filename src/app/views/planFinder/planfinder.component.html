@@ -392,15 +392,16 @@
                     <div class="ml-auto d-flex align-items-center ml-3">
                         <div class="filter-wrapper d-flex align-items-center mr-3">
                             <div *ngIf="! showPlanCompare" class="mr-3">
+                                <span>
                                 <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);" data-toggle="modal"><span
-                                        class="ml-2">All</span></a>
-                                |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);" data-toggle="modal"><span class="ml-2">Top
+                                        class="ml-2" >All</span></a>
+                                |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);" data-toggle="modal"><span class="ml-2" >Top
                                         5</span></a>
                                 |<a [attr.href]="isTop10Clicked ? null : '#'" (click)="QuickFilter(10);" data-toggle="modal"><span class="ml-2">Top
                                         10</span></a>
                                 |<a [attr.href]="isTop15Clicked ? null : '#'" (click)="QuickFilter(15);" data-toggle="modal"><span class="ml-2">Top
                                         15</span></a>
-
+                                    </span>
                             </div>
                             <div class="mr-3">Sort by</div>
                             <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
@@ -421,8 +422,8 @@
                         </div>
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" (click)="setSelectedValue()"
+                                aria-expanded="false"  >
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -476,15 +477,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1" 
-                    [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto',
-                                'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">    
-                    <div *ngIf="!showPlanCompare" style="margin:0 1rem;">
-                        <div class="pc-plans" >
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">
+                    <div *ngIf="!showPlanCompare">
+                        <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
                                     <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
-                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon" style="display: inline-block; float: right;">
+                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon" style="display: inline-block;float: right;">
                                          <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members</span>
                                       </div>
                                     <div class="d-flex pc-plan-content">
@@ -873,19 +872,24 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare">
-                        <div class="pc-plans-compare">
+                        <div class="pc-plans-compare" style="margin: 0 1rem;">
                             <div class="pc-plan-compare-table-wrap">
                                 <p-table [value]="plansBenefits" [columns]='cols' 
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
-                                    [sortOrder]="0" (onSort)="onSort()" >                                   
+                                    [sortOrder]="0" (onSort)="onSort()" >
+                                    <ng-template pTemplate="colgroup" let-columns *ngIf="selectedBidIds.length>5" >
+                                        <colgroup>
+                                            <col *ngFor="let col of columns | slice:0:selectedBidIds.length+2" style="width:300px;" >
+                                        </colgroup>
+                                    </ng-template>
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
-                                                <th *ngIf=" i === 0 " [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
-                                                </th> 
-                                                <th *ngIf=" i != 2 && i !=0 "  [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
+                                                <th *ngIf=" i === 0 " style="width: 55px;">
+                                                </th>
+                                                <th *ngIf=" i != 2 && i !=0 " style="width:100px;;">
                                                     {{col.header}}
-                                                </th>     
+                                                </th>
                                             </ng-container>
                                         </tr>
                                     </ng-template>
@@ -965,13 +969,13 @@
             <div class="modal-content">
                 <div class="modal-header px-4">
                     <h5 class="modal-title" id="openModalTitle">Open View</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal >
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
-                        <option  selected>Select Scenario</option>
+                    <select id="StatusPedidoSaveId" class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
+                        <option value="0" selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
                         </option>

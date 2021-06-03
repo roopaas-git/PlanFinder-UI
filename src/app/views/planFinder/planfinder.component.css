@@ -90,10 +90,16 @@
      color: #9776a2;
 }
  
- a:not([href])
- {
-     color: #bda7c4 !important;
- }
+ /*for colour of All,Top5,etc before Selecting */
+div span a
+{
+color: #bda7c4;
+}
+/*for colour of All,Top5,etc after Selecting */
+a:not([href])
+{
+     color: #F28D86 !important;
+}
  /*colour for 'not enough data available'*/
 .star-rating
 {
