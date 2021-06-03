@@ -35,6 +35,10 @@
 /* END  */
 
 /* UI CHANGES */
+::placeholder
+{
+    color: #7E7E7E !important;
+}
 .btn-hw-before{
     background-color: #9776a2;
     color: #fff;
@@ -49,7 +53,12 @@
 
 }
 .change-in-enrollment{
-    background-color: #bda7c4;
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #f9f9f9;
+    border-top: 1px solid #dddada;
+    border-left:1px solid #dddada ;
+    border-right: 1px solid #dddada;
+    color: #333333 !important;
 }
 .slider-color
 {
@@ -96,6 +105,13 @@
     color:#fff !important;
     border-color:  #f8c4c1 !important;
     background-color: #f8c4c1 !important;
+}
+.btn-outline-primary-new:hover
+{
+    color:#fff !important;
+    border-color:  #e9b0ad !important;
+    background-color: #e9b0ad !important;
+    padding: 6px 6px 6px 6px !important;   
 }
 /* focus of  drop down (premium,tv,etc) */
 .btn-sortby:focus
@@ -182,11 +198,18 @@ color: #ed6f66 !important;
     word-wrap: break-word !important;
     word-break: break-word !important;
   }
-.select[_ngcontent-xwr-c89] .option[_ngcontent-xwr-c89]:hover
-{
-    background-color: green !important;
-}
-  
+
+/* color for dropdown toggel after yoy and color code */
+.btn-outline-secondary:not(:disabled):not(.disabled):active, .btn-outline-secondary:not(:disabled):not(.disabled).active, .show > .btn-outline-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #F8C6C1 !important;
+    border-color: #F8C6C1 !important;
+} 
+.btn-outline-secondary:not(:disabled):not(.disabled):hover, .btn-outline-secondary:not(:disabled):not(.disabled).hover, .show > .btn-outline-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #F8C6C1 !important;
+    border-color: #F8C6C1 !important;
+} 
   
   
    

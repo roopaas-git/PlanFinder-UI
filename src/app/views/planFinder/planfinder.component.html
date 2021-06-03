@@ -157,7 +157,7 @@
                                 <div class="text-white p-2 text-center change-in-enrollment">Change in
                                     Enrollment</div>
                                 <div
-                                    class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2">
+                                    class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2" style="border-bottom: 1px solid #dddada !important;border-top: none !important;">
                                     <div class="pc-sidebar-filter-min d-flex align-items-center">
                                         <label class="m-0" for="enrRangeMin">From</label>
                                         <select id="enrRangeMin"
@@ -386,7 +386,7 @@
                     </div>
                     <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
                         <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
-                            labelOn="SHORT LIST" labelOff="LONG LIST" color="#F8C4C1" defaultBgColor="#AC91B4">
+                            labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                         </ui-switch>
                         </div>
                     <div class="ml-auto d-flex align-items-center ml-3">
@@ -413,10 +413,10 @@
                         </div>
                         <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3" >
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-hw-click' : isColorCodeSelected, 'btn-hw-before' : !isColorCodeSelected}"
+                                [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-hw-click' : isYOYSelected, 'btn-hw-before' : !isYOYSelected}"                                
+                                [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"                                
                                 (click)="getYOY()">YOY</button>
                         </div>
                         <div class="dropdown ml-3">
@@ -914,7 +914,7 @@
                         </div>
                     </div>
                     <div *ngIf="showCompareButton">
-                        <button type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
+                        <button #btnClick type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
                             (click)="toggleComparePlan()">
                             Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
                         </button>
@@ -945,15 +945,15 @@
                     <div class="modal-body clearfix p-4">
                         <input type="text" class="form-control mb-4" id="SaveScenarioName" name="SaveScenarioName"
                             placeholder="Enter Scenario name" [(ngModel)]="SaveScenarioName"
-                            #SaveScenarioControl="ngModel" (input)="checkScenarioName()"
+                            #SaveScenarioControl="ngModel" (input)="checkScenarioName()" style="border: 2px solid #ED6F66 !important;"
                             [ngClass]="{ 'is-invalid': saveForm.submitted && SaveScenarioControl.invalid }" required>
                         <div *ngIf="saveForm.submitted && SaveScenarioControl.errors" class="invalid-feedback">
-                            <div *ngIf="SaveScenarioControl.errors.required">Scenario name is required</div>
+                            <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario name is required</div>
                         </div>
                         <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
                             {{scenarioAlreadyExists}}
                         </div>
-                        <button type="submit" id="btnSaveScenario" class="btn btn-primary float-right px-5"
+                        <button type="submit" id="btnSaveScenario" class="btn btn-hw-before float-right px-5"
                             (click)="saveUserInputs($event)">Save</button>
                     </div>
                 </form>
@@ -971,7 +971,7 @@
                 </div>
                 <div class="modal-body clearfix p-4">
                     <select class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
-                        <option selected>Select Scenario</option>
+                        <option  selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
                         </option>
@@ -994,15 +994,15 @@
                     <div class="modal-body clearfix p-4">
                         <input type="text" class="form-control mb-4" id="ScenarioName" name="ScenarioName"
                             placeholder="Enter view name" [(ngModel)]="scenarioName" #scenarioControl="ngModel"
-                            (input)="checkSaveASScenarioName()"
+                            (input)="checkSaveASScenarioName()" style="border: 2px solid #ED6F66 !important;"
                             [ngClass]="{ 'is-invalid': saveAsForm.submitted && scenarioControl.invalid }" required>
                         <div *ngIf="saveAsForm.submitted && scenarioControl.errors" class="invalid-feedback">
-                            <div *ngIf="scenarioControl.errors.required">Scenario Name is required</div>
+                            <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario Name is required</div>
                         </div>
                         <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
                             {{scenarioAlreadyExists}}
                         </div>
-                        <button type="submit" class="btn btn-primary float-right px-5" id="btnSaveAsScenario"
+                        <button type="submit" class="btn btn-hw-before float-right px-5" id="btnSaveAsScenario"
                             (click)="saveUserInputs($event)">Save</button>
                     </div>
                 </form>
