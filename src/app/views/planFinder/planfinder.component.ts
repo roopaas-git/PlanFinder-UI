@@ -244,6 +244,10 @@ export class PlanfinderComponent implements OnInit {
     this.bindMaxperiod();
     this.bindMaxperiodYOY();    
   }
+  setSelectedValue()
+  {
+    $("#StatusPedidoSaveId").val('0').trigger('change');
+  }
 
   toggleComparePlan() {
     this.spinner.show();
