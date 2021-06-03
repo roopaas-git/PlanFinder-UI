@@ -476,13 +476,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">
-                    <div *ngIf="!showPlanCompare">
-                        <div class="pc-plans" style="margin:0 1rem;">
+                <div class="pc-plans-body flex-grow-1" 
+                    [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto',
+                                'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}">    
+                    <div *ngIf="!showPlanCompare" style="margin:0 1rem;">
+                        <div class="pc-plans" >
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
                                     <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}. {{plan.planName}} ({{plan.bidId}})</h3>
-                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon" style="display: inline-block;float: right;">
+                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon" style="display: inline-block; float: right;">
                                          <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members</span>
                                       </div>
                                     <div class="d-flex pc-plan-content">
@@ -871,24 +873,19 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare">
-                        <div class="pc-plans-compare" style="margin: 0 1rem;">
+                        <div class="pc-plans-compare">
                             <div class="pc-plan-compare-table-wrap">
                                 <p-table [value]="plansBenefits" [columns]='cols' 
                                     tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
-                                    [sortOrder]="0" (onSort)="onSort()" >
-                                    <ng-template pTemplate="colgroup" let-columns *ngIf="selectedBidIds.length>5" >
-                                        <colgroup>
-                                            <col *ngFor="let col of columns | slice:0:selectedBidIds.length+2" style="width:300px;" >
-                                        </colgroup>
-                                    </ng-template>
+                                    [sortOrder]="0" (onSort)="onSort()" >                                   
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
-                                                <th *ngIf=" i === 0 " style="width: 55px;">
-                                                </th>
-                                                <th *ngIf=" i != 2 && i !=0 " style="width:100px;;">
+                                                <th *ngIf=" i === 0 " [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
+                                                </th> 
+                                                <th *ngIf=" i != 2 && i !=0 "  [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
                                                     {{col.header}}
-                                                </th>
+                                                </th>     
                                             </ng-container>
                                         </tr>
                                     </ng-template>
