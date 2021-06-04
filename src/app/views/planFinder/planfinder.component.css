@@ -81,9 +81,11 @@
  
 :host(::ng-deep .multiselect-dropdown .dropdown-btn .selected-item) 
 {
-     /* background-color:  #BDA7C4 !important; */
-     background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important;
+     background-color:  #AC91B4 !important;
+     font-weight:600 !important;
+     /* background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important; */
      border:  #BDA7C4 !important;
+     font-family: "Open Sans";
 } 
 .back-to-top-btn
 {
