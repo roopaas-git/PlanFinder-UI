@@ -246,7 +246,7 @@ export class PlanfinderComponent implements OnInit {
   }
   setSelectedValue()
   {
-    $("#StatusPedidoSaveId").val('0').trigger('change');
+    $("#  ").val('0').trigger('change');
   }
 
   toggleComparePlan() {
@@ -320,6 +320,10 @@ export class PlanfinderComponent implements OnInit {
   }
 
   rebindPlanBenfefitDetails() {
+    if (this.isColorCodeSelected == true) {
+      this.isColorCodeSelected = false;
+      this.valuesFromPython = [];
+    }
     this.plansBenefits = [];
     if (this.isFilterBenefitGroupsEnabled) {
       this.masterPlansBenefits.forEach(element => {
@@ -542,6 +546,7 @@ export class PlanfinderComponent implements OnInit {
 
   getAllPlans() {
     this.spinner.show();
+    this.isSelectAllChecked = false;
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
@@ -1553,7 +1558,8 @@ export class PlanfinderComponent implements OnInit {
 
   handleClick(items: any) {
     console.log("Selected Column : ", items);
-  }
+  }  
+
   QuickFilter(count: number) {
     this.showAll = count;
     if (count == 0) {
@@ -1840,13 +1846,15 @@ export class PlanfinderComponent implements OnInit {
       }      
 
       if (plansBenefitCopy) {
-        for (let i = 0; i < plansBenefitCopy.length; i++) {          
-          if(i == 1 && this.isYOYSelected)
-          {
-
-          }
-          else{
+        for (let i = 0; i < plansBenefitCopy.length; i++) {       
+          
           let rowData = plansBenefitCopy[i];
+          
+          if(i == 1 && this.isYOYSelected && rowData['benefits'] =="Parent Organization")
+          {
+            
+          }
+          else{          
           let newRow = [];
           let isFoundInPythonOutPut = false;
           let tempPythonRow = [];
@@ -1944,8 +1952,9 @@ export class PlanfinderComponent implements OnInit {
               });
             }
           }
-        }}
+        }
       }
+    }
 
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
@@ -1983,8 +1992,7 @@ export class PlanfinderComponent implements OnInit {
         let planTypes = result[0].planTypeId.split(",");
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
-        this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-        this.bindScenarioNames();
+        this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);        
       }
     });    
   }
