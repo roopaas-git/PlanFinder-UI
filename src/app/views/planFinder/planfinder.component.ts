@@ -246,7 +246,7 @@ export class PlanfinderComponent implements OnInit {
   }
   setSelectedValue()
   {
-    $("#  ").val('0').trigger('change');
+    $("#StatusPedidoSaveId").val('0').trigger('change');
   }
 
   toggleComparePlan() {
@@ -547,6 +547,8 @@ export class PlanfinderComponent implements OnInit {
   getAllPlans() {
     this.spinner.show();
     this.isSelectAllChecked = false;
+    this.selectedBidIds = [];
+    this.showCompareButton = false;
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
