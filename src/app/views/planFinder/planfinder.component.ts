@@ -462,8 +462,8 @@ export class PlanfinderComponent implements OnInit {
     this._stateService.getStates().subscribe((result: IState[]) => {
       if (result) {
         this.states = result;
-        this.selectedStateItems = [{ id: result[33].id, state: result[33].state }];
-        this.getSalesRegionDefault(this.clientId, result[33].id);
+        this.selectedStateItems = [{ id: result[30].id, state: result[30].state }];
+        this.getSalesRegionDefault(this.clientId, result[30].id);
       }
     });
   }
