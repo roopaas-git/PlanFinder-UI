@@ -8,7 +8,7 @@ import { IPlantype } from 'src/app/model/plantype.model';
 import { ISnptype } from 'src/app/model/snptype.model';
 import { SnptypeService } from 'src/app/services/snptype.service';
 import { IDropdownSettings, MultiSelectComponent } from 'ng-multiselect-dropdown';
-import { IPlans, IPlansList } from 'src/app/model/plans.model';
+import { IPlans, IPlansList} from 'src/app/model/plans.model';
 import { PlansService } from 'src/app/services/plans.service';
 import { ISalesRegion } from 'src/app/model/salesRegion.model';
 import { ActivatedRoute } from '@angular/router';
@@ -35,7 +35,7 @@ import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 import { UiSwitchModule } from 'ngx-toggle-switch';
-
+import {DropdownModule} from 'primeng/dropdown';
 declare var $: any;
 
 declare global {
@@ -71,6 +71,7 @@ export class PlanfinderComponent implements OnInit {
   scenarios: IScenario[];
   plansBenifitsList: IPlansList[] = [];
   cols: any[];
+  customSelectedBids= [];
 
   selectedStateItems = [];
   selectedSalesRegionItems = [];
@@ -204,11 +205,11 @@ export class PlanfinderComponent implements OnInit {
   isCostShareOnly: boolean = true;
   isReInitializescroller : boolean = false;
   isIncrementalLoad : boolean = false;
-
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
   @ViewChild('colorModal') closeColorModal: ElementRef;
+
   @HostListener('window:scroll')
 
   checkScroll() {
@@ -242,14 +243,24 @@ export class PlanfinderComponent implements OnInit {
    // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();    
+    this.bindMaxperiodYOY();  
+     
   }
-  setSelectedValue()
-  {
-    $("#StatusPedidoSaveId").val('0').trigger('change');
+  pushIntoCustomBids()
+  {this.customSelectedBids = [];
+    for (var i = 0; i < this.selectedBidIds.length; i++) {
+      this.customSelectedBids.push({bid:this.selectedBidIds[i], bidid:this.selectedBidIds[i]});
+    }
   }
+clearSelection(dropdown) {   
+  //clears open view dropdown selections
+    dropdown.updateSelectedOption(null);
+}
+  
 
   toggleComparePlan() {
+    
+    console.log(this.customSelectedBids);
     this.spinner.show();
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = false;
@@ -263,6 +274,7 @@ export class PlanfinderComponent implements OnInit {
     }
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
+
   }
 
   checkTrue(id) {
@@ -272,9 +284,10 @@ export class PlanfinderComponent implements OnInit {
   }
 
   bindPlanBenfefitDetails() {    
-    let bidId: IComparePlans = {
+    let bidId: IComparePlans = { 
       bidId: this.selectedBidIds.toString()
     }
+   
     this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
@@ -670,14 +683,14 @@ export class PlanfinderComponent implements OnInit {
         this.selectedBidIds.push(this.plans[i].bidId);
       }
     }
-
+    
     this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
   }
 
   getCheckedBidId(plan: IPlans) {
     if (this.selectedBidIds.length > 0) {
       var checkBidId = this.selectedBidIds.includes(plan.bidId);
-      if (checkBidId == true) {
+      if (checkBidId == true) { 
         this.selectedBidIds = this.selectedBidIds.filter(item => item != plan.bidId);
       }
       else {
@@ -690,6 +703,7 @@ export class PlanfinderComponent implements OnInit {
         this.selectedBidIds.push(plan.bidId);
       }
     }
+   
   }
 
   ChangePremium(premiumValue) {

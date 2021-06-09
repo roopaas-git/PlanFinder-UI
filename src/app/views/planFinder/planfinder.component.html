@@ -127,14 +127,19 @@
                             <h3 class="pc-sidebar-filter-title mb-3">Enrollment</h3>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <label class="mb-0" for="enrollMonth">Enrollment Month</label>
-                                <select class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
+                                <!-- <select class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
                                     (change)="OnEnrollmentPeriodChange($event.target.value)">
                                     <option selected>Select</option>
                                     <option *ngFor="let enrollment of enrollmentPeriod" [ngValue]="enrollment"
                                         [id]="enrollment.id" [selected]="enrollment.period===CurrentPeriod">
                                         {{enrollment.period}}
                                     </option>
-                                </select>
+                                </select> -->
+                               
+                                <p-dropdown class="w-auto d-inline-flex ml-2 setSize"   [options]="enrollmentPeriod"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+
+                                </p-dropdown>
+                           
                             </div>
                             <div class="d-flex align-items-center justify-content-between  bg-light border p-2 mb-4">
                                 <div class="w-25 left">
@@ -160,7 +165,7 @@
                                     class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2" style="border-bottom: 1px solid #dddada !important;border-top: none !important;">
                                     <div class="pc-sidebar-filter-min d-flex align-items-center">
                                         <label class="m-0" for="enrRangeMin">From</label>
-                                        <select id="enrRangeMin"
+                                        <!-- <select id="enrRangeMin"
                                             class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
                                             (change)="OnEnrollmentFromPeriodChange($event.target.value)">
                                             <option selected>Select</option>
@@ -168,11 +173,13 @@
                                                 [id]="enrollment.id" [selected]="enrollment.period===fromPeriod">
                                                 {{enrollment.period}}
                                             </option>
-                                        </select>
-                                    </div>
+                                        </select> -->
+                                        <p-dropdown id="enrRangeMin"    class="w-auto d-inline-flex ml-2 setSize"  [options]="(enrollmentPeriod)?.reverse()"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                        </p-dropdown>
+                                    </div> 
                                     <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
                                         <label class="m-0" for="enrRangeMax">To</label>
-                                        <select id="enrRangeMax"
+                                        <!-- <select id="enrRangeMax"
                                             class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
                                             (change)="OnEnrollmentToPeriodChange($event.target.value)">
                                             <option selected disabled>Select</option>
@@ -180,7 +187,9 @@
                                                 [id]="enrollment.id" [selected]="enrollment.period=== toPeriod">
                                                 {{enrollment.period}}
                                             </option>
-                                        </select>
+                                        </select> -->
+                                        <p-dropdown id="enrRangeMax"  class="w-auto d-inline-flex ml-2 setSize"  [options]="enrollmentPeriod"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                        </p-dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -404,25 +413,27 @@
                                     </span>
                             </div>
                             <div class="mr-3">Sort by</div>
-                            <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
+                            <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                 (change)="OnBenefitSelect($event.target.value)">
                                 <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
                                     [selected]="benefit.benefit == selectedBenifit">
                                {{benefit.benefit}}
                                 </option>
-                            </select>
+                            </select> -->
+                            <p-dropdown [options]="benefits" class="different"  optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
+                            </p-dropdown>
                         </div>
                         <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3" >
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
-                                data-toggle="modal" data-target="#colorModal" >Color Code</button>
+                                data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()" >Color Code</button>
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"                                
                                 (click)="getYOY()">YOY</button>
                         </div>
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" (click)="setSelectedValue()"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" (click)="clearSelection(openView)"
                                 aria-expanded="false"  >
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -974,12 +985,14 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select id="StatusPedidoSaveId" class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
+                    <!-- <select id="openView" class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
                         <option value="0" selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
                         </option>
-                    </select>
+                    </select> -->
+                    <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"   class="mb-4 customColor"  [options]="scenarios"  optionLabel="scenario" optionValue="id" (onChange)="OnScenarioSelect($event.value.id)">
+                    </p-dropdown>
                     <!-- <button type="button" class="btn btn-primary float-right px-5">Open</button> -->
                 </div>
             </div>
@@ -1023,12 +1036,15 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="onBasePlanSelect($event.target.value)">
+                    <!-- <select class="form-control form-control-md mb-4" (change)="onBasePlanSelect($event.target.value)">
                         <option selected>Select Base Plan</option>
                         <option *ngFor="let BidId of selectedBidIds">
                             {{BidId}}
                         </option>
-                    </select>
+                    </select> -->
+                    <p-dropdown [style]="{'width': '100%'}" placeholder="Select Base Plan"  class="mb-4 customColor"  [options]="customSelectedBids"  optionLabel="bid" optionValue="bidid" (onChange)="onBasePlanSelect($event.value.bid)">
+                    </p-dropdown>
+                    
                 </div>
             </div>
         </div>

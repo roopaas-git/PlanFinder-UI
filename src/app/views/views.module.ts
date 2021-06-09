@@ -16,7 +16,7 @@ import { SampleGridComponent } from './TestGrid/sample-grid.component';
 import { TestComponent } from './Test/test.component';
 import { TableComponent } from './tableRowSpan/table.component';
 import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'ngx-toggle-switch';
-
+import {DropdownModule} from 'primeng/dropdown';
 @NgModule({
     declarations: [
         PlanfinderComponent,
@@ -35,7 +35,8 @@ import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'n
         ComponentsModule,
         ToastModule,
         NgxSpinnerModule,
-        UiSwitchModule
+        UiSwitchModule,
+        DropdownModule
     ],
     exports: [],
     providers: []

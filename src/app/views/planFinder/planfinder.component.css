@@ -218,7 +218,95 @@ color: #ed6f66 !important;
     background-color: #F8C6C1 !important;
     border-color: #F8C6C1 !important;
 } 
+/*for background hover colour for premium*/
+:host(::ng-deep .different .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item:not(.ui-state-disabled):hover){
+    color: #ffffff !important;
+    background-color: #f4a39d !important;
+}
+/*for setting size of three dropdown in left panel*/
+:host(::ng-deep .setSize .ui-dropdown) {
+    background: #ffffff;
+    border: 1px solid #d4d4d4;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 4em;
+    min-height: 1em !important;
+}
+/*for unsetting on click background colour for sort by dropdown*/
+:host(::ng-deep .different  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight, body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight) {
+    color: #333333;
+    animation: stays 1s 1;
+    background-color: transparent;
+}
+/*for unsetting on click background colour for side panel dropdowns*/
+:host(::ng-deep .setSize  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight, body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight) {
+    color: #333333;
+    animation: stays1 1s 1;
+    background-color: transparent;
+}
+/*for unsetting on click background colour for last dropdowns*/
+:host(::ng-deep .customColor .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight, body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight) {
+    color: #333333;
+    animation: stays2 1s 1;
+    background-color: transparent;
+}
+/*For reducing the size of chevron-down for three dropdown in sidepanel*/
+:host(::ng-deep .setSize .pi-chevron-down:before) {
+    content: "\e902";
+    font-size: 0.7em;
+}
+/*Focus colour for premium*/
+:host(::ng-deep .different .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
+{
+    box-shadow: 0 0 0 0.1em #f4a39d;
+    border-color: #f4a39d;
+}
+/*Focus colour for three dropdown in left panel*/
+:host(::ng-deep .setSize .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
+{
+    box-shadow: 0 0 0 0.1em #bda7c4;
+    border-color: #bda7c4;
+}
+/*for background hover colour for three dropdown in left panel*/
+:host(::ng-deep .setSize .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item:not(.ui-state-disabled):hover){
+    color: #ffffff !important;
+    background-color: #e3cceb !important;
+}
+  @keyframes stays
+  {
+      0% { background-color: #f4a39d ;}
+      25% { background-color: #f4a39d ;}
+      75% { background-color: #f4a39d ;}
+      100% { background-color: #f4a39d ;}
+  }
+  @keyframes stays1
+  {
+      0% { background-color: #e3cceb ;}
+      25% { background-color: #e3cceb ;}
+      75% { background-color: #e3cceb ;}
+      100% { background-color: #e3cceb ;}
+  }
+  @keyframes stays2
+  {
+      0% { background-color: #F8C4C1 ;}
+      25% { background-color: #F8C4C1 ;}
+      75% { background-color: #F8C4C1 ;}
+      100% { background-color: #F8C4C1 ;}
+  }
   
-  
+  :host(::ng-deep .form-control:focus )
+  {
+    box-shadow: 0 0 0 0.1em #bda7c4;
+    border-color: #bda7c4; 
+  }
    
-   
+   /*Focus colour for three dropdown in left panel*/
+:host(::ng-deep .customColor .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
+{
+    box-shadow: 0 0 0 0.1em #F8C4C1;
+    border-color: #F8C4C1;
+}
+/*for background hover colour for three dropdown in left panel*/
+:host(::ng-deep .customColor .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item:not(.ui-state-disabled):hover){
+    color: #ffffff !important;
+    background-color: #F8C4C1 !important;
+}
