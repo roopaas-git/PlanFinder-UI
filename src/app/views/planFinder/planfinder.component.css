@@ -257,13 +257,13 @@ color: #ed6f66 !important;
 /*Focus colour for premium*/
 :host(::ng-deep .different .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
 {
-    box-shadow: 0 0 0 0.1em #f4a39d;
+    box-shadow: 0 0 0 0.2em #f4a39d;
     border-color: #f4a39d;
 }
 /*Focus colour for three dropdown in left panel*/
 :host(::ng-deep .setSize .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
 {
-    box-shadow: 0 0 0 0.1em #bda7c4;
+    box-shadow: 0 0 0 0.2em #bda7c4;
     border-color: #bda7c4;
 }
 /*for background hover colour for three dropdown in left panel*/
@@ -295,14 +295,14 @@ color: #ed6f66 !important;
   
   :host(::ng-deep .form-control:focus )
   {
-    box-shadow: 0 0 0 0.1em #bda7c4;
+    box-shadow: 0 0 0 0.2em #bda7c4;
     border-color: #bda7c4; 
   }
    
    /*Focus colour for three dropdown in left panel*/
 :host(::ng-deep .customColor .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
 {
-    box-shadow: 0 0 0 0.1em #F8C4C1;
+    box-shadow: 0 0 0 0.2em #F8C4C1;
     border-color: #F8C4C1;
 }
 /*for background hover colour for three dropdown in left panel*/

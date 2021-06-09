@@ -381,25 +381,24 @@
                         </label>
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start">
-                        <div class="mr-1" style="width: 160px;">Benefit Group</div>
-                        <ng-multiselect-dropdown [placeholder]="'Select Benefit Group'" 
+                        <div class="mr-3">Sort by</div>
+                            <p-dropdown [options]="benefits" class="different"  optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
+                            </p-dropdown>
+                        
+                    </div>
+                    <div class="ml-auto d-flex align-items-center ml-3">
+                        <div class="filter-wrapper d-flex align-items-center mr-3">
+                            <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;">Benefit Group</div>
+                        <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'" 
                             [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
                             [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
                             (onSelect)="onAllBenefitGroupsItemSelect()" (onDeSelect)="onAllBenefitGroupsDeSelect()"
                             (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
                             (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
                         </ng-multiselect-dropdown>
-                        <button class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before" (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
+                        <button *ngIf="showPlanCompare" class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before" (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
                             Apply
                         </button>
-                    </div>
-                    <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
-                        <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
-                            labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
-                        </ui-switch>
-                        </div>
-                    <div class="ml-auto d-flex align-items-center ml-3">
-                        <div class="filter-wrapper d-flex align-items-center mr-3">
                             <div *ngIf="! showPlanCompare" class="mr-3">
                                 <span>
                                 <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);" data-toggle="modal"><span
@@ -412,24 +411,16 @@
                                         15</span></a>
                                     </span>
                             </div>
-                            <div class="mr-3">Sort by</div>
-                            <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
-                                (change)="OnBenefitSelect($event.target.value)">
-                                <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
-                                    [selected]="benefit.benefit == selectedBenifit">
-                               {{benefit.benefit}}
-                                </option>
-                            </select> -->
-                            <p-dropdown [options]="benefits" class="different"  optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
-                            </p-dropdown>
-                        </div>
-                        <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3" >
-                            <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
-                                data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()" >Color Code</button>
-                            <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"                                
-                                (click)="getYOY()">YOY</button>
+                               <div *ngIf="! showPlanCompare" class="mr-3">Sort by</div>
+                                     <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
+                                        (change)="OnBenefitSelect($event.target.value)">
+                                     <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
+                                       [selected]="benefit.benefit == selectedBenifit">
+                                      {{benefit.benefit}}
+                                      </option>
+                                      </select> -->
+                                  <p-dropdown *ngIf="! showPlanCompare" [options]="benefits" class="different"  optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
+                                  </p-dropdown>
                         </div>
                         <div class="dropdown ml-3">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
@@ -486,6 +477,21 @@
                                     </svg><span class="ml-2">Download</span></a>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort d-flex  mb-4" style="padding-left: 16px;">
+                    <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
+                        <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
+                            labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
+                        </ui-switch>
+                    </div>
+                    <div  class="ml-auto d-flex align-items-center ml-3" >
+                        <button type="button" class="btn btn-sm px-4 mr-3"
+                            [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
+                            data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()" >Color Code</button>
+                        <button type="button" class="btn btn-sm px-4 mr-3"
+                            [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"                                
+                            (click)="getYOY()">YOY</button>
                     </div>
                 </div>
                 <div class="pc-plans-body flex-grow-1" 
