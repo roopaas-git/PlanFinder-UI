@@ -205,6 +205,9 @@ export class PlanfinderComponent implements OnInit {
   isCostShareOnly: boolean = true;
   isReInitializescroller : boolean = false;
   isIncrementalLoad : boolean = false;
+  advanceBenefitSearchItems = [];
+  filteredBenefits: any[];
+
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
@@ -315,6 +318,37 @@ clearSelection(dropdown) {
       });
   }
 
+  getPlanBenefitItems()
+  {    
+    this.filteredBenefits = [];
+    this.advanceBenefitSearchItems = [];
+    this.plansBenefits.forEach(element => {
+      if(element.year != this.currentBenifitYear)
+      {       
+        this.advanceBenefitSearchItems.push({benefits:element.benefits​}​​​​​​); 
+      }
+    });  
+  }
+
+  filterBenefits(event) {   
+    this.filteredBenefits = []; 
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.advanceBenefitSearchItems.length; i++) {
+      let tempbenefit = this.advanceBenefitSearchItems[i];
+
+      if (tempbenefit.benefits.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(tempbenefit);
+      }
+    }
+    this.filteredBenefits = filtered;
+  }
+
+  // onClearFilterBenefit()
+  // {
+  //   this.filteredBenefits = [];
+  // }
+
   appfloatingscrollerStatus(statusType, isReInitialize) {
     if (this.selectedBidIds.length > 5) {
       if (statusType) {
@@ -361,6 +395,7 @@ clearSelection(dropdown) {
       this.plansBenifitsList.push({ field: items, header: items });
     });
     this.cols = this.plansBenifitsList;
+    this.getPlanBenefitItems();
     this.updateRowGroupMetaData();
     this.spinner.hide();
   }

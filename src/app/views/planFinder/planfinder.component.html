@@ -484,6 +484,13 @@
                         <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
                             labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                         </ui-switch>
+
+                        <p-autoComplete placeholder="Search benefit" type="search"
+                            field="benefits" 
+                            [suggestions]="filteredBenefits" [minLength]="1"
+                            (completeMethod)="filterBenefits($event)"
+                            emptyMessage="No benefit(s) found">
+                        </p-autoComplete>
                     </div>
                     <div  class="ml-auto d-flex align-items-center ml-3" >
                         <button type="button" class="btn btn-sm px-4 mr-3"

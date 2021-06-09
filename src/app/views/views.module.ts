@@ -17,6 +17,8 @@ import { TestComponent } from './Test/test.component';
 import { TableComponent } from './tableRowSpan/table.component';
 import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'ngx-toggle-switch';
 import {DropdownModule} from 'primeng/dropdown';
+import { AutoCompleteModule} from 'primeng/autocomplete';
+
 @NgModule({
     declarations: [
         PlanfinderComponent,
@@ -36,7 +38,8 @@ import {DropdownModule} from 'primeng/dropdown';
         ToastModule,
         NgxSpinnerModule,
         UiSwitchModule,
-        DropdownModule
+        DropdownModule,
+        AutoCompleteModule
     ],
     exports: [],
     providers: []
