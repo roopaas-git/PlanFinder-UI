@@ -91,7 +91,10 @@
 {
      color: #9776a2;
 }
- 
+.margin-second-pane
+{
+    margin-left: 14px;
+} 
  /*for colour of All,Top5,etc before Selecting */
 div span a
 {
@@ -113,13 +116,17 @@ a:not([href])
     color:#fff !important;
     border-color:  #f8c4c1 !important;
     background-color: #f8c4c1 !important;
+    position: absolute;
+    margin-top: 7px !important;
+   
 }
 .btn-outline-primary-new:hover
 {
     color:#fff !important;
     border-color:  #e9b0ad !important;
     background-color: #e9b0ad !important;
-    padding: 6px 6px 6px 6px !important;   
+    padding: 6px 6px 6px 6px !important;  
+    z-index: 1; 
 }
 /* focus of  drop down (premium,tv,etc) */
 .btn-sortby:focus
@@ -228,8 +235,9 @@ color: #ed6f66 !important;
     background: #ffffff;
     border: 1px solid #d4d4d4;
     transition: border-color 0.2s, box-shadow 0.2s;
-    min-width: 4em;
+    min-width: 5em;
     min-height: 1em !important;
+
 }
 /*for unsetting on click background colour for sort by dropdown*/
 :host(::ng-deep .different  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight, body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight) {
@@ -310,3 +318,21 @@ color: #ed6f66 !important;
     color: #ffffff !important;
     background-color: #F8C4C1 !important;
 }
+:host(::ng-deep span .ui-corner-all){
+border-radius: 40px !important;
+min-width:400px;
+}
+:host(::ng-deep span .ui-inputtext:enabled:focus:not(.ui-state-error))
+{
+    /* box-shadow: 0 0 0 0.2em #bda7c4; */
+    /* border-color: #bda7c4; */
+    box-shadow:none;
+    border-color:#333333;
+}
+:host(::ng-deep .different .ui-inputtext){
+    font-size: 12.7px !important; 
+    
+}
+/* :host(::ng-deep .setSize .ui-dropdown-panel .ui-dropdown-item) {
+    font-size: 12px !important ;
+} */

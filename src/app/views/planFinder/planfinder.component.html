@@ -136,7 +136,7 @@
                                     </option>
                                 </select> -->
                                
-                                <p-dropdown class="w-auto d-inline-flex ml-2 setSize"   [options]="enrollmentPeriod"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                <p-dropdown class="w-auto d-inline-flex ml-2 setSize"   [options]="(enrollmentPeriod)?.reverse()"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
 
                                 </p-dropdown>
                            
@@ -174,7 +174,7 @@
                                                 {{enrollment.period}}
                                             </option>
                                         </select> -->
-                                        <p-dropdown id="enrRangeMin"    class="w-auto d-inline-flex ml-2 setSize"  [options]="(enrollmentPeriod)?.reverse()"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                        <p-dropdown id="enrRangeMin"    class="w-auto d-inline-flex ml-2 setSize"  [options]="enrollmentPeriod"  optionLabel="period" optionValue="enrollmentPeriod" (onChange)="OnEnrollmentPeriodChange($event.value.period)">
                                         </p-dropdown>
                                     </div> 
                                     <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
@@ -362,6 +362,7 @@
                 </div>
             </div>
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5" style="width: 100%;">
+              <div  class="align-items-start"> 
                 <div class="pc-plans-header pc-plans-sort d-flex  mb-4" style="margin:0 1rem;">
                     <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                         <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
@@ -380,7 +381,7 @@
                             <span>Select All</span>
                         </label>
                     </div>
-                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start">
+                    <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start" style="padding-left: 50px !important;margin-top: 10px !important;">
                         <div class="mr-3">Sort by</div>
                             <p-dropdown [options]="benefits" class="different"  optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                             </p-dropdown>
@@ -479,19 +480,20 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort d-flex  mb-4" style="padding-left: 16px;">
-                    <div *ngIf="showPlanCompare" style="padding-left: 10px; padding-top: 5px !important;" class="align-items-start">
+                <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start margin-second-pane d-flex mb-4" >
+                    <div *ngIf="showPlanCompare"  class="align-items-start">
                         <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
                             labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                         </ui-switch>
-
-                        <p-autoComplete placeholder="Search benefit" type="search"
-                            field="benefits" 
-                            [suggestions]="filteredBenefits" [minLength]="1"
-                            (completeMethod)="filterBenefits($event)"
-                            emptyMessage="No benefit(s) found">
-                        </p-autoComplete>
                     </div>
+                    <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 " placeholder="Search Benefit" type="search"
+                    field="benefits" 
+                    [suggestions]="filteredBenefits" [minLength]="1" 
+                    (completeMethod)="filterBenefits($event)"
+                    emptyMessage="No benefit(s) found" >
+                    <ng-template let-brandpTemplate="item">
+                    </ng-template>
+                    </p-autoComplete>
                     <div  class="ml-auto d-flex align-items-center ml-3" >
                         <button type="button" class="btn btn-sm px-4 mr-3"
                             [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
@@ -501,6 +503,7 @@
                             (click)="getYOY()">YOY</button>
                     </div>
                 </div>
+            </div>
                 <div class="pc-plans-body flex-grow-1" 
                 [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto',
                             'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}"> 
