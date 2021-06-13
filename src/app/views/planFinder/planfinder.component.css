@@ -28,10 +28,8 @@
 
 /* START  */
 /* app.floating-scroller CSS  */
-
 #floating-scrollbar{border-bottom:2px solid #000!important}.webkit-scrollbar+#floating-scrollbar::-webkit-scrollbar,.webkit-scrollbar::-webkit-scrollbar{height:12px}::-webkit-scrollbar-button:end,::-webkit-scrollbar-button:start{display:none}::-webkit-scrollbar-thumb,::-webkit-scrollbar-track-piece{-webkit-border-radius:8px}::-webkit-scrollbar-track-piece{background-color:#444}::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#777}::-webkit-scrollbar-thumb:hover{background-color:#aaa}
 /*.floating-container{overflow-x: scroll;} .floating-container{ overflow: auto;  } */
-
 /* app.floating-scroller CSS  */
 /* END  */
 
