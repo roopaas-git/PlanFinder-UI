@@ -255,15 +255,13 @@ export class PlanfinderComponent implements OnInit {
       this.customSelectedBids.push({bid:this.selectedBidIds[i], bidid:this.selectedBidIds[i]});
     }
   }
+  
 clearSelection(dropdown) {   
   //clears open view dropdown selections
     dropdown.updateSelectedOption(null);
-}
-  
+} 
 
-  toggleComparePlan() {
-    
-    console.log(this.customSelectedBids);
+toggleComparePlan() {
     this.spinner.show();
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = false;
@@ -272,12 +270,11 @@ clearSelection(dropdown) {
     this.isColorCodeSelected = false;
     this.goToTop();
     this.isReInitializescroller = false;
-    if (this.userSelectedScenarioResults == null) {      
-      this.bindAllPlanBenefitGroups();
-    }
+    // if (this.userSelectedScenarioResults == null) {      
+    //   this.bindAllPlanBenefitGroups();
+    // }
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
-
   }
 
   checkTrue(id) {
@@ -344,10 +341,14 @@ clearSelection(dropdown) {
     this.filteredBenefits = filtered;
   }
 
-  // onClearFilterBenefit()
-  // {
-  //   this.filteredBenefits = [];
-  // }
+  onSelectFilterBenefit(event)
+  {    
+    this.spinner.show();
+    console.log(event.benefits);
+    $().rowHighlighter(true, event.benefits);   
+    this.spinner.hide();     
+    $().rowHighlighter(false, event.benefits);
+  }
 
   appfloatingscrollerStatus(statusType, isReInitialize) {
     if (this.selectedBidIds.length > 5) {
@@ -600,6 +601,7 @@ clearSelection(dropdown) {
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
+    this.bindAllPlanBenefitGroups();
   }
 
   getSelectedCrossWalk() {

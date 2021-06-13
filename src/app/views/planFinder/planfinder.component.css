@@ -22,6 +22,7 @@
 }
 
 .gray {
+    color: #fff !important;
     background-color: gray !important;
 }
 
@@ -203,7 +204,7 @@ color: #f28d86 !important;
 color: #ed6f66 !important;
 }
 
-.fontBold
+.benefits-font-bold
 {
     font-weight: bold;
 
@@ -319,7 +320,7 @@ color: #ed6f66 !important;
     background-color: #F8C4C1 !important;
 }
 :host(::ng-deep span .ui-corner-all){
-border-radius: 40px !important;
+/* border-radius: 40px !important; */
 min-width:400px;
 }
 :host(::ng-deep span .ui-inputtext:enabled:focus:not(.ui-state-error))

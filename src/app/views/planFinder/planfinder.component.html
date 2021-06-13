@@ -362,8 +362,8 @@
                 </div>
             </div>
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5" style="width: 100%;">
-              <div  class="align-items-start"> 
-                <div class="pc-plans-header pc-plans-sort d-flex  mb-4" style="margin:0 1rem;">
+                <div [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare}">
+                <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                     <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                         <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
                             (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
@@ -480,33 +480,29 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start margin-second-pane d-flex mb-4" >
+                <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4" >
                     <div *ngIf="showPlanCompare"  class="align-items-start">
                         <ui-switch  [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"  
                             labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                         </ui-switch>
                     </div>
                     <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 " placeholder="Search Benefit" type="search"
-                    field="benefits" 
-                    [suggestions]="filteredBenefits" [minLength]="1" 
-                    (completeMethod)="filterBenefits($event)"
-                    emptyMessage="No benefit(s) found" >
-                    <ng-template let-brandpTemplate="item">
-                    </ng-template>
+                    field="benefits" [suggestions]="filteredBenefits" [minLength]="1" 
+                    (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
+                    emptyMessage="No benefit(s) found" >                    
                     </p-autoComplete>
                     <div  class="ml-auto d-flex align-items-center ml-3" >
                         <button type="button" class="btn btn-sm px-4 mr-3"
                             [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
                             data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()" >Color Code</button>
-                        <button type="button" class="btn btn-sm px-4 mr-3"
+                        <button type="button" class="btn btn-sm px-4"
                             [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"                                
                             (click)="getYOY()">YOY</button>
                     </div>
                 </div>
             </div>
                 <div class="pc-plans-body flex-grow-1" 
-                [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto',
-                            'overflow-x':selectedBidIds.length>5? 'scroll' : 'auto'}"> 
+                [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto'}"> 
                     <div *ngIf="!showPlanCompare">
                         <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
@@ -909,9 +905,9 @@
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
-                                                <th *ngIf=" i === 0 " [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
+                                                <th class="dont-break-out" *ngIf=" i === 0 " [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
                                                 </th> 
-                                                <th *ngIf=" i != 2 && i !=0 "  [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
+                                                <th class="dont-break-out" *ngIf=" i != 2 && i !=0 "  [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
                                                     {{col.header}}
                                                 </th>     
                                             </ng-container>
@@ -920,6 +916,7 @@
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
                                         <tr class="dont-break-out" *ngIf="rowData.year != previousBenifitYear ? true : false"
+                                            [attr.aria-custom-tr] = rowData.benefits
                                             [ngClass]="{'previousYear' : rowData.year == previousBenifitYears}"
                                             [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears" >
                                             <ng-container *ngFor="let col of columns,let i = index"  >
@@ -930,7 +927,7 @@
                                                 </td>
                                                 <td *ngIf=" i > 0 && i != 2 "
                                                     [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
-                                                    [ngClass]="{'fontBold' : i === 1}" 
+                                                    [ngClass]="{'benefits-font-bold' : i === 1}" 
                                                     class="dont-break-out "
                                                     (click)="handleClick(col.field)"> {{rowData[col.field]}}
                                                 </td>
