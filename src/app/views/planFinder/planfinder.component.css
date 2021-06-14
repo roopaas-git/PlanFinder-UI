@@ -438,3 +438,12 @@ min-width:400px;
     border-radius: 2px;
     border:none;
 }
+/* :host(::ng-deep .pc-plan-compare-table .ui-table-tbody > tr:nth-child(even)) {
+    
+    font-size: 40px;
+} */
+:host(::ng-deep .pc-plan-compare-table .ui-table-tbody)
+{
+    font-size: 11px;
+}
+

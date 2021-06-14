@@ -378,7 +378,7 @@
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                             [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                         <label class="form-check-label" for="SelectAll">
-                            <span>Select All</span><span style="padding-left: 40px;">{{plans.length}} Plans</span>
+                            <span>Select All</span><span style="padding-left: 40px;">{{plans?.length}} Plans</span>
                         </label>
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start" style="padding-left: 50px !important;margin-top: 10px !important;">

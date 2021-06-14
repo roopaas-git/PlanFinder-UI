@@ -210,6 +210,7 @@ export class PlanfinderComponent implements OnInit {
   advanceBenefitSearchItems = [];
   filteredBenefits: any[];
   floatCheck:boolean =false;
+  
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
