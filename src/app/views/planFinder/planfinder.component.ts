@@ -220,9 +220,10 @@ export class PlanfinderComponent implements OnInit {
 
   checkScroll() {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
+    var scrollPositionAfter;
     if (scrollPosition >= this.topPosToStartShowing) {
       this.showScrollTopBtn = true;
+      
     } else {
       this.showScrollTopBtn = false;
       this.floatCheck=false;
@@ -231,14 +232,20 @@ export class PlanfinderComponent implements OnInit {
     if(this.floatCheck==true)
     {
       this.showDiscoverMoreBtn=false;
+      scrollPositionAfter = window.pageYOffset;
+      if(scrollPosition>=scrollPositionAfter)
+      {
+        this.floatCheck=false;
+      }
     }
     else{
          if(scrollPosition>=this.topPosForDivScroll)
          {
-           this.showDiscoverMoreBtn=true;
+           this.showDiscoverMoreBtn=true;    
          }
          else{
            this.showDiscoverMoreBtn=false;
+           
          }
     }
   }
