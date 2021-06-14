@@ -3,12 +3,37 @@
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
             <div class="pc-header-filter pc-filter d-flex flex-column px-3 pt-3 mb-3">
-                <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap d-flex align-items-center">
-                    <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3">
+                <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap bg-white shadow-sm pb-3 align-items-center">
+                    <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3 d-flex custom-filter-section-left">
                         Plans
                     </div>
-                    <div class="center pc-filter-group d-flex flex-wrap ml-2">
+                    <div class="center pc-filter-group custom-filter-section-right">
+                    <div class="center pc-filter-group  flex-wrap ml-2 ">                        
+                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            State
+                        </div>
+                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            Region
+                        </div>
+                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            County
+                        </div>
+                        <div class=" d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            Plan Type
+                        </div>
+                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            SNP Plans
+                        </div>
+                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                            Crosswalk
+                        </div>
+                        <div class="d-inline-flex mr-2 my-2">
+                            <span></span>
+                        </div>
+                    </div>                  
+                    <div class="center pc-filter-group  flex-wrap ml-2">                        
                         <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                             
                             <ng-multiselect-dropdown [placeholder]="'Select State'" [settings]="stateDropdownSettings"
                                 [data]="states" [(ngModel)]="selectedStateItems" class="pc-filter-multiselect"
                                 (onSelect)="onStateItemSelect()" (onDeSelect)="onStateDeSelect()" id="pcFilterState">
@@ -55,11 +80,12 @@
                                 (onDeSelectAll)="onCrossWalkDeSelectAll($event)" (onDeSelect)="onCrossWalkDeSelect()">
                             </ng-multiselect-dropdown>
                         </div>
-                        <div class="d-inline-flex mr-2 my-2">
+                        <div class="d-inline-flex ml-2 mr-2 my-2">
                             <button class="btn btn-sm pc-filter-apply-btn px-4 btn-hw-before" (click)="getAllPlans()">
                                 Find Plans
                             </button>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

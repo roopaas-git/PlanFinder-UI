@@ -75,8 +75,7 @@
   }
   .pc-compare-plans-header-wrapper
   {
-      z-index: 999;
-      margin: 0 1rem;
+      z-index: 999;      
       width: 94vw;
       position: -webkit-sticky;
       position: sticky;
@@ -144,6 +143,9 @@
      /* background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important; */
      border:  #BDA7C4 !important;
      font-family: "Open Sans";
+     overflow: hidden;
+     white-space: nowrap;
+     text-overflow: ellipsis;
 } 
 .back-to-top-btn
 {
@@ -402,8 +404,16 @@ min-width:400px;
   right: 690px;
   z-index: 100;
 }
+
+.floatinDiv>div
+{
+    margin: 0 0 0 2rem;
+    padding: 0 2rem 0 0;
+}
+
 .floatinDiv
 {
+    width: 100%;
     opacity: 0;
     animation-name: moveDiv ;
     animation-duration: 2s; 
@@ -446,4 +456,3 @@ min-width:400px;
 {
     font-size: 11px;
 }
-
