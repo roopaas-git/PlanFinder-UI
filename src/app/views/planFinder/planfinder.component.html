@@ -5,7 +5,7 @@
             <div class="pc-header-filter pc-filter d-flex flex-column px-3 pt-3 mb-3">
                 <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap d-flex align-items-center">
                     <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3">
-                        Dropdown Filters
+                        Plans
                     </div>
                     <div class="center pc-filter-group d-flex flex-wrap ml-2">
                         <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="d-inline-flex mr-2 my-2">
                             <button class="btn btn-sm pc-filter-apply-btn px-4 btn-hw-before" (click)="getAllPlans()">
-                                Apply
+                                Find Plans
                             </button>
                         </div>
                     </div>
@@ -362,7 +362,7 @@
                 </div>
             </div>
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5" style="width: 100%;">
-                <div [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare}">
+                <div id="divFloat" [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true}">
                 <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                     <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                         <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
@@ -378,7 +378,7 @@
                         <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                             [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                         <label class="form-check-label" for="SelectAll">
-                            <span>Select All</span>
+                            <span>Select All</span><span style="padding-left: 40px;">{{plans.length}} Plans</span>
                         </label>
                     </div>
                     <div *ngIf="showPlanCompare" class="filter-wrapper d-flex align-items-center mr-1 align-items-start" style="padding-left: 50px !important;margin-top: 10px !important;">
@@ -955,6 +955,9 @@
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-10.646.354a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11a.5.5 0 0 1-1 0V6.207L5.354 8.354z" />
             </svg>
         </button>
+        <button *ngIf="showPlanCompare && showDiscoverMoreBtn" class="btn-custom-discoverMore discoverMore" (click)="showTopDiv()">
+            Discover more &nbsp;  <i class="fas fa-caret-down" style="font-size:22px !important"></i>
+       </button>
     </div>
     <div class="modal fade" id="saveViewModal" tabindex="-1" role="dialog" aria-labelledby="saveViewModalTitle"
         aria-hidden="true">
