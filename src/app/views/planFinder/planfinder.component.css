@@ -341,24 +341,24 @@ color: #ed6f66 !important;
 }
   @keyframes stays
   {
-      0% { background-color: #f4a39d ;}
-      25% { background-color: #f4a39d ;}
-      75% { background-color: #f4a39d ;}
-      100% { background-color: #f4a39d ;}
+      0% { background-color: #f4a39d ; color: #ffffff;}
+      25% { background-color: #f4a39d ; color: #ffffff;}
+      75% { background-color: #f4a39d ; color: #ffffff;}
+      100% { background-color: #f4a39d ; color: #ffffff;}
   }
   @keyframes stays1
   {
-      0% { background-color: #e3cceb ;}
-      25% { background-color: #e3cceb ;}
-      75% { background-color: #e3cceb ;}
-      100% { background-color: #e3cceb ;}
+      0% { background-color: #e3cceb ; color: #ffffff;}
+      25% { background-color: #e3cceb ; color: #ffffff;}
+      75% { background-color: #e3cceb ; color: #ffffff;}
+      100% { background-color: #e3cceb ; color: #ffffff;}
   }
   @keyframes stays2
   {
-      0% { background-color: #F8C4C1 ;}
-      25% { background-color: #F8C4C1 ;}
-      75% { background-color: #F8C4C1 ;}
-      100% { background-color: #F8C4C1 ;}
+      0% { background-color: #F8C4C1 ; color: #ffffff;}
+      25% { background-color: #F8C4C1 ; color: #ffffff;}
+      75% { background-color: #F8C4C1 ; color: #ffffff;}
+      100% { background-color: #F8C4C1 ; color: #ffffff;}
   }
   
   :host(::ng-deep .form-control:focus )
@@ -455,4 +455,12 @@ min-width:400px;
 :host(::ng-deep .pc-plan-compare-table .ui-table-tbody)
 {
     font-size: 11px;
+}
+:host(::ng-deep .ui-dropdown-panel .ui-dropdown-item) {
+    font-weight: normal;
+    border: 0 none;
+    cursor: pointer;
+    margin: 1px 0;
+    padding: 0.5em .23em 0.5em .4em !important;
+    text-align: left;
 }
