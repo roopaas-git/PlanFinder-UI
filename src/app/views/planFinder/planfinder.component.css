@@ -33,6 +33,64 @@
 /* app.floating-scroller CSS  */
 /* END  */
 
+/* Frezze Table Header & Highlight Row  */
+
+:host(::ng-deep .box ){
+  /* #f6e2e1 */
+  background-color: #F8C6C1 !important;
+  -webkit-transition: background 5.0s linear !important;
+  -moz-transition: background 5.0s linear !important;
+  -ms-transition: background 5.0s linear !important;
+  -o-transition: background 5.0s linear !important;
+  transition: background 5.0s linear !important;
+  }
+  .box >td{
+  border-top: 2px solid #e88881 !important;
+  border-bottom: 2px solid #e88881 !important;
+  }  
+  .box .sortOrderTd {
+      background-color: #FFF !important;
+      border: 1px solid #c8c8c8 !important;       
+  }
+  .box .benefits-font-bold
+  { 
+      border-left: 2px solid #e88881 !important;        
+  }    
+  .box td:nth-last-child(1)
+  { 
+      border-right: 2px solid #e88881 !important;        
+  }
+  :host(::ng-deep   .ui-table table) {        
+      width: 99.9% !important; 
+  }
+
+  .pc {
+      position: absolute !important;
+  }
+  
+  .pc-plans-list-header-wrapper
+  {        
+      margin: 0 1rem;
+      position: initial;
+  }
+  .pc-compare-plans-header-wrapper
+  {
+      z-index: 999;      
+      width: 94vw;
+      position: -webkit-sticky;
+      position: sticky;
+      left: 2.4vw;
+  }
+
+  :host ::ng-deep .pc-plan-compare-table .ui-table-thead > tr {
+      position: -webkit-sticky;
+      position: sticky;          
+      top: 3.85vw;              
+      -webkit-box-shadow: 1px 1px 5px #9776a2;
+      -moz-box-shadow: 1px 1px 5px #9776a2;
+      box-shadow: 1px 1px 5px #9776a2;
+    }  
+
 /* UI CHANGES */
 ::placeholder
 {
@@ -85,6 +143,9 @@
      /* background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important; */
      border:  #BDA7C4 !important;
      font-family: "Open Sans";
+     overflow: hidden;
+     white-space: nowrap;
+     text-overflow: ellipsis;
 } 
 .back-to-top-btn
 {
@@ -280,24 +341,24 @@ color: #ed6f66 !important;
 }
   @keyframes stays
   {
-      0% { background-color: #f4a39d ;}
-      25% { background-color: #f4a39d ;}
-      75% { background-color: #f4a39d ;}
-      100% { background-color: #f4a39d ;}
+      0% { background-color: #f4a39d ; color: #ffffff;}
+      25% { background-color: #f4a39d ; color: #ffffff;}
+      75% { background-color: #f4a39d ; color: #ffffff;}
+      100% { background-color: #f4a39d ; color: #ffffff;}
   }
   @keyframes stays1
   {
-      0% { background-color: #e3cceb ;}
-      25% { background-color: #e3cceb ;}
-      75% { background-color: #e3cceb ;}
-      100% { background-color: #e3cceb ;}
+      0% { background-color: #e3cceb ; color: #ffffff;}
+      25% { background-color: #e3cceb ; color: #ffffff;}
+      75% { background-color: #e3cceb ; color: #ffffff;}
+      100% { background-color: #e3cceb ; color: #ffffff;}
   }
   @keyframes stays2
   {
-      0% { background-color: #F8C4C1 ;}
-      25% { background-color: #F8C4C1 ;}
-      75% { background-color: #F8C4C1 ;}
-      100% { background-color: #F8C4C1 ;}
+      0% { background-color: #F8C4C1 ; color: #ffffff;}
+      25% { background-color: #F8C4C1 ; color: #ffffff;}
+      75% { background-color: #F8C4C1 ; color: #ffffff;}
+      100% { background-color: #F8C4C1 ; color: #ffffff;}
   }
   
   :host(::ng-deep .form-control:focus )
@@ -335,3 +396,71 @@ min-width:400px;
 /* :host(::ng-deep .setSize .ui-dropdown-panel .ui-dropdown-item) {
     font-size: 12px !important ;
 } */
+.discoverMore
+{
+  position: fixed;
+  /* bottom: 650px; */
+  top:50px;
+  right: 690px;
+  z-index: 100;
+}
+
+.floatinDiv>div
+{
+    margin: 0 0 0 2rem;
+    padding: 0 2rem 0 0;
+}
+
+.floatinDiv
+{
+    width: 100%;
+    opacity: 0;
+    animation-name: moveDiv ;
+    animation-duration: 2s; 
+    animation-fill-mode: forwards; 
+    animation-delay: 0.2s;
+    position: fixed;
+    z-index: 100;
+    top:52px; 
+    min-width: 97%;
+    left: 3px;
+    /* width: 100%; */
+    background-color: #fff; 
+}
+@keyframes moveDiv
+{
+0%{
+    opacity:1;
+    top:20px;
+}
+100%
+{
+    top:52px;
+    opacity:1;
+}
+}
+.btn-custom-discoverMore
+{
+    background-color: #ffffff;
+    color: #f4a39d ;
+    width: 200px !important;
+    min-height:8px;
+    border-radius: 2px;
+    border:none;
+}
+/* :host(::ng-deep .pc-plan-compare-table .ui-table-tbody > tr:nth-child(even)) {
+    
+    font-size: 40px;
+} */
+:host(::ng-deep .pc-plan-compare-table .ui-table-tbody)
+{
+    font-size: 11px;
+}
+:host(::ng-deep .ui-dropdown-panel .ui-dropdown-item) {
+    font-weight: normal;
+    border: 0 none;
+    cursor: pointer;
+    margin: 1px 0;
+    padding: 0.5em .23em 0.5em .4em !important;
+    text-align: left;
+}

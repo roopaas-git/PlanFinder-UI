@@ -117,7 +117,9 @@ export class PlanfinderComponent implements OnInit {
   isTop15Clicked: boolean = false;
   showPlanCompare: boolean = false;
   showScrollTopBtn: boolean;
+  showDiscoverMoreBtn:boolean;
   topPosToStartShowing = 100;
+  topPosForDivScroll = 170;
   showSiderbarFilterBtn: Boolean = true;
   rowGroupMetadata: any;
 
@@ -225,8 +227,13 @@ export class PlanfinderComponent implements OnInit {
   isIncrementalLoad: boolean = false;
   advanceBenefitSearchItems = [];
   filteredBenefits: any[];
+<<<<<<< HEAD
   showModalBox: boolean = false;
 
+=======
+  floatCheck:boolean =false;
+  
+>>>>>>> 659f114c1b87a3cfdfd0705674b2af8cad0c44ab
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
   @ViewChild('openModal') closeOpenModal: ElementRef;
@@ -236,13 +243,40 @@ export class PlanfinderComponent implements OnInit {
 
   checkScroll() {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
+    var scrollPositionAfter;
     if (scrollPosition >= this.topPosToStartShowing) {
       this.showScrollTopBtn = true;
+      
     } else {
       this.showScrollTopBtn = false;
+      this.floatCheck=false;
+    }
+
+    if(this.floatCheck==true)
+    {
+      this.showDiscoverMoreBtn=false;
+      scrollPositionAfter = window.pageYOffset;
+      if(scrollPosition>=scrollPositionAfter)
+      {
+        this.floatCheck=false;
+      }
+    }
+    else{
+         if(scrollPosition>=this.topPosForDivScroll)
+         {
+           this.showDiscoverMoreBtn=true;    
+         }
+         else{
+           this.showDiscoverMoreBtn=false;
+           
+         }
     }
   }
+  showTopDiv()
+   {
+     this.floatCheck=true;
+     this.showDiscoverMoreBtn=false;
+   }
 
   constructor(private _userService: UserService, private _stateService: StateService, private _salesRegionService: SalesRegionService,
     private _countyService: CountyService, private _plantypeService: PlantypeService,
@@ -303,6 +337,7 @@ export class PlanfinderComponent implements OnInit {
     // }
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
+    this.goToTop();
   }
 
   checkTrue(id) {
@@ -411,6 +446,8 @@ export class PlanfinderComponent implements OnInit {
       this.plansBenefits = this.masterPlansBenefits;
     }
     this.getColumns(this.plansBenefits);
+    this.goToTop();
+    this.floatCheck=false;
   }
 
   getColumns(planBenefits: any) {
@@ -436,6 +473,7 @@ export class PlanfinderComponent implements OnInit {
     this.finalValuesFromPython = null;
     this.isDownload = true;
     this.goToTop();
+    this.floatCheck=false;
   }
 
   goToTop() {
@@ -1346,6 +1384,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.hide();
   }
 
+<<<<<<< HEAD
   onToggleChange(status: any) {
     this.spinner.show();
     this.isCostShareOnly = status;
@@ -1355,6 +1394,20 @@ export class PlanfinderComponent implements OnInit {
       this.isColorCodeSelected = false;
       this.valuesFromPython = [];
     }
+=======
+  onToggleChange(status: any)
+  {
+      this.spinner.show();
+      this.isCostShareOnly = status;
+      this.bindAllPlanBenefitGroups();
+      this.bindPlanBenfefitDetails();  
+      if (this.isColorCodeSelected == true) {
+          this.isColorCodeSelected = false;
+          this.valuesFromPython = [];
+      }
+      this.floatCheck=false;
+      this.goToTop();
+>>>>>>> 659f114c1b87a3cfdfd0705674b2af8cad0c44ab
   }
 
   OnBenefitSelect(item: string) {
@@ -1790,6 +1843,8 @@ export class PlanfinderComponent implements OnInit {
     this.basePlan = selectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
+    this.floatCheck=false;
+    this.goToTop();
   }
 
   getCompareBasePlanS(basePlan: string, comparePlans: string) {
@@ -1876,6 +1931,8 @@ export class PlanfinderComponent implements OnInit {
     this.isYOYSelected = !this.isYOYSelected;
     this.previousBenifitYear = this.previousBenifitYear > this.currentBenifitYear ? this.previousBenifitYear - 2 : this.previousBenifitYear + 2;
     this.updateRowGroupMetaData();
+    this.floatCheck=false;
+    this.goToTop();
   }
 
   saveUserInputs(event) {
@@ -1946,6 +2003,8 @@ export class PlanfinderComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: res.error });
       }
     })
+    this.floatCheck=false;
+    this.goToTop();
   }
 
   updateRowGroupMetaData() {
@@ -1999,7 +2058,8 @@ export class PlanfinderComponent implements OnInit {
   }
 
   exportExcel() {
-
+    this.floatCheck=false;
+    this.goToTop();
     if (this.plansBenefits != null) {
       let plansBenefitCopy = this.isYOYSelected == true ? this.plansBenefits : this.plansBenefits.filter(x => x.year == this.currentBenifitYear);
 
@@ -2172,6 +2232,11 @@ export class PlanfinderComponent implements OnInit {
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
       }
     });
+<<<<<<< HEAD
+=======
+    this.floatCheck=false;
+    this.goToTop();    
+>>>>>>> 659f114c1b87a3cfdfd0705674b2af8cad0c44ab
   }
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
