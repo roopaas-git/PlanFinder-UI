@@ -8,7 +8,7 @@ import { IPlantype } from 'src/app/model/plantype.model';
 import { ISnptype } from 'src/app/model/snptype.model';
 import { SnptypeService } from 'src/app/services/snptype.service';
 import { IDropdownSettings, MultiSelectComponent } from 'ng-multiselect-dropdown';
-import { IPlans, IPlansList} from 'src/app/model/plans.model';
+import { IPlans, IPlansList } from 'src/app/model/plans.model';
 import { PlansService } from 'src/app/services/plans.service';
 import { ISalesRegion } from 'src/app/model/salesRegion.model';
 import { ActivatedRoute } from '@angular/router';
@@ -35,7 +35,7 @@ import { IPeriod } from 'src/app/model/period.model';
 import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 import { UiSwitchModule } from 'ngx-toggle-switch';
-import {DropdownModule} from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 declare var $: any;
 
 declare global {
@@ -71,7 +71,7 @@ export class PlanfinderComponent implements OnInit {
   scenarios: IScenario[];
   plansBenifitsList: IPlansList[] = [];
   cols: any[];
-  customSelectedBids= [];
+  customSelectedBids = [];
 
   selectedStateItems = [];
   selectedSalesRegionItems = [];
@@ -155,11 +155,29 @@ export class PlanfinderComponent implements OnInit {
   moopMinDefaultValue: number = 0;
   moopMaxDefaultValue: number = 0;
 
+  HDMinValue: number = 0;
+  HDMaxValue: number = 0;
+  HDRangeValues: number[];
+  selectedHDMinValue: number = 0;
+  selectedHDMaxValue: number = 0;
+  selectedHDMaxInputValue: number = 0;
+  HDMinDefaultValue: number = 0;
+  HDMaxDefaultValue: number = 0;
+
+  DDMinValue: number = 0;
+  DDMaxValue: number = 0;
+  DDRangeValues: number[];
+  selectedDDMinValue: number = 0;
+  selectedDDMaxValue: number = 0;
+  selectedDDMaxInputValue: number = 0;
+  DDMinDefaultValue: number = 0;
+  DDMaxDefaultValue: number = 0;
+
   isPremiumChecked: boolean = false;
   isPartBChecked: boolean = false;
   isPlanCoverageChecked: boolean = false;
-  isHealthDeductibleChecked: boolean = false;
-  isDrugDedictibleChecked: boolean = false;
+  // isHealthDeductibleChecked: boolean = false;
+  // isDrugDedictibleChecked: boolean = false;
   isAmbulanceChecked: boolean = false;
   isComphrehensiveDentalChecked: boolean = false;
   isChiropractorChecked: boolean = false;
@@ -203,10 +221,11 @@ export class PlanfinderComponent implements OnInit {
   isFilterBenefitGroupsEnabled: boolean = false;
   masterPlansBenefits: any[];
   isCostShareOnly: boolean = true;
-  isReInitializescroller : boolean = false;
-  isIncrementalLoad : boolean = false;
+  isReInitializescroller: boolean = false;
+  isIncrementalLoad: boolean = false;
   advanceBenefitSearchItems = [];
   filteredBenefits: any[];
+  showModalBox: boolean = false;
 
   @ViewChild('saveModal') closeModal: ElementRef;
   @ViewChild('saveAsModal') closeSaveAsModal: ElementRef;
@@ -243,25 +262,34 @@ export class PlanfinderComponent implements OnInit {
     this.dropdownsettings();
     this.bindRangeDefaultValues();
     this.bindBenifits();
-   // this.bindAllPlanBenefitGroups();
+    // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();  
-     
+    this.bindMaxperiodYOY();
+
   }
-  pushIntoCustomBids()
-  {this.customSelectedBids = [];
+  pushIntoCustomBids() {
+    this.customSelectedBids = [];
     for (var i = 0; i < this.selectedBidIds.length; i++) {
-      this.customSelectedBids.push({bid:this.selectedBidIds[i], bidid:this.selectedBidIds[i]});
+      this.customSelectedBids.push({ bid: this.selectedBidIds[i], bidid: this.selectedBidIds[i] });
+    }
+    if (this.isColorCodeSelected) {
+      // Dont open the modal
+      this.showModalBox = false;
+      this.rebindPlanBenfefitDetails();
+      this.messageService.add({ severity: 'success', summary: 'Color Code removed' });
+    } else {
+      // Open the modal
+      this.showModalBox = true;
     }
   }
-  
-clearSelection(dropdown) {   
-  //clears open view dropdown selections
-    dropdown.updateSelectedOption(null);
-} 
 
-toggleComparePlan() {
+  clearSelection(dropdown) {
+    //clears open view dropdown selections
+    dropdown.updateSelectedOption(null);
+  }
+
+  toggleComparePlan() {
     this.spinner.show();
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = false;
@@ -280,14 +308,14 @@ toggleComparePlan() {
   checkTrue(id) {
 
     return this.selectedBidIds.includes(id) ? true : false;
-    
+
   }
 
-  bindPlanBenfefitDetails() {    
-    let bidId: IComparePlans = { 
+  bindPlanBenfefitDetails() {
+    let bidId: IComparePlans = {
       bidId: this.selectedBidIds.toString()
     }
-   
+
     this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
@@ -307,7 +335,7 @@ toggleComparePlan() {
             this.plansBenefits = this.masterPlansBenefits;
           }
           this.appfloatingscrollerStatus(true, this.isReInitializescroller);
-          this.getColumns(this.plansBenefits);          
+          this.getColumns(this.plansBenefits);
         }
       }, err => {
         console.log('HTTP Error', err);
@@ -315,20 +343,18 @@ toggleComparePlan() {
       });
   }
 
-  getPlanBenefitItems()
-  {    
+  getPlanBenefitItems() {
     this.filteredBenefits = [];
     this.advanceBenefitSearchItems = [];
     this.plansBenefits.forEach(element => {
-      if(element.year != this.currentBenifitYear)
-      {       
-        this.advanceBenefitSearchItems.push({benefits:element.benefits​}​​​​​​); 
+      if (element.year != this.currentBenifitYear) {
+        this.advanceBenefitSearchItems.push({ benefits: element.benefits });
       }
-    });  
+    });
   }
 
-  filterBenefits(event) {   
-    this.filteredBenefits = []; 
+  filterBenefits(event) {
+    this.filteredBenefits = [];
     let filtered: any[] = [];
     let query = event.query;
     for (let i = 0; i < this.advanceBenefitSearchItems.length; i++) {
@@ -341,28 +367,27 @@ toggleComparePlan() {
     this.filteredBenefits = filtered;
   }
 
-  onSelectFilterBenefit(event)
-  {    
+  onSelectFilterBenefit(event) {
     this.spinner.show();
     console.log(event.benefits);
-    $().rowHighlighter(true, event.benefits);   
-    this.spinner.hide();     
+    $().rowHighlighter(true, event.benefits);
+    this.spinner.hide();
     $().rowHighlighter(false, event.benefits);
   }
 
   appfloatingscrollerStatus(statusType, isReInitialize) {
     if (this.selectedBidIds.length > 5) {
       if (statusType) {
-        if (!isReInitialize) {  
-          $('.pc-plans-body').floatingScrollbar('initialize');     
-        }else{
-          $('.pc-plans-body').floatingScrollbar('reinitialize'); 
-        }        
+        if (!isReInitialize) {
+          $('.pc-plans-body').floatingScrollbar('initialize');
+        } else {
+          $('.pc-plans-body').floatingScrollbar('reinitialize');
+        }
       }
       else {
         $('#floating-scrollbar').css("display", "none");
       }
-    }else {
+    } else {
       $('#floating-scrollbar').css("display", "none");
     }
   }
@@ -403,7 +428,7 @@ toggleComparePlan() {
 
   toggleComparePlanBack() {
     this.isReInitializescroller = false;
-    this.appfloatingscrollerStatus(false, this.isReInitializescroller);    
+    this.appfloatingscrollerStatus(false, this.isReInitializescroller);
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
     this.plansBenefits = [];
@@ -433,7 +458,7 @@ toggleComparePlan() {
     })
   }
 
-  bindScenarioNames() {    
+  bindScenarioNames() {
     this._scenarioService.getScenarios(this.userId).subscribe((result: IScenario[]) => {
       if (result.length > 0) {
         this.scenarios = result;
@@ -581,17 +606,17 @@ toggleComparePlan() {
       if (result != null) {
         this.selectedSnptype = snptype
         this.crosswalk = result
-        this.selectedCrosswalkItems = result; 
-          if(!this.isIncrementalLoad){
+        this.selectedCrosswalkItems = result;
+        if (!this.isIncrementalLoad) {
           this.getAllPlans();
           this.isIncrementalLoad = true;
-          }
-          else{
-            this.spinner.hide();
-          }
         }
-      });
-    }
+        else {
+          this.spinner.hide();
+        }
+      }
+    });
+  }
 
   getAllPlans() {
     this.spinner.show();
@@ -648,6 +673,12 @@ toggleComparePlan() {
       this.moopMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.moop }));
       this.moopMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.moop }));
 
+      this.HDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+      this.HDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+
+      this.DDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
+      this.DDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
+
       this.bindRangeDefaultValues();
     }
   }
@@ -663,6 +694,12 @@ toggleComparePlan() {
 
       this.moopMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.moop }));
       this.moopMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.moop }));
+
+      this.HDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+      this.HDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+
+      this.DDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
+      this.DDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
 
       this.bindRangeDefaultValues();
     }
@@ -683,7 +720,6 @@ toggleComparePlan() {
     this.selectedEnrollmentMinValue = this.enrollmentMinValue;
     this.selectedEnrollmentMaxValue = this.enrollmentMaxValue;
 
-
     this.enrollmentChangeMinDefaultValue = this.enrollmentChangeMinValue;
     this.enrollmentChangeMaxDefaultValue = this.enrollmentChangeMaxValue;
 
@@ -697,6 +733,20 @@ toggleComparePlan() {
     this.moopRangeValues = [this.moopMinValue, this.moopMaxValue];
     this.selectedMoopMinValue = this.moopMinValue;
     this.selectedMoopMaxValue = this.moopMaxValue;
+
+    this.HDMinDefaultValue = this.HDMinValue;
+    this.HDMaxDefaultValue = this.HDMaxValue;
+
+    this.HDRangeValues = [this.HDMinValue, this.HDMaxValue];
+    this.selectedHDMinValue = this.HDMinValue;
+    this.selectedHDMaxValue = this.HDMaxValue;
+
+    this.DDMinDefaultValue = this.DDMinValue;
+    this.DDMaxDefaultValue = this.DDMaxValue;
+
+    this.DDRangeValues = [this.DDMinValue, this.DDMaxValue];
+    this.selectedDDMinValue = this.DDMinValue;
+    this.selectedDDMaxValue = this.DDMaxValue;
     this.spinner.hide();
   }
 
@@ -708,6 +758,14 @@ toggleComparePlan() {
     this.moopRangeValues = [this.moopMinValue, this.selectedMoopMaxValue];
     this.selectedMoopMinValue = this.moopMinValue;
     this.selectedMoopMaxValue = this.selectedMoopMaxValue;
+
+    this.HDRangeValues = [this.HDMinValue, this.selectedHDMaxValue];
+    this.selectedHDMinValue = this.HDMinValue;
+    this.selectedHDMaxValue = this.selectedHDMaxValue;
+
+    this.DDRangeValues = [this.DDMinValue, this.selectedDDMaxValue];
+    this.selectedDDMinValue = this.DDMinValue;
+    this.selectedDDMaxValue = this.selectedDDMaxValue;
   }
   checkSelectTrue(val) {
     this.isSelectAllChecked = val ? true : false;
@@ -720,14 +778,14 @@ toggleComparePlan() {
         this.selectedBidIds.push(this.plans[i].bidId);
       }
     }
-    
+
     this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
   }
 
   getCheckedBidId(plan: IPlans) {
     if (this.selectedBidIds.length > 0) {
       var checkBidId = this.selectedBidIds.includes(plan.bidId);
-      if (checkBidId == true) { 
+      if (checkBidId == true) {
         this.selectedBidIds = this.selectedBidIds.filter(item => item != plan.bidId);
       }
       else {
@@ -740,7 +798,7 @@ toggleComparePlan() {
         this.selectedBidIds.push(plan.bidId);
       }
     }
-   
+
   }
 
   ChangePremium(premiumValue) {
@@ -764,6 +822,17 @@ toggleComparePlan() {
   ChangeMOOP(moopValue) {
     this.selectedMoopMinValue = moopValue.values[0];
     this.selectedMoopMaxValue = moopValue.values[1];
+    this.FilterAllPlans();
+  }
+
+  ChangeHD(HDValue) {
+    this.selectedHDMinValue = HDValue.values[0];
+    this.selectedHDMaxValue = HDValue.values[1];
+    this.FilterAllPlans();
+  }
+  ChangeDD(DDValue) {
+    this.selectedDDMinValue = DDValue.values[0];
+    this.selectedDDMaxValue = DDValue.values[1];
     this.FilterAllPlans();
   }
 
@@ -810,6 +879,53 @@ toggleComparePlan() {
     }
     else {
       this.selectedMoopMaxValue = + newValue.replace('$', '');
+      this.bindRangeValues();
+      this.FilterAllPlans();
+    }
+  }
+  ChangeHDFromMinInput(newValue: string) {
+    let value = + newValue.replace('$', '');
+    if (value > this.selectedHDMaxValue) {
+      this.messageService.add({ severity: 'error', summary: 'Should not > ' + this.selectedHDMaxValue + ' Value' });
+    }
+    else {
+      this.HDMinValue = value
+      this.bindRangeValues();
+      this.FilterAllPlans();
+    }
+  }
+
+  ChangeHDFromMaxInput(newValue: string) {
+    let selectedValue = + newValue.replace('$', '');
+    if (selectedValue > this.HDMaxValue) {
+      this.messageService.add({ severity: 'error', summary: 'Should not > Max Value' });
+    }
+    else {
+      this.selectedHDMaxValue = + newValue.replace('$', '');
+      this.bindRangeValues();
+      this.FilterAllPlans();
+    }
+  }
+
+  ChangeDDFromMinInput(newValue: string) {
+    let value = + newValue.replace('$', '');
+    if (value > this.selectedDDMaxValue) {
+      this.messageService.add({ severity: 'error', summary: 'Should not > ' + this.selectedDDMaxValue + ' Value' });
+    }
+    else {
+      this.DDMinValue = value
+      this.bindRangeValues();
+      this.FilterAllPlans();
+    }
+  }
+
+  ChangeDDFromMaxInput(newValue: string) {
+    let selectedValue = + newValue.replace('$', '');
+    if (selectedValue > this.DDMaxValue) {
+      this.messageService.add({ severity: 'error', summary: 'Should not > Max Value' });
+    }
+    else {
+      this.selectedDDMaxValue = + newValue.replace('$', '');
       this.bindRangeValues();
       this.FilterAllPlans();
     }
@@ -1230,22 +1346,21 @@ toggleComparePlan() {
     this.spinner.hide();
   }
 
-  onToggleChange(status: any)
-  {
-      this.spinner.show();
-      this.isCostShareOnly = status;
-      this.bindAllPlanBenefitGroups();
-      this.bindPlanBenfefitDetails();  
-      if (this.isColorCodeSelected == true) {
-          this.isColorCodeSelected = false;
-          this.valuesFromPython = [];
-      }
+  onToggleChange(status: any) {
+    this.spinner.show();
+    this.isCostShareOnly = status;
+    this.bindAllPlanBenefitGroups();
+    this.bindPlanBenfefitDetails();
+    if (this.isColorCodeSelected == true) {
+      this.isColorCodeSelected = false;
+      this.valuesFromPython = [];
+    }
   }
 
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
       this.valuesFromPython = [];
-      this.selectedBenifit = item;      
+      this.selectedBenifit = item;
       if (this.showPlanCompare) {
         this.spinner.show();
         this.plansBenefits = [];
@@ -1273,7 +1388,7 @@ toggleComparePlan() {
           enrollmentGrowth: enrollmentGrowth
         }
 
-        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort,this.isCostShareOnly)
+        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort, this.isCostShareOnly)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
               this.masterPlansBenefits = [];
@@ -1298,7 +1413,7 @@ toggleComparePlan() {
             this.spinner.hide();
           });
       }
-      else {        
+      else {
         if (this.selectedBenifit == "Premium") {
           this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 });
 
@@ -1315,7 +1430,7 @@ toggleComparePlan() {
         if (this.selectedBenifit == "Enrollment Growth") {
           this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
 
-        }        
+        }
       }
     }
   }
@@ -1378,13 +1493,13 @@ toggleComparePlan() {
     this.FilterAllPlans();
   }
 
-  OnHealthDedictibleChange() {
-    this.FilterAllPlans();
-  }
+  // OnHealthDedictibleChange() {
+  //   this.FilterAllPlans();
+  // }
 
-  OnDrugDeductibleChange() {
-    this.FilterAllPlans();
-  }
+  // OnDrugDeductibleChange() {
+  //   this.FilterAllPlans();
+  // }
 
   OnAmbulanceChange() {
     this.FilterAllPlans();
@@ -1442,8 +1557,8 @@ toggleComparePlan() {
     let partD = this.isPremiumChecked == true ? 0 : -1;
     let partB = this.isPartBChecked == true ? 0 : -1;
     let planCoverage = this.isPlanCoverageChecked == true ? 'MA' : 'Test';
-    let healthDeductible = this.isHealthDeductibleChecked == true ? 0 : -1;
-    let drugDeductible = this.isDrugDedictibleChecked == true ? 0 : -1;
+    // let healthDeductible = this.isHealthDeductibleChecked == true ? 0 : -1;
+    // let drugDeductible = this.isDrugDedictibleChecked == true ? 0 : -1;
     let ambulance = this.isAmbulanceChecked == true ? '00' : '-1';
     let compDental = this.isComphrehensiveDentalChecked == true ? '0000000' : '-1';
     let Fitness = this.isFitnessChecked == true ? '-' : '-1';
@@ -1459,7 +1574,10 @@ toggleComparePlan() {
 
     if (this.isPremiumChecked == true) {
       this.plans = plans1.filter(x => x.premiumCD == x.partD && x.partD != partD && x.partBGiveBack != partB && x.planCoverage != planCoverage &&
-        x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible && x.premiumCD >= this.selectedPremiumMinValue &&
+        // x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible 
+        x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
+        x.anualDrugDeductible >= this.selectedDDMinValue && x.anualDrugDeductible <= this.selectedDDMaxValue
+        && x.premiumCD >= this.selectedPremiumMinValue &&
         x.premiumCD <= this.selectedPremiumMaxValue && x.moop >= this.selectedMoopMinValue && x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) &&
         !x.sbFitness.includes(Fitness) && x.sbHearing != hearing && x.sbVision != vision && x.sbWorldWideEmergency != emergency && x.sbTeleHealth != teleHealth && x.sbHomeSaftey != homeSaftey &&
         x.sbHomeSupport != homeSupport && x.sbPers != pers);
@@ -1477,8 +1595,11 @@ toggleComparePlan() {
       this.plans = this.plans.filter(x => this.isOTCChecked == true ? x.sbOTC == 1 : x.sbOTC != -1);
     }
     else {
-      this.plans = plans1.filter(x => x.partBGiveBack != partB && x.planCoverage != planCoverage && x.healthDeductible != healthDeductible &&
-        x.anualDrugDeductible != drugDeductible && x.premiumCD >= this.selectedPremiumMinValue && x.premiumCD <= this.selectedPremiumMaxValue &&
+      this.plans = plans1.filter(x => x.partBGiveBack != partB && x.planCoverage != planCoverage &&
+        // x.healthDeductible != healthDeductible &&  x.anualDrugDeductible != drugDeductible 
+        x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
+        x.anualDrugDeductible >= this.selectedDDMinValue && x.anualDrugDeductible <= this.selectedDDMaxValue
+        && x.premiumCD >= this.selectedPremiumMinValue && x.premiumCD <= this.selectedPremiumMaxValue &&
         x.moop >= this.selectedMoopMinValue && x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) && !x.sbFitness.includes(Fitness) &&
         x.sbHearing != hearing && x.sbVision != vision && x.sbWorldWideEmergency != emergency && x.sbTeleHealth != teleHealth && x.sbHomeSaftey != homeSaftey &&
         x.sbHomeSupport != homeSupport && x.sbPers != pers
@@ -1611,7 +1732,7 @@ toggleComparePlan() {
 
   handleClick(items: any) {
     console.log("Selected Column : ", items);
-  }  
+  }
 
   QuickFilter(count: number) {
     this.showAll = count;
@@ -1666,7 +1787,6 @@ toggleComparePlan() {
     if (this.isColorCodeSelected == false) {
       this.isColorCodeSelected = true;
     }
-
     this.basePlan = selectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
@@ -1713,6 +1833,7 @@ toggleComparePlan() {
     this._comparePlansService.readDataFromJson(userId).subscribe((result: any[]) => {
       if (result) {
         this.valuesFromPython = result;
+        this.messageService.add({ severity: 'success', summary: 'Color Code Applied' });
       }
     })
     this.spinner.hide();
@@ -1784,8 +1905,12 @@ toggleComparePlan() {
       EnrollmentMax: this.selectedEnrollmentMaxValue,
       EnrollmentChangeMin: this.selectedEnrollmentChangeMinValue,
       EnrollmentChangeMax: this.selectedEnrollmentChangeMaxValue,
-      IsHealthDeductible: this.isHealthDeductibleChecked,
-      isDrugDeductible: this.isDrugDedictibleChecked,
+      // IsHealthDeductible: this.isHealthDeductibleChecked,
+      // isDrugDeductible: this.isDrugDedictibleChecked,
+      HDMin: this.selectedHDMinValue,
+      HDMax: this.selectedHDMaxValue,
+      DDMin: this.selectedDDMinValue,
+      DDMax: this.selectedDDMaxValue,
       MoopMin: this.selectedMoopMinValue,
       MoopMax: this.selectedMoopMaxValue,
       isAmbulance: this.isAmbulanceChecked,
@@ -1896,118 +2021,117 @@ toggleComparePlan() {
       if (this.isColorCodeSelected) {
         valuesFromPythonList = this.valuesFromPython;
         pythonCols = Object.keys(valuesFromPythonList[0]);
-      }      
+      }
 
       if (plansBenefitCopy) {
-        for (let i = 0; i < plansBenefitCopy.length; i++) {       
-          
+        for (let i = 0; i < plansBenefitCopy.length; i++) {
+
           let rowData = plansBenefitCopy[i];
-          
-          if(i == 1 && this.isYOYSelected && rowData['benefits'] =="Parent Organization")
-          {
-            
+
+          if (i == 1 && this.isYOYSelected && rowData['benefits'] == "Parent Organization") {
+
           }
-          else{          
-          let newRow = [];
-          let isFoundInPythonOutPut = false;
-          let tempPythonRow = [];
-          let newRowColor = [];
-          let count: number = 0;
-          let isRowColorable: Boolean = false;
+          else {
+            let newRow = [];
+            let isFoundInPythonOutPut = false;
+            let tempPythonRow = [];
+            let newRowColor = [];
+            let count: number = 0;
+            let isRowColorable: Boolean = false;
 
-          for (let j = 0; j < col.length; j++) {
-            newRowColor.push(null);
-          }
+            for (let j = 0; j < col.length; j++) {
+              newRowColor.push(null);
+            }
 
-          col.forEach(x => {
-            newRow.push(rowData[x]);
-            
-            if (this.isColorCodeSelected) {
-              if (!isFoundInPythonOutPut) {
-                  if ((x.toString() == "benefits")) {                  
-                  let checkBenefit = valuesFromPythonList.find((val) => (val.Benefit.toString().trim().replace(' ', '_')) === (rowData[x].toString().trim().replace(' ', '_')));
+            col.forEach(x => {
+              newRow.push(rowData[x]);
 
-                  if (checkBenefit != null) {
-                    isFoundInPythonOutPut = true;
-                    tempPythonRow = checkBenefit;
+              if (this.isColorCodeSelected) {
+                if (!isFoundInPythonOutPut) {
+                  if ((x.toString() == "benefits")) {
+                    let checkBenefit = valuesFromPythonList.find((val) => (val.Benefit.toString().trim().replace(' ', '_')) === (rowData[x].toString().trim().replace(' ', '_')));
+
+                    if (checkBenefit != null) {
+                      isFoundInPythonOutPut = true;
+                      tempPythonRow = checkBenefit;
+                    }
+                  }
+                }
+                else {
+                  if ((x.toString() != "sortGroup" && x.toString() != "benefits" && x.toString() != "year")) {
+                    var bidID = x.substring(x.lastIndexOf("(") + 1, x.length - 1);
+                    const cellIndex = pythonCols.findIndex(z => z === bidID.toString());
+                    newRowColor[count] = tempPythonRow[pythonCols[cellIndex]];
                   }
                 }
               }
-              else {
-                if ((x.toString() != "sortGroup" && x.toString() != "benefits" && x.toString() != "year")) {
-                  var bidID = x.substring(x.lastIndexOf("(") + 1, x.length - 1);
-                  const cellIndex = pythonCols.findIndex(z => z === bidID.toString());
-                  newRowColor[count] = tempPythonRow[pythonCols[cellIndex]];
+              count++;
+            });
+
+            const row = worksheet.addRow(newRow);
+
+            if (this.isColorCodeSelected) {
+              if (this.isYOYSelected) {
+                if ((newRow[2] == this.previousBenifitYears)) {
+                  isRowColorable = false;
                 }
-              }
-            }
-            count++;
-          });
-
-          const row = worksheet.addRow(newRow);
-
-          if (this.isColorCodeSelected) {
-            if (this.isYOYSelected) {
-              if ((newRow[2] == this.previousBenifitYears)) {
-                isRowColorable = false;
+                else {
+                  isRowColorable = true;
+                }
               }
               else {
                 isRowColorable = true;
               }
-            }
-            else {
-              isRowColorable = true;
-            }
 
-            if (isRowColorable) {
-              newRowColor.forEach((element, index) => {
+              if (isRowColorable) {
+                newRowColor.forEach((element, index) => {
 
-                if (index > 2) {
-                  let tempcell = row.getCell(index + 1);
+                  if (index > 2) {
+                    let tempcell = row.getCell(index + 1);
 
-                  switch (element) {
-                    case 0:
-                      //do nothing
-                      break;
+                    switch (element) {
+                      case 0:
+                        //do nothing
+                        break;
 
-                    case 1:
-                      //red                    
-                      tempcell.fill = {
-                        type: 'pattern',
-                        pattern: 'solid',
-                        fgColor: { argb: 'FF0000' }
-                      }
-                      break;
+                      case 1:
+                        //red                    
+                        tempcell.fill = {
+                          type: 'pattern',
+                          pattern: 'solid',
+                          fgColor: { argb: 'FF0000' }
+                        }
+                        break;
 
-                    case 2:
-                      //green
-                      tempcell.fill = {
-                        type: 'pattern',
-                        pattern: 'solid',
-                        fgColor: { argb: '92D050' }
-                      }
-                      break;
+                      case 2:
+                        //green
+                        tempcell.fill = {
+                          type: 'pattern',
+                          pattern: 'solid',
+                          fgColor: { argb: '92D050' }
+                        }
+                        break;
 
-                    case 3:
-                      //do nothing
-                      break;
+                      case 3:
+                        //do nothing
+                        break;
 
-                    case 4:
-                      //gray
-                      tempcell.fill = {
-                        type: 'pattern',
-                        pattern: 'solid',
-                        fgColor: { argb: '808080' }
-                      }
-                      break;
+                      case 4:
+                        //gray
+                        tempcell.fill = {
+                          type: 'pattern',
+                          pattern: 'solid',
+                          fgColor: { argb: '808080' }
+                        }
+                        break;
+                    }
                   }
-                }
-              });
+                });
+              }
             }
           }
         }
       }
-    }
 
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
@@ -2036,7 +2160,7 @@ toggleComparePlan() {
     });
   }
 
-  OnScenarioSelect(id: number) {    
+  OnScenarioSelect(id: number) {
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
@@ -2045,9 +2169,9 @@ toggleComparePlan() {
         let planTypes = result[0].planTypeId.split(",");
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
-        this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);        
+        this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
       }
-    });    
+    });
   }
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
@@ -2231,6 +2355,12 @@ toggleComparePlan() {
       this.moopMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.moop }));
       this.moopMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.moop }));
 
+      this.HDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+      this.HDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.healthDeductible }));
+
+      this.DDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
+      this.DDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
+
       this.loadRangeValues();
     }
   }
@@ -2242,7 +2372,7 @@ toggleComparePlan() {
     this.enrollmentMaxDefaultValue = this.enrollmentMaxValue;
     this.enrollmentChangeMinDefaultValue = this.enrollmentChangeMinValue;
     this.enrollmentChangeMaxDefaultValue = this.enrollmentChangeMaxValue;
-
+    
     let pMinValue = this.userSelectedScenarioResults[0].premiumMin;
     let pMaxValue = this.userSelectedScenarioResults[0].premiumMax;
     let eMinValue = this.userSelectedScenarioResults[0].enrollmentMin;
@@ -2251,6 +2381,12 @@ toggleComparePlan() {
     let eChangeMaxValue = this.userSelectedScenarioResults[0].enrollmentChangeMax;
     let mMinValue = this.userSelectedScenarioResults[0].moopMin;
     let mMaxValue = this.userSelectedScenarioResults[0].moopMax;
+
+    let mHDMinValue = this.userSelectedScenarioResults[0].hdMin;
+    let mHDMaxValue = this.userSelectedScenarioResults[0].hdMax;
+
+    let mDDMinValue = this.userSelectedScenarioResults[0].ddMin;
+    let mDDMaxValue = this.userSelectedScenarioResults[0].ddMax;
 
     this.premiumRangeValues = [pMinValue, pMaxValue];
     this.selectedPremiumMinValue = pMinValue;
@@ -2267,6 +2403,16 @@ toggleComparePlan() {
     this.moopRangeValues = [mMinValue, mMaxValue];
     this.selectedMoopMinValue = mMinValue;
     this.selectedMoopMaxValue = mMaxValue;
+
+    this.HDRangeValues = [mHDMinValue, mHDMaxValue];
+    this.selectedHDMinValue = mHDMinValue;
+    this.selectedHDMaxValue = mHDMaxValue;
+
+    this.DDRangeValues = [mDDMinValue, mDDMaxValue];
+    this.selectedDDMinValue = mDDMinValue;
+    this.selectedDDMaxValue = mDDMaxValue;
+    
+
   }
 
   loadLeftFilterValues() {
@@ -2274,8 +2420,8 @@ toggleComparePlan() {
       this.isPremiumChecked = this.userSelectedScenarioResults[0].isPartDPremium;
       this.isPartBChecked = this.userSelectedScenarioResults[0].isPartBGiveBack;
       this.isPlanCoverageChecked = this.userSelectedScenarioResults[0].isPlanCoverage;
-      this.isHealthDeductibleChecked = this.userSelectedScenarioResults[0].isHealthDeductible;
-      this.isDrugDedictibleChecked = this.userSelectedScenarioResults[0].isDrugDeductible;
+      // this.isHealthDeductibleChecked = this.userSelectedScenarioResults[0].isHealthDeductible;
+      // this.isDrugDedictibleChecked = this.userSelectedScenarioResults[0].isDrugDeductible;
       this.isAmbulanceChecked = this.userSelectedScenarioResults[0].isAmbulance;
       this.isComphrehensiveDentalChecked = this.userSelectedScenarioResults[0].isComprehensiveDental;
       this.isChiropractorChecked = this.userSelectedScenarioResults[0].isChiropractor;
@@ -2301,8 +2447,8 @@ toggleComparePlan() {
     let partD = this.isPremiumChecked == true ? 0 : -1;
     let partB = this.isPartBChecked == true ? 0 : -1;
     let planCoverage = this.isPlanCoverageChecked == true ? 'MA' : 'Test';
-    let healthDeductible = this.isHealthDeductibleChecked == true ? 0 : -1;
-    let drugDeductible = this.isDrugDedictibleChecked == true ? 0 : -1;
+    // let healthDeductible = this.isHealthDeductibleChecked == true ? 0 : -1;
+    // let drugDeductible = this.isDrugDedictibleChecked == true ? 0 : -1;
     let ambulance = this.isAmbulanceChecked == true ? '00' : '-1';
     let compDental = this.isComphrehensiveDentalChecked == true ? '0000000' : '-1';
     let Fitness = this.isFitnessChecked == true ? '-' : '-1';
@@ -2319,7 +2465,10 @@ toggleComparePlan() {
     if (this.isPremiumChecked == true) {
 
       this.plans = plans1.filter(x => x.premiumCD == x.partD && x.partD != partD && x.partBGiveBack != partB && x.planCoverage != planCoverage &&
-        x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible && x.premiumCD >= this.selectedPremiumMinValue &&
+        // x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible 
+        x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
+        x.anualDrugDeductible >= this.selectedDDMinValue && x.anualDrugDeductible <= this.selectedDDMaxValue
+        && x.premiumCD >= this.selectedPremiumMinValue &&
         x.premiumCD <= this.selectedPremiumMaxValue && x.moop >= this.selectedMoopMinValue && x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) &&
         !x.sbFitness.includes(Fitness) && x.sbHearing != hearing && x.sbVision != vision && x.sbWorldWideEmergency != emergency && x.sbTeleHealth != teleHealth && x.sbHomeSaftey != homeSaftey &&
         x.sbHomeSupport != homeSupport && x.sbPers != pers);
@@ -2337,8 +2486,11 @@ toggleComparePlan() {
       this.plans = this.plans.filter(x => this.isOTCChecked == true ? x.sbOTC == 1 : x.sbOTC != -1);
     }
     else {
-      this.plans = plans1.filter(x => x.partBGiveBack != partB && x.planCoverage != planCoverage && x.healthDeductible != healthDeductible &&
-        x.anualDrugDeductible != drugDeductible && x.premiumCD >= this.selectedPremiumMinValue && x.premiumCD <= this.selectedPremiumMaxValue &&
+      this.plans = plans1.filter(x => x.partBGiveBack != partB && x.planCoverage != planCoverage &&
+        // x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible 
+        x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
+        x.anualDrugDeductible >= this.selectedDDMinValue && x.anualDrugDeductible <= this.selectedDDMaxValue
+        && x.premiumCD >= this.selectedPremiumMinValue && x.premiumCD <= this.selectedPremiumMaxValue &&
         x.enrollment >= this.selectedEnrollmentMinValue && x.enrollment <= this.selectedEnrollmentMaxValue && x.moop >= this.selectedMoopMinValue &&
         x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) && !x.sbFitness.includes(Fitness) &&
         x.sbHearing != hearing && x.sbVision != vision && x.sbWorldWideEmergency != emergency && x.sbTeleHealth != teleHealth && x.sbHomeSaftey != homeSaftey &&
@@ -2372,15 +2524,15 @@ toggleComparePlan() {
   loadBidIds() {
     if (this.userSelectedScenarioResults != null) {
       if (this.userSelectedScenarioResults[0].bidId != "") {
-        this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");        
+        this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");
       }
       else {
         this.selectedBidIds = [];
       }
-      this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;         
-      if (this.showPlanCompare) {          
+      this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
+      if (this.showPlanCompare) {
         this.bindPlanBenfefitDetails();
-        this.showCompareButton=false;
+        this.showCompareButton = false;
       }
 
     }
@@ -2414,8 +2566,8 @@ toggleComparePlan() {
     this.isPremiumChecked = false;
     this.isPartBChecked = false;
     this.isPlanCoverageChecked = false;
-    this.isHealthDeductibleChecked = false;
-    this.isDrugDedictibleChecked = false;
+    // this.isHealthDeductibleChecked = false;
+    // this.isDrugDedictibleChecked = false;
     this.isAmbulanceChecked = false;
     this.isComphrehensiveDentalChecked = false;
     this.isChiropractorChecked = false;

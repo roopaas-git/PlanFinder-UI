@@ -19,8 +19,12 @@ export interface IUserInputs {
     EnrollmentMax: number;
     EnrollmentChangeMin: number;
     EnrollmentChangeMax: number;
-    IsHealthDeductible: boolean;
-    isDrugDeductible: boolean;
+    // IsHealthDeductible: boolean;
+    // isDrugDeductible: boolean;
+    HDMin: number;
+    HDMax: number;
+    DDMin: number;
+    DDMax: number;
     MoopMin: number;
     MoopMax: number;
     isAmbulance: boolean;
