@@ -211,7 +211,7 @@
                                         <p-dropdown id="enrRangeMin" class="w-auto d-inline-flex ml-2 setSize"
                                             [options]="enrollmentPeriod" optionLabel="period"
                                             optionValue="enrollmentPeriod"
-                                            (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                            (onChange)="OnEnrollmentFromPeriodChange($event.value.period)">
                                         </p-dropdown>
                                     </div>
                                     <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
@@ -228,7 +228,7 @@
                                         <p-dropdown id="enrRangeMax" class="w-auto d-inline-flex ml-2 setSize"
                                             [options]="enrollmentPeriod" optionLabel="period"
                                             optionValue="enrollmentPeriod"
-                                            (onChange)="OnEnrollmentPeriodChange($event.value.period)">
+                                            (onChange)="OnEnrollmentToPeriodChange($event.value.period)">
                                         </p-dropdown>
                                     </div>
                                 </div>
@@ -457,7 +457,7 @@
                     [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true}">
                     <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                         <div *ngIf="showPlanCompare" style="padding-top: 2px;">
-                            <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3"
+                            <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3 "
                                 (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -466,7 +466,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div *ngIf="! showPlanCompare"
+                        <div *ngIf="!showPlanCompare"
                             class="form-check form-check-left custom-checkbox custom-selectAll align-items-start">
                             <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                                 [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
@@ -474,7 +474,7 @@
                                 <span>Select All</span><span style="padding-left: 40px;">{{plans?.length}} Plans</span>
                             </label>
                         </div>
-                        <div *ngIf="showPlanCompare"
+                        <!-- <div [ngClass]="{}"
                             class="filter-wrapper d-flex align-items-center mr-1 align-items-start"
                             style="padding-left: 50px !important;margin-top: 10px !important;">
                             <div class="mr-3">Sort by</div>
@@ -482,23 +482,9 @@
                                 optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                             </p-dropdown>
 
-                        </div>
+                        </div> -->
                         <div class="ml-auto d-flex align-items-center ml-3">
                             <div class="filter-wrapper d-flex align-items-center mr-3">
-                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;">Benefit Group</div>
-                                <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
-                                    [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
-                                    [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
-                                    (onSelect)="onAllBenefitGroupsItemSelect()"
-                                    (onDeSelect)="onAllBenefitGroupsDeSelect()"
-                                    (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
-                                    (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
-                                </ng-multiselect-dropdown>
-                                <button *ngIf="showPlanCompare"
-                                    class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
-                                    (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
-                                    Apply
-                                </button>
                                 <div *ngIf="! showPlanCompare" class="mr-3">
                                     <span>
                                         <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);"
@@ -514,7 +500,9 @@
                                                 15</span></a>
                                     </span>
                                 </div>
-                                <div *ngIf="! showPlanCompare" class="mr-3">Sort by</div>
+                            </div>    
+                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center mr-3': !showPlanCompare }" >
+                                <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
                                 <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                         (change)="OnBenefitSelect($event.target.value)">
                                      <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id"
@@ -522,13 +510,29 @@
                                       {{benefit.benefit}}
                                       </option>
                                       </select> -->
-                                <p-dropdown *ngIf="! showPlanCompare" [options]="benefits" class="different"
+                                <p-dropdown [options]="benefits" class="different"
                                     optionLabel="benefit" optionValue="benefit"
                                     (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
+                                </div>
+                            <div class="filter-wrapper d-flex align-items-center mr-3">    
+                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;">Benefit Group</div>
+                                <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
+                                    [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
+                                    [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
+                                    (onSelect)="onAllBenefitGroupsItemSelect()"
+                                    (onDeSelect)="onAllBenefitGroupsDeSelect()"
+                                    (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
+                                    (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
+                                </ng-multiselect-dropdown>
+                                <button *ngIf="showPlanCompare"
+                                    class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
+                                    (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
+                                    Apply
+                                </button>
                             </div>
                             <div class="dropdown ml-3">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle " type="button"
                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                     (click)="clearSelection(openView)" aria-expanded="false">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list"

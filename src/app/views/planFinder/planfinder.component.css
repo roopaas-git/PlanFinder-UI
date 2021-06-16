@@ -495,3 +495,14 @@ box-shadow: none !important;
     color: #ffffff;
     background-color: #BDA7C4 !important;
 }
+.position-change-sortBy
+{
+    padding-right:680px !important;
+    display: inline-flex;
+    padding-top: 9px !important;
+}
+
+.label-sortBy-padding
+{
+    padding-top: 4px !important;
+}
