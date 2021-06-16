@@ -380,7 +380,7 @@ color: #ed6f66 !important;
 }
 :host(::ng-deep span .ui-corner-all){
 /* border-radius: 40px !important; */
-min-width:400px;
+min-width:350px;
 }
 :host(::ng-deep span .ui-inputtext:enabled:focus:not(.ui-state-error))
 {
@@ -401,7 +401,7 @@ min-width:400px;
   position: fixed;
   /* bottom: 650px; */
   top:50px;
-  right: 690px;
+  left: 42%;
   z-index: 100;
 }
 
@@ -463,4 +463,35 @@ min-width:400px;
     margin: 1px 0;
     padding: 0.5em .23em 0.5em .4em !important;
     text-align: left;
+}
+:host(::ng-deep .ui-autocomplete .ui-corner-all)
+{
+border: none;
+padding-left: 0px;
+}
+:host(::ng-deep span .ui-inputtext::-webkit-input-placeholder) {
+    color: rgb(190, 187, 187);
+ }
+ .margin-second-pane {
+    margin-left: 12px;
+}
+
+:host(::ng-deep span .ui-corner-all .ui-autocomplete-list-item) {
+    min-width: 360px;
+    background-color: #fff9f9 !important;
+}
+:host(::ng-deep i-autocomplete-panel)
+{
+left:0px !important;
+border-radius: 6px ;
+box-shadow: none !important;
+}
+:host(::ng-deep .ui-autocomplete .ui-inputtext)
+{
+    background-color: #fff9f9;
+}
+:host(::ng-deep .ui-autocomplete-panel .ui-autocomplete-items .ui-autocomplete-list-item.ui-state-highlight)
+{
+    color: #ffffff;
+    background-color: #BDA7C4 !important;
 }

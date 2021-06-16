@@ -593,11 +593,14 @@
                                 labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                             </ui-switch>
                         </div>
+                        <div style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
                         <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
                             placeholder="Search Benefit" type="search" field="benefits" [suggestions]="filteredBenefits"
                             [minLength]="1" (completeMethod)="filterBenefits($event)"
                             (onSelect)="onSelectFilterBenefit($event)" emptyMessage="No benefit(s) found">
                         </p-autoComplete>
+                        <span style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i class="fa fa-search" aria-hidden="true"></i></span> 
+                        </div>
                         <div class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3"
                                 [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
