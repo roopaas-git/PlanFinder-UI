@@ -2037,6 +2037,14 @@ export class PlanfinderComponent implements OnInit {
     delete obj[oldKey];
   }
 
+  capitalizedCase(obj: any) {
+    let name = obj.toLowerCase().split(" ");
+    for (let i = 0; i < name.length; i++) {
+      name[i] = name[i][0].toUpperCase() + name[i].slice(1);
+    }    
+    return name.join(" ");
+  }
+  
   exportExcel() {
     this.floatCheck = false;
     this.goToTop();
@@ -2048,15 +2056,39 @@ export class PlanfinderComponent implements OnInit {
 
       let val = plansBenefitCopy[0];
       let col = Object.keys(val);
-      let header = [];
-
-      col.forEach(h => {
-        header.push(h);
-      });
 
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet();
-      const headerRow = worksheet.addRow(header);
+
+      let header = [];
+      let headerCount: number = 1;
+
+      col.forEach(h => {
+        if(headerCount < 3){
+          worksheet.getColumn(headerCount).width = 45;   
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle'};          
+        }
+        if(headerCount == 3){
+          worksheet.getColumn(headerCount).width = 7;  
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle', horizontal: 'right'};
+        }
+        if(headerCount > 3){
+          worksheet.getColumn(headerCount).width = 25;   
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle'};
+        }        
+
+        if(h== "sortGroup")
+        {
+          header.push(this.capitalizedCase("benefits group"));    
+        }
+        else
+        {
+          header.push(this.capitalizedCase(h));    
+        }            
+        headerCount++;      
+      });
+
+      worksheet.addRow(header);
 
       if (this.isColorCodeSelected) {
         valuesFromPythonList = this.valuesFromPython;
@@ -2173,6 +2205,34 @@ export class PlanfinderComponent implements OnInit {
         }
       }
 
+      worksheet.autoFilter = {
+        from: 'A1',
+        to: {
+          row: 1,
+          column: col.length
+        }
+      };
+
+      worksheet.views = [{
+        state: 'frozen', 
+        xSplit: 3, 
+        ySplit: 1, 
+        topLeftCell: 'D2', 
+        activeCell: 'A1'
+      }];
+  
+      worksheet.getRow(1).font = { 
+        size: 11, 
+        bold: true, 
+        color: { argb: '78338b'}  
+      };
+  
+      worksheet.getRow(1).fill = {
+        type: 'pattern',
+        pattern:'solid',
+        fgColor:{argb:'f4f4f4'}
+      };   
+ 
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
           const blob = new Blob([plansBenefitCopy], {

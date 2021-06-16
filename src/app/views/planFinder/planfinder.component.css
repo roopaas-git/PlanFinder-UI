@@ -506,3 +506,15 @@ box-shadow: none !important;
 {
     padding-top: 4px !important;
 }
+
+:host(::ng-deep input[type="search"]::-webkit-search-cancel-button)  {
+    -webkit-appearance: none;
+    content: '';   
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-image: url("/assets/images/search-icon-30x30.png");
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: top left;    
+  }
