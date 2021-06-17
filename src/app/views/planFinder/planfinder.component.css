@@ -497,14 +497,15 @@ box-shadow: none !important;
 }
 .position-change-sortBy
 {
-    padding-right:680px !important;
+    position: fixed;
+    left: 80px;
     display: inline-flex;
     padding-top: 9px !important;
 }
 
 .label-sortBy-padding
 {
-    padding-top: 4px !important;
+    padding-top: 7px !important;
 }
 
 :host(::ng-deep input[type="search"]::-webkit-search-cancel-button)  {
