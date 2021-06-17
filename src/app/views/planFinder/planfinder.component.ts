@@ -252,7 +252,8 @@ export class PlanfinderComponent implements OnInit {
     if (this.floatCheck == true) {
       this.showDiscoverMoreBtn = false;
       scrollPositionAfter = window.pageYOffset;
-      if (scrollPosition >= scrollPositionAfter) {
+      if (scrollPosition >= scrollPositionAfter) 
+      {
         this.floatCheck = false;
       }
     }
@@ -1516,14 +1517,26 @@ export class PlanfinderComponent implements OnInit {
 
   OnPartDChange() {
     this.FilterAllPlans();
+    this.isAllClicked= false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   OnPartBChange() {
     this.FilterAllPlans();
+    this.isAllClicked= false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   OnPlanCoverageChange() {
     this.FilterAllPlans();
+    this.isAllClicked= false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
   }
 
   // OnHealthDedictibleChange() {
