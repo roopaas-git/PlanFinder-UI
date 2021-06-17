@@ -66,6 +66,7 @@
 
   .pc {
       position: absolute !important;
+      width: 100%;
   }
   
   .pc-plans-list-header-wrapper

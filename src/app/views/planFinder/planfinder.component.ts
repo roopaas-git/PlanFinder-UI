@@ -397,7 +397,6 @@ export class PlanfinderComponent implements OnInit {
 
   onSelectFilterBenefit(event) {
     this.spinner.show();
-    console.log(event.benefits);
     $().rowHighlighter(true, event.benefits);
     this.spinner.hide();
     $().rowHighlighter(false, event.benefits);
@@ -661,8 +660,13 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getSelectedCrossWalk() {
-    for (let index = 0; index < this.selectedCrosswalkItems.length; index++) {
-      this.selectedCrosswalk = index == 0 ? this.selectedCrosswalkItems[index].id : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[index].id;
+    if(this.selectedCrosswalkItems.length > 0)
+    { 
+      for (let index = 0; index < this.selectedCrosswalkItems.length; index++) {
+        this.selectedCrosswalk = index == 0 ? this.selectedCrosswalkItems[index].id : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[index].id;
+      }
+    }else{
+      this.selectedCrosswalk= "0";
     }
   }
 
@@ -675,6 +679,8 @@ export class PlanfinderComponent implements OnInit {
           this.bindBenifits();
           this.getFilterValues();
         }
+        this.plans = result;
+        this.spinner.hide();
       });
   }
 
@@ -1225,8 +1231,14 @@ export class PlanfinderComponent implements OnInit {
 
   onPlanTypeDeSelectAll(items: any) {
     this.clearLeftSideItems();
+    this.selectedPlantypeItems = [];
+    this.selectedPlantype = "0";
     this.selectedSnptypesItems = [];
+    this.selectedSnptypes = "";
+    this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
+    this.selectedCrosswalk = "";
+    this.selectedCrosswalk= "0";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1245,10 +1257,18 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
-      this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
-    }
-    this.getSnptypeDefault(this.selectedPlantypes);
+    if(this.selectedPlantypeItems.length > 0)
+    { 
+      for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
+        this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
+      }
+      this.getSnptypeDefault(this.selectedPlantypes);
+    }else{
+      this.selectedPlantype = "0";
+      this.selectedSnptype = "0";
+      this.selectedCrosswalk= "0";
+      this.spinner.hide();
+    }    
   }
 
   onSnptypeItemSelect() {
@@ -1262,9 +1282,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
-      this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
+      this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
     }
-    this.getCrosswalkDefault(this.selectedPlantypes);
+    this.getCrosswalkDefault(this.selectedSnptype);
   }
 
   onSnptypeSelectAll(items: any) {
@@ -1279,9 +1299,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
-      this.selectedPlantypes = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
+      this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
     }
-    this.getCrosswalkDefault(this.selectedPlantypes);
+    this.getCrosswalkDefault(this.selectedSnptype);
   }
 
   onSnptypeDeSelect() {
@@ -1293,15 +1313,26 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
-      this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedSnptypesItems[i].id.toString();
+    if(this.selectedSnptypesItems.length > 0)
+    { 
+      for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
+        this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
+      }
+      this.getCrosswalkDefault(this.selectedSnptype);
+    }else{
+      this.selectedSnptype = "0";
+      this.selectedCrosswalk= "0";
+      this.spinner.hide();
     }
-    this.selectedSnptype == "" ? "" : this.getCrosswalkDefault(this.selectedSnptype);
+    // this.selectedSnptype == "" ? "" : this.getCrosswalkDefault(this.selectedSnptype);
   }
 
   onSnptypeDeSelectAll(items: any) {
-    this.clearLeftSideItems();
+    this.clearLeftSideItems();    
+    this.selectedSnptypesItems = [];
+    this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
+    this.selectedCrosswalk= "0";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1324,6 +1355,7 @@ export class PlanfinderComponent implements OnInit {
     this.isTop15Clicked = false;
   }
   onCrossWalkDeSelectAll(items: any) {
+    this.selectedCrosswalkItems = [];    
     this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
@@ -1392,6 +1424,15 @@ export class PlanfinderComponent implements OnInit {
 
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
+      
+      // Yet to implement
+      if(item  == 'Enrollments')
+      {
+        alert("Currently Under Implementation");
+        item = "Enrollment Growth";
+      }
+      // Yet to implement
+
       this.valuesFromPython = [];
       this.selectedBenifit = item;
       if (this.showPlanCompare) {

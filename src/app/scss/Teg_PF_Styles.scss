@@ -645,7 +645,8 @@ select {
 }
 
 .pc-filter-multiselect-wrap {
-  width: 14.20% !important;
+  min-width: 14.20% !important;
+  width: 14.2% !important;
 }
 
 span.selected-item.ng-star-inserted {
