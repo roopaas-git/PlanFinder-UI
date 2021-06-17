@@ -501,7 +501,7 @@
                                     </span>
                                 </div>
                             </div>    
-                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center mr-3': !showPlanCompare }" >
+                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center mr-3': !showPlanCompare,'div-sortBy-padding':floatCheck==true }" >
                                 <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
                                 <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                         (change)="OnBenefitSelect($event.target.value)">
@@ -631,7 +631,7 @@
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
                                                 <div class="pc-plan-rating badge badge-info px-2"
-                                                    [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available'}">
+                                                    [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available','star-rating1' : plan.starRating === 'Not enough data available '}">
                                                     <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
                                                     <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
