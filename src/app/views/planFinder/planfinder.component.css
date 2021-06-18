@@ -424,12 +424,11 @@ min-width:350px;
     animation-duration: 2s; 
     animation-fill-mode: forwards; 
     animation-delay: 0.2s;
-    position: fixed;
+    /* position: fixed;
     z-index: 100;
     top:52px; 
     min-width: 97%;
-    left: 3px;
-    /* width: 100%; */
+    left: 3px; */
     background-color: #fff; 
 }
 @keyframes moveDiv
