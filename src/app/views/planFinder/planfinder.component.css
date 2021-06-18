@@ -429,7 +429,8 @@ min-width:350px;
     top:52px; 
     min-width: 97%;
     left: 3px; */
-    background-color: #fff; 
+    background-color: #fff;
+    top:53.2px !important; 
 }
 @keyframes moveDiv
 {
@@ -526,3 +527,8 @@ box-shadow: none !important;
     background-size: 15px;
     background-position: top left;    
   }
+.div-margin-top
+{
+  margin-top: 5px !important;
+}
+

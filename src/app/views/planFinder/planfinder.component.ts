@@ -884,6 +884,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangePremiumFromMaxInput(newValue: string) {
@@ -896,6 +897,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangeMoopFromMinInput(newValue: string) {
@@ -1555,29 +1557,39 @@ export class PlanfinderComponent implements OnInit {
         }
       });
   }
+  ReClickLink()
+  {
+    if(this.isAllClicked== true)
+    {
+      this.QuickFilter(0);
+    }
+    if(this.isTop5Clicked== true)
+    {
+      this.QuickFilter(5);
+    }
+    if(this.isTop10Clicked== true)
+    {
+      this.QuickFilter(10);
+    }
+    if(this.isTop15Clicked== true)
+    {
+      this.QuickFilter(15);
+    }
+  }
 
   OnPartDChange() {
     this.FilterAllPlans();
-    this.isAllClicked= false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
+    this.ReClickLink();
   }
 
   OnPartBChange() {
     this.FilterAllPlans();
-    this.isAllClicked= false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
+    this.ReClickLink();
   }
 
   OnPlanCoverageChange() {
     this.FilterAllPlans();
-    this.isAllClicked= false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
+    this.ReClickLink();
   }
 
   // OnHealthDedictibleChange() {
@@ -1970,7 +1982,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   saveUserInputs(event) {
-    if (this.scenarioAlreadyExists == "Scenario Name Alredy Exist") { return; }
+    if (this.scenarioAlreadyExists == "Scenario Name Already Exists!") { return; }
     let elementId: string = (event.target as Element).id;
     let selectedModal = elementId == "btnSaveScenario" ? 1 : 2;
     let ScenarioValue = selectedModal == 1 ? this.SaveScenarioName : this.scenarioName;
