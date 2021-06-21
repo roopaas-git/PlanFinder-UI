@@ -843,35 +843,41 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPremiumMinValue = premiumValue.values[0];
     this.selectedPremiumMaxValue = premiumValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   ChangeEnrollment(enrollmentValue) {
     this.selectedEnrollmentMinValue = enrollmentValue.values[0];
     this.selectedEnrollmentMaxValue = enrollmentValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   ChangeEnrollmentIn(enrollmentChangeValue) {
     this.selectedEnrollmentChangeMinValue = enrollmentChangeValue.values[0];
     this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   ChangeMOOP(moopValue) {
     this.selectedMoopMinValue = moopValue.values[0];
     this.selectedMoopMaxValue = moopValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   ChangeHD(HDValue) {
     this.selectedHDMinValue = HDValue.values[0];
     this.selectedHDMaxValue = HDValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
   ChangeDD(DDValue) {
     this.selectedDDMinValue = DDValue.values[0];
     this.selectedDDMaxValue = DDValue.values[1];
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   ChangePremiumFromMinInput(newValue: string) {
@@ -910,6 +916,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangeMoopFromMaxInput(newValue: string) {
@@ -922,6 +929,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
   ChangeHDFromMinInput(newValue: string) {
     let value = + newValue.replace('$', '');
@@ -933,6 +941,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangeHDFromMaxInput(newValue: string) {
@@ -945,6 +954,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangeDDFromMinInput(newValue: string) {
@@ -957,6 +967,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   ChangeDDFromMaxInput(newValue: string) {
@@ -969,6 +980,7 @@ export class PlanfinderComponent implements OnInit {
       this.bindRangeValues();
       this.FilterAllPlans();
     }
+    this.ReClickLink();
   }
 
   getStates() {
@@ -1607,46 +1619,57 @@ export class PlanfinderComponent implements OnInit {
 
   OnAmbulanceChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnComprehensiveDentalChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnChiroPractorChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnMealChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnFitnessChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnOTCChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnVisionChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnHearingChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnEmergencyChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnTeleHealthChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnHomeSupport() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnHomeSafetyChange() {
@@ -1655,6 +1678,7 @@ export class PlanfinderComponent implements OnInit {
 
   OnPersChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   FilterAllPlans() {
