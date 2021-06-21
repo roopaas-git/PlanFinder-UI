@@ -1412,11 +1412,16 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.hide();
   }
 
-  onToggleChange(status: any) {
+  onCostOnlyToggleChange(status: any) {
     this.spinner.show();
     this.isCostShareOnly = status;
     this.bindAllPlanBenefitGroups();
-    this.bindPlanBenfefitDetails();
+    if(this.selectedBenifit  == 'Premium')
+    {        
+      this.bindPlanBenfefitDetails();
+    }else{
+      this.OnBenefitSelect(this.selectedBenifit);
+    }    
     if (this.isColorCodeSelected == true) {
       this.isColorCodeSelected = false;
       this.valuesFromPython = [];

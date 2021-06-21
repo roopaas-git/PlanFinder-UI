@@ -593,7 +593,7 @@
                     </div>
                     <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4">
                         <div *ngIf="showPlanCompare" class="align-items-start">
-                            <ui-switch [(ngModel)]="isCostShareOnly" (change)="onToggleChange($event)"
+                            <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
                                 labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                             </ui-switch>
                         </div>
