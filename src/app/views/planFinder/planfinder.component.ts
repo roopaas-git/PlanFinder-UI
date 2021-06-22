@@ -227,6 +227,7 @@ export class PlanfinderComponent implements OnInit {
   isIncrementalLoad: boolean = false;
   advanceBenefitSearchItems = [];
   filteredBenefits: any[];
+  isTopFilterChangeActive: boolean = false;
   showModalBox: boolean = false;
 
   floatCheck: boolean = false;
@@ -644,9 +645,20 @@ export class PlanfinderComponent implements OnInit {
         }
         else {
           this.spinner.hide();
+          this.isTopFilterChangeActive = true;
+          this.onChangeTopFilterNotifier();
         }
       }
     });
+  }
+
+  onChangeTopFilterNotifier(){
+    if(this.isTopFilterChangeActive)
+    {
+    setTimeout (() => {
+      this.messageService.add({ severity: 'warn', summary: 'Please apply to update the results' });
+    }, 5000);
+  }
   }
 
   getAllPlans() {
@@ -658,6 +670,7 @@ export class PlanfinderComponent implements OnInit {
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
     this.bindAllPlanBenefitGroups();
+    this.isTopFilterChangeActive = false;
   }
 
   getSelectedCrossWalk() {
@@ -1081,6 +1094,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
 
   onSalesRegionSelect() {
@@ -1125,6 +1141,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
 
   onSalesRegionDeSelect() {
@@ -1207,6 +1226,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
 
   onPlanTypeItemSelect() {
@@ -1259,6 +1281,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
 
   onPlanTypeDeSelect() {
@@ -1353,6 +1378,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
 
   onCrossWalkItemSelect() {
@@ -1375,6 +1403,9 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
   }
   onCrossWalkDeSelect() {
     this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;

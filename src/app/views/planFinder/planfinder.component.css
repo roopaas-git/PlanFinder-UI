@@ -150,7 +150,8 @@
 } 
 .back-to-top-btn
 {
-     color: #9776a2;
+    color: #9776a2;
+    z-index: #999;
 }
 .margin-second-pane
 {
@@ -532,3 +533,26 @@ box-shadow: none !important;
   margin-top: 5px !important;
 }
 
+.pc-plans-wrapper-blur
+{
+    position: absolute;
+    margin: 0 1rem !important;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    background-color: #00000082 !important;
+    z-index: 999;
+    border-radius: 2px;
+    box-shadow: 1px 0px 1px 1px #00000082 !important;
+    animation: fadeIn 5s ease-in;
+}
+
+
+@keyframes fadeIn {
+    0% {opacity:0; }
+    100% {opacity:1;}
+  }
+  
+@-webkit-keyframes fadeIn {
+    0% {opacity:0; }
+    100% {opacity:1; }
+  }
