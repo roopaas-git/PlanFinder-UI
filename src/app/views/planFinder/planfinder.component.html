@@ -253,7 +253,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
                         <!-- <div class="pc-sidebar-filter-item px-3">
                             <h3 class="pc-sidebar-filter-title mb-3">Deductible</h3>
                             <div class="pc-sidebar-filter-check">
@@ -281,7 +281,7 @@
                                     (onChange)="ChangeHD($event)" [max]="HDMaxDefaultValue" [min]="HDMinDefaultValue">
                                 </p-slider>
                             </div>
-                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
                                 <div class="pc-sidebar-filter-min d-flex align-items-center">
                                     <label class="m-0 pr-2" for="HDMin">From</label>
                                     <input type="text" id="HDMin"
@@ -298,7 +298,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
                         <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
                             <h3 class="pc-sidebar-filter-title mb-3">Drug Deductible</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
@@ -306,7 +306,7 @@
                                     (onChange)="ChangeDD($event)" [max]="DDMaxDefaultValue" [min]="DDMinDefaultValue">
                                 </p-slider>
                             </div>
-                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
                                 <div class="pc-sidebar-filter-min d-flex align-items-center">
                                     <label class="m-0 pr-2" for="DDMin">From</label>
                                     <input type="text" id="DDMin"
@@ -323,7 +323,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
                         <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
                             <h3 class="pc-sidebar-filter-title mb-3">MOOP</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
@@ -332,7 +332,7 @@
                                     [min]="moopMinDefaultValue">
                                 </p-slider>
                             </div>
-                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
                                 <div class="pc-sidebar-filter-min d-flex align-items-center">
                                     <label class="m-0 pr-2" for="moopMin">From</label>
                                     <input type="text" id="moopMin"
@@ -516,7 +516,7 @@
                                 </p-dropdown>
                                 </div>
                             <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top" >    
-                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;">Benefit Group</div>
+                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">Benefit Group</div>
                                 <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
                                     [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
                                     [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
@@ -592,9 +592,10 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4">
+                        <div class="mr-3 div-margin-top pc-plans-header" style="display: inline-block;">Cost Only</div>
                         <div *ngIf="showPlanCompare" class="align-items-start">
                             <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
-                                labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
+                                labelOn="ON" labelOff="OFF" defaultBgColor="#ed6f66" color="#59A946">
                             </ui-switch>
                         </div>
                         <div style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
@@ -631,7 +632,7 @@
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
                                                 <div class="pc-plan-rating badge badge-info px-2"
-                                                    [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available','star-rating1' : plan.starRating === 'Not enough data available '}">
+                                                    [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available','star-rating1' : plan.starRating === 'Not enough data available ','star-rating2' : plan.starRating === 'Plan too new to be measured'}">
                                                     <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
                                                     <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
