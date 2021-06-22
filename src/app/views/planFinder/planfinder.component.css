@@ -176,6 +176,14 @@ a:not([href])
 {
     background-color: #bda7c4 !important;
 }
+.star-rating2
+{
+    background-color: #9776a2 !important;
+}
+.badge-info {
+    color: #fff;
+    background-color: #99a1cc;
+}
 /*back button*/
 .btn-outline-primary-new
 {
@@ -222,13 +230,13 @@ a:not([href])
 
 /*For custom width of toggle button*/
 :host(::ng-deep .switch-medium){
-    width: 115px !important;
+    width: 90px !important;
     height: 30px !important;
     border-radius: 30px !important;
 }
 /*toggle button small width*/
 :host(::ng-deep .switch-medium.checked small){
-    left: 85px !important;
+    left: 60px !important;
 
 }
 /*on and off toggle switch modifications*/
@@ -236,11 +244,13 @@ a:not([href])
 {
     color: #fff !important;
     margin-top: -0.7mm;
+    margin-right: 1rem;
 }
 :host(::ng-deep .switch .on)
 {
     color: #fff !important;
     margin-top: -0.7mm;
+    margin-left: 1rem;
 }
 /* For the open,save,download dropdown*/
 .dropdown-item.hover, .dropdown-item:hover
@@ -556,3 +566,10 @@ box-shadow: none !important;
     0% {opacity:0; }
     100% {opacity:1; }
   }
+  
+.growth-percent-ribbon
+{
+    background-color:#0d8e0d;
+    border-radius: 1.6px;padding: 1px 2px 0px 2px;
+    font-size:10px;
+}

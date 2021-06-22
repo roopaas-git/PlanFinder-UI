@@ -2395,6 +2395,7 @@ export class PlanfinderComponent implements OnInit {
         let planTypes = result[0].planTypeId.split(",");
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
+        let benefitName = result[0].isSortBy.split(",");
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
       }
     });

@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BenefitService {
-    
+
     constructor(private http : HttpClient, @Inject(APP_CONFIG) private config : AppConfig) { }
 
     getBenefits(): Observable<IBenefit[]> {
