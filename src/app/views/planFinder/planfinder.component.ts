@@ -1572,8 +1572,10 @@ export class PlanfinderComponent implements OnInit {
           this.isEnrollmentSelected = 2;
           this.getChangeInEnrollmentFilters();
           this.FilterAllPlans();
+          this.ReClickLink();
         }
       });
+      this.ReClickLink();
   }
 
   OnEnrollmentToPeriodChange(toPeriod: string) {
@@ -1588,8 +1590,10 @@ export class PlanfinderComponent implements OnInit {
           this.isEnrollmentSelected = 2;
           this.getChangeInEnrollmentFilters();
           this.FilterAllPlans();
+          this.ReClickLink();
         }
       });
+      this.ReClickLink();
   }
 
   OnEnrollmentPeriodChange(period: string) {
@@ -1602,8 +1606,10 @@ export class PlanfinderComponent implements OnInit {
           this.isEnrollmentSelected = 1;
           this.getFilterValues();
           this.FilterAllPlans();
+          this.ReClickLink();
         }
       });
+      this.ReClickLink();
   }
   ReClickLink()
   {

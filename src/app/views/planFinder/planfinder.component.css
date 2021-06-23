@@ -172,11 +172,8 @@ a:not([href])
 {
     background-color: #bda7c4 !important;
 }
+
 .star-rating1
-{
-    background-color: #bda7c4 !important;
-}
-.star-rating2
 {
     background-color: #9776a2 !important;
 }

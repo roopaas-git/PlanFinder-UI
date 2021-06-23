@@ -632,7 +632,7 @@
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
                                                 <div class="pc-plan-rating badge badge-info px-2"
-                                                    [ngClass]="{'star-rating' : plan.starRating === 'Not enough data available','star-rating1' : plan.starRating === 'Not enough data available ','star-rating2' : plan.starRating === 'Plan too new to be measured'}">
+                                                    [ngClass]="{'star-rating' : plan.starRating.includes('Not enough data available'),'star-rating1' : plan.starRating.includes('Plan too new to be measured')}">
                                                     <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
                                                     <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
