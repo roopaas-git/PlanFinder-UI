@@ -501,7 +501,7 @@
                                     </span>
                                 </div>
                             </div>    
-                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center mr-3': !showPlanCompare,'div-sortBy-padding':floatCheck==true }" >
+                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }" >
                                 <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
                                 <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                         (change)="OnBenefitSelect($event.target.value)">
@@ -626,7 +626,15 @@
                                         {{plan.planName}} ({{plan.bidId}})</h3>
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
-                                        <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members</span>
+                                        <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members &nbsp;
+                                            <span class="growth-percent-ribbon">
+                                            <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+                                            <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
+                                            <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
+                                            <i class="fas fa-arrow-up"></i>
+                                        </span>&nbsp;
+                                    <span class="growth-percent-ribbon">{{plan.enrollmentGrowth}}</span>
+                                </span>
                                     </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
@@ -1098,7 +1106,6 @@
                         <input type="text" class="form-control mb-4" id="SaveScenarioName" name="SaveScenarioName"
                             placeholder="Enter Scenario name" [(ngModel)]="SaveScenarioName"
                             #SaveScenarioControl="ngModel" (input)="checkScenarioName()"
-                            style="border: 2px solid #ED6F66 !important;"
                             [ngClass]="{ 'is-invalid': saveForm.submitted && SaveScenarioControl.invalid }" required>
                         <div *ngIf="saveForm.submitted && SaveScenarioControl.errors" class="invalid-feedback">
                             <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
@@ -1152,7 +1159,7 @@
                     <div class="modal-body clearfix p-4">
                         <input type="text" class="form-control mb-4" id="ScenarioName" name="ScenarioName"
                             placeholder="Enter view name" [(ngModel)]="scenarioName" #scenarioControl="ngModel"
-                            (input)="checkSaveASScenarioName()" style="border: 2px solid #ED6F66 !important;"
+                            (input)="checkSaveASScenarioName()"
                             [ngClass]="{ 'is-invalid': saveAsForm.submitted && scenarioControl.invalid }" required>
                         <div *ngIf="saveAsForm.submitted && scenarioControl.errors" class="invalid-feedback">
                             <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
