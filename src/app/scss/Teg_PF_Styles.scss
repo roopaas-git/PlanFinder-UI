@@ -585,7 +585,7 @@ select {
 }
 
 .plan-mem-ribbon-inner {
-  width: 160px;
+  width: 165px;
   height: 30px;
   line-height: 30px;
   padding-left: 15px;
@@ -613,7 +613,7 @@ select {
 .plan-mem-ribbon-inner:after {
   height: 0;
   width: 0;
-  left: -10%;
+  left: -8.5%;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
   border-left: 14px solid #58a946;

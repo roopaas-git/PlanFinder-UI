@@ -1,4 +1,4 @@
-<div class="pc hw-page bg-light d-flex flex-column" id="top" [ngStyle]="{'width':!showPlanCompare? '100%' : 'auto'}">
+<div class="pc hw-page bg-light d-flex flex-column" id="top">
     <app-header [firstName]="firstName" [clientName]="clientName"></app-header>
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
@@ -626,14 +626,19 @@
                                         {{plan.planName}} ({{plan.bidId}})</h3>
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
-                                        <span class="plan-mem-ribbon-inner">{{plan.enrollment}} members &nbsp;
-                                            <span class="growth-percent-ribbon">
-                                            <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
-                                            <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
-                                            <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
+                                        <span class="plan-mem-ribbon-inner">
+                                        <span >{{plan.enrollment}} members &nbsp;</span>
+                                          <span style="float: right;padding-right: 10px !important">
+                                            <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+                                                <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
+                                                <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
                                             <i class="fas fa-arrow-up"></i>
-                                        </span>&nbsp;
-                                    <span class="growth-percent-ribbon">{{plan.enrollmentGrowth}}</span>
+                                            </span>&nbsp;
+                                            <span class="growth-percent-ribbon">
+                                            {{plan.enrollmentGrowth}}%
+                                            </span>
+                                        </span>
                                 </span>
                                     </div>
                                     <div class="d-flex pc-plan-content">
