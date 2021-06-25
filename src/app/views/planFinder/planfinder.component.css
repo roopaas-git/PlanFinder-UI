@@ -65,8 +65,7 @@
   }
 
   .pc {
-      position: absolute !important;
-      width: 100%;
+      position: absolute !important;      
   }
   
   .pc-plans-list-header-wrapper
@@ -426,7 +425,7 @@ min-width:350px;
 
 .floatinDiv
 {
-    width: 100%;
+    /* width: 100%; */
     opacity: 0;
     animation-name: moveDiv ;
     animation-duration: 2s; 

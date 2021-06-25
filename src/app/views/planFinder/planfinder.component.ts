@@ -652,13 +652,13 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  onChangeTopFilterNotifier(){
-    if(this.isTopFilterChangeActive)
-    {
+  onChangeTopFilterNotifier(){    
     setTimeout (() => {
-      this.messageService.add({ severity: 'warn', summary: 'Please apply to update the results' });
-    }, 5000);
-  }
+      if(this.isTopFilterChangeActive)
+      {
+        this.messageService.add({ severity: 'warn', summary: 'Please apply to update the results' });
+      }
+    }, 5000);  
   }
 
   getAllPlans() {
@@ -2170,7 +2170,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   capitalizedCase(obj: any) {
-    let name = obj.toLowerCase().split(" ");
+    let name = obj.toLowerCase().replace('  ', '').split(' ');
     for (let i = 0; i < name.length; i++) {
       name[i] = name[i][0].toUpperCase() + name[i].slice(1);
     }    

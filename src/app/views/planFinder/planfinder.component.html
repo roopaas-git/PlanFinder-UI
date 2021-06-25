@@ -1,4 +1,4 @@
-<div class="pc hw-page bg-light d-flex flex-column" id="top">
+<div class="pc hw-page bg-light d-flex flex-column" id="top" [ngStyle]="{'width':!showPlanCompare? '100%' : 'auto'}">
     <app-header [firstName]="firstName" [clientName]="clientName"></app-header>
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
