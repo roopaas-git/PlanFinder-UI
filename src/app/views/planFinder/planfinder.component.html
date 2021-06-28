@@ -607,13 +607,19 @@
                         <span style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i class="fa fa-search" aria-hidden="true"></i></span> 
                         </div>
                         <div class="ml-auto d-flex align-items-center ml-3">
-                            <button type="button" class="btn btn-sm px-4 mr-3"
+                            <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;"
                                 [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()">Color
                                 Code</button>
-                            <button type="button" class="btn btn-sm px-4"
+                            <!-- <button type="button" class="btn btn-sm px-4"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
-                                (click)="getYOY()">YOY</button>
+                                (click)="getYOY()">YOY</button> -->
+                                YOY &nbsp;&nbsp;
+                                <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings" style="width: 160px !important;"
+                                    [data]="optionsYOY" [(ngModel)]="selectedYoyItems" class="pc-filter-multiselect yoy-custom-compare"
+                                     >
+                                </ng-multiselect-dropdown>
+                                
                         </div>
                     </div>
                 </div>
