@@ -607,3 +607,11 @@ box-shadow: none !important;
     background-color: #BDA7C4 !important;   
     border-color: #BDA7C4 !important;
 }
+:host(::ng-deep .yoy-custom-compare .multiselect-dropdown .dropdown-btn .selected-item:first-child)
+{
+    background-color:  #f4a39d !important;
+}
+:host(::ng-deep .yoy-custom-compare .multiselect-dropdown .dropdown-btn .selected-item)
+{
+    background-color:  #81a5e7 !important;
+}

@@ -79,6 +79,7 @@ export class PlanfinderComponent implements OnInit {
   selectedStateItems = [];
   selectedSalesRegionItems = [];
   selectedCountyItems = [];
+  selectedYoyItems = [];
   selectedPlantypeItems = [];
   selectedSnptypesItems = [];
   selectedCrosswalkItems = [];
@@ -91,6 +92,7 @@ export class PlanfinderComponent implements OnInit {
   toPeriod: string;
   stateDropdownSettings: IDropdownSettings;
   countyDropdownSettings: IDropdownSettings;
+  yoyDropdownSettings: IDropdownSettings;
   planTypeDropdownSettings: IDropdownSettings;
   snptypeDropdownSettings: IDropdownSettings;
   salesRegionDropdownSettings: IDropdownSettings;
@@ -208,6 +210,7 @@ export class PlanfinderComponent implements OnInit {
   previousYear: number;
   previousYears: string;
   currentBenifitYear: number;
+  optionsYOY = [];
   previousBenifitYear: number;
   previousBenifitYears: string;
   scenarioAlreadyExists: string = "";
@@ -277,7 +280,17 @@ export class PlanfinderComponent implements OnInit {
     this.floatCheck = true;
     this.showDiscoverMoreBtn = false;
   }
-
+  addingOptionsForYOY()
+  {
+    this.optionsYOY = [];
+    this.selectedYoyItems = [];
+    var year = this.currentBenifitYear;
+    for(let i=1;i<=2;i++)
+    { 
+      this.optionsYOY.push(year-i);
+    }
+    this.selectedYoyItems.push(this.optionsYOY[0]);
+  }
   constructor(private _userService: UserService, private _stateService: StateService, private _salesRegionService: SalesRegionService,
     private _countyService: CountyService, private _plantypeService: PlantypeService,
     private _snptypeService: SnptypeService, private _crossWalkService: CrosswalkService,
@@ -300,7 +313,6 @@ export class PlanfinderComponent implements OnInit {
     this.bindScenarioNames();
     this.bindMaxperiod();
     this.bindMaxperiodYOY();
-
   }
   pushIntoCustomBids() {
     this.customSelectedBids = [];
@@ -335,6 +347,10 @@ export class PlanfinderComponent implements OnInit {
     if (this.userSelectedScenarioResults == null) {      
       this.bindAllPlanBenefitGroups();
     }
+    // if (this.userSelectedScenarioResults == null) {      
+    //   this.bindAllPlanBenefitGroups();
+    // }
+    this.addingOptionsForYOY();
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
     this.goToTop();
@@ -1879,6 +1895,12 @@ export class PlanfinderComponent implements OnInit {
       itemsShowLimit: 1,
       allowSearchFilter: true
     };
+    this.yoyDropdownSettings = {
+      singleSelection: false,
+      itemsShowLimit: 2,
+      allowSearchFilter: true,
+      enableCheckAll:false
+    }
 
     this.planTypeDropdownSettings = {
       singleSelection: false,
