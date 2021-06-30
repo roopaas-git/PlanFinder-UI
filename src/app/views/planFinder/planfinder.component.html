@@ -1,4 +1,4 @@
-<div class="pc hw-page bg-light d-flex flex-column" id="top">
+<div class="pc hw-page bg-light d-flex flex-column" id="top" [ngStyle]="{'width':!showPlanCompare? '100%' : 'auto'}">
     <app-header [firstName]="firstName" [clientName]="clientName"></app-header>
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
@@ -639,10 +639,17 @@
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
                                         <span class="plan-mem-ribbon-inner">
+<<<<<<< HEAD
                                             <span>{{plan.enrollment}} members &nbsp;</span>
                                             <span style="float: right;padding-right: 10px !important">
                                                 <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
                                                     <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+=======
+                                        <span >{{plan.enrollment}} members &nbsp;</span>                                        
+                                          <span style="float: right;padding-right: 10px !important">
+                                            <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+>>>>>>> 75d6fe5f446e557d893e4b62ee5f7847992bf1e1
                                                 <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
                                                 <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
                                                     <i class="fas fa-arrow-up"></i>
@@ -1153,9 +1160,15 @@
                             {{scenario.scenario}}
                         </option>
                     </select> -->
+                    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
                     <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
-                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario" optionValue="id"
-                        (onChange)="OnScenarioSelect($event.value.id)">
+                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">                        
+                        <ng-template let-option pTemplate="item">
+                            <div>
+                                <span (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}} </span>
+                                <span class="custom-delete-scenario" (click)="OnScenarioSelect(-1, option.value.scenario)" ><i class="fa fa-trash"></i></span>
+                            </div>
+                        </ng-template>
                     </p-dropdown>
                     <!-- <button type="button" class="btn btn-primary float-right px-5">Open</button> -->
                 </div>

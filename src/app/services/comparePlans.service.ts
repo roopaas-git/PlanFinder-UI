@@ -28,6 +28,7 @@ export class ComparePlansservice {
         }))
     }
 
+    // This API is not used Hence Commenting 
     // getComparePlanBenefitDetails(compareWithBasePlan: ICompareWithBasePlans): Observable<any[]> {
     //     let body = JSON.stringify(compareWithBasePlan);
     //     const headers = new HttpHeaders().set('content-type', 'application/json');

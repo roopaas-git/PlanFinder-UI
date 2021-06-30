@@ -36,6 +36,9 @@ import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { DropdownModule } from 'primeng/dropdown';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+
 declare var $: any;
 
 declare global {
@@ -233,6 +236,8 @@ export class PlanfinderComponent implements OnInit {
   filteredBenefits: any[];
   isTopFilterChangeActive: boolean = false;
   showModalBox: boolean = false;
+  confirmDialogMessage: string = '';
+  utcServerDateMonth = new Date().getUTCMonth();
 
 
   floatCheck: boolean = false;
@@ -292,7 +297,7 @@ export class PlanfinderComponent implements OnInit {
     private _snptypeService: SnptypeService, private _crossWalkService: CrosswalkService,
     private _plansService: PlansService, private _benefitService: BenefitService, private _enrollmentService: EnrollmentService,
     private _comparePlansService: ComparePlansservice, private _userInputService: UserInputsService,
-    private _scenarioService: ScenarioService, private messageService: MessageService, private spinner: NgxSpinnerService,
+    private _scenarioService: ScenarioService, private messageService: MessageService, private spinner: NgxSpinnerService, private confirmationService: ConfirmationService,
     private route: ActivatedRoute,
     private eleRef: ElementRef) {
     this.route.queryParams.subscribe(params => {
@@ -340,6 +345,9 @@ export class PlanfinderComponent implements OnInit {
     this.isColorCodeSelected = false;
     this.goToTop();
     this.isReInitializescroller = false;
+    if (this.userSelectedScenarioResults == null) {      
+      this.bindAllPlanBenefitGroups();
+    }
     // if (this.userSelectedScenarioResults == null) {      
     //   this.bindAllPlanBenefitGroups();
     // }
@@ -357,7 +365,11 @@ export class PlanfinderComponent implements OnInit {
 
   bindPlanBenfefitDetails() {
     let bidId: IComparePlans = {
-      bidId: this.selectedBidIds.toString()
+      bidId: this.selectedBidIds.toString(),
+      stateId: this.selectedState,
+      counties :  this.selectedCounty,
+      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      monthNumber : this.utcServerDateMonth
     }
     this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly, this.selectedYears)
       .subscribe((result: any[]) => {
@@ -394,7 +406,9 @@ export class PlanfinderComponent implements OnInit {
       if (element.year != this.currentBenifitYear) {
         this.advanceBenefitSearchItems.push({ benefits: element.benefits });
       }
+      
     });
+    console.log(this.advanceBenefitSearchItems.length);
   }
 
   filterBenefits(event) {
@@ -412,10 +426,19 @@ export class PlanfinderComponent implements OnInit {
   }
 
   onSelectFilterBenefit(event) {
+
+    console.log(event.benefits);
+    if(event.benefits  === 'Enrollments')
+    {
+      alert("Currently Under Implementation");     
+    }
+    else
+    {
     this.spinner.show();
     $().rowHighlighter(true, event.benefits);
     this.spinner.hide();
     $().rowHighlighter(false, event.benefits);
+    }
   }
 
   appfloatingscrollerStatus(statusType, isReInitialize) {
@@ -1488,8 +1511,14 @@ export class PlanfinderComponent implements OnInit {
   onCostOnlyToggleChange(status: any) {
     this.spinner.show();
     this.isCostShareOnly = status;
+<<<<<<< HEAD
     this.bindAllPlanBenefitGroups();
     if (this.selectedBenifit == 'Premium') {
+=======
+    //this.bindAllPlanBenefitGroups();
+    if(this.selectedBenifit  == 'Premium')
+    {        
+>>>>>>> 75d6fe5f446e557d893e4b62ee5f7847992bf1e1
       this.bindPlanBenfefitDetails();
     } else {
       this.OnBenefitSelect(this.selectedBenifit);
@@ -1538,7 +1567,11 @@ export class PlanfinderComponent implements OnInit {
           premium: premium,
           tpv: tpv,
           OOPC: oopc,
-          enrollmentGrowth: enrollmentGrowth
+          enrollmentGrowth: enrollmentGrowth,
+          stateId: this.selectedState,
+          counties :  this.selectedCounty,
+          years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+          monthNumber : this.utcServerDateMonth
         }
 
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort, this.isCostShareOnly, this.selectedYears)
@@ -1590,6 +1623,7 @@ export class PlanfinderComponent implements OnInit {
 
   OnEnrollmentFromPeriodChange(fromPeriod: string) {
     this.selectedEnrollmentFromPeriod = fromPeriod;
+    this.fromPeriod = fromPeriod;
     this.selectedEnrollmentToPeriod = this.toPeriod;
 
     this._plansService.getPlansBetweenPeriods(this.selectedState, this.selectedCounty, this.selectedPlantype, this.selectedSnptype, this.selectedCrosswalk, this.selectedEnrollmentFromPeriod, this.selectedEnrollmentToPeriod)
@@ -1608,6 +1642,7 @@ export class PlanfinderComponent implements OnInit {
 
   OnEnrollmentToPeriodChange(toPeriod: string) {
     this.selectedEnrollmentToPeriod = toPeriod;
+    this.toPeriod = toPeriod;
     this.selectedEnrollmentFromPeriod = this.fromPeriod;
 
     this._plansService.getPlansBetweenPeriods(this.selectedState, this.selectedCounty, this.selectedPlantype, this.selectedSnptype, this.selectedCrosswalk, this.selectedEnrollmentFromPeriod, this.selectedEnrollmentToPeriod)
@@ -1991,7 +2026,11 @@ export class PlanfinderComponent implements OnInit {
   getCompareBasePlanS(basePlan: string, comparePlans: string) {
     let compareWithBasePlan: ICompareWithBasePlans = {
       basePlan: basePlan,
-      comparePlan: comparePlans
+      comparePlan: comparePlans,
+      stateId: this.selectedState,
+      counties :  this.selectedCounty,
+      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      monthNumber : this.utcServerDateMonth
     }
     
     this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly, this.selectedYears)
@@ -2423,7 +2462,9 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  OnScenarioSelect(id: number) {
+  OnScenarioSelect(id: number, name : string) {
+    if(id != -1)
+    {
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
@@ -2436,9 +2477,31 @@ export class PlanfinderComponent implements OnInit {
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
       }
     });
+    }else{
+      this.confirmDialogMessage = name;
+      this.ShowConfirmation();   
+      alert("This scenario is not deleted - API Currently Under Implementation!");        
+    }
     this.floatCheck = false;
     this.goToTop();
   }
+  
+  ShowConfirmation() {    
+    this.confirmationService.confirm({
+        message: 'Do you want to delete '+this.confirmDialogMessage,
+        header: 'Delete Confirmation',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+          this.spinner.show();
+          this.closeOpenModal.nativeElement.click();
+          this.spinner.hide();
+          this.messageService.add({ severity: 'success', summary: this.confirmDialogMessage +' was deleted.' });
+        },
+        reject: () => {
+           // this.msgs = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        }
+    });
+}
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
     this._stateService.getStates().subscribe((result: IState[]) => {

@@ -1,10 +1,18 @@
 export interface IComparePlans {
     bidId: string;
+    stateId: number;
+    counties: string;
+    monthNumber : number;
+    years : string;
 }
 
 export interface ICompareWithBasePlans {
     basePlan: string;
     comparePlan: string;
+    stateId: number;
+    counties: string;
+    monthNumber : number;
+    years : string;
 }
 
 export interface IComparePlansWithOrder {
@@ -14,4 +22,8 @@ export interface IComparePlansWithOrder {
     tpv: string;
     OOPC: string;
     enrollmentGrowth: string;
+    stateId: number;
+    counties: string;
+    monthNumber : number;
+    years : string;
 }

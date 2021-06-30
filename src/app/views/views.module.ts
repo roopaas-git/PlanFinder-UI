@@ -16,8 +16,10 @@ import { SampleGridComponent } from './TestGrid/sample-grid.component';
 import { TestComponent } from './Test/test.component';
 import { TableComponent } from './tableRowSpan/table.component';
 import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'ngx-toggle-switch';
-import {DropdownModule} from 'primeng/dropdown';
+import { DropdownModule} from 'primeng/dropdown';
 import { AutoCompleteModule} from 'primeng/autocomplete';
+import { ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -39,10 +41,11 @@ import { AutoCompleteModule} from 'primeng/autocomplete';
         NgxSpinnerModule,
         UiSwitchModule,
         DropdownModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        ConfirmDialogModule
     ],
     exports: [],
-    providers: []
+    providers: [ConfirmationService]
 })
 
 export class ViewModule { }
