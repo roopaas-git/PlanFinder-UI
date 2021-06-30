@@ -27,14 +27,15 @@ export class ComparePlansservice {
         }))
     }
 
-    getComparePlanBenefitDetails(compareWithBasePlan: ICompareWithBasePlans): Observable<any[]> {
-        let body = JSON.stringify(compareWithBasePlan);
-        const headers = new HttpHeaders().set('content-type', 'application/json');
-        return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlan/`, body, { headers: headers }).pipe(map((data: any) => {
+    // This API is not used Hence Commenting 
+    // getComparePlanBenefitDetails(compareWithBasePlan: ICompareWithBasePlans): Observable<any[]> {
+    //     let body = JSON.stringify(compareWithBasePlan);
+    //     const headers = new HttpHeaders().set('content-type', 'application/json');
+    //     return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlan/`, body, { headers: headers }).pipe(map((data: any) => {
 
-            return data.result
-        }))
-    }
+    //         return data.result
+    //     }))
+    // }
 
     getComparePlanCompactBenefitDetails(compareWithBasePlan: ICompareWithBasePlans, isCostShareOnly: boolean): Observable<any[]> {
         let body = JSON.stringify(compareWithBasePlan);

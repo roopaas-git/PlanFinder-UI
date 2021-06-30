@@ -569,3 +569,41 @@ box-shadow: none !important;
     border-radius: 3.4px;padding: 1px 3px 1px 3.5px;
     font-size:8px;
 }
+
+.custom-delete-scenario
+{
+    float: right;
+    padding: 0 10px 0 0;
+}
+
+:host ::ng-deep .ui-button-icon-left.ui-clickable.pi.pi-check {
+    display: none !important;
+}
+
+:host ::ng-deep .ui-button-icon-left.ui-clickable.pi.pi-times {
+    display: none !important;
+}
+
+:host ::ng-deep .ui-button.ui-button-text-icon-left .ui-button-text {
+    padding: 0.429em !important;
+}
+
+:host ::ng-deep .ui-confirmdialog-acceptbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left {
+    background-color: #9776a2 !important;
+    border: 1px solid #9776a2 !important;
+}
+
+:host ::ng-deep .ui-confirmdialog-rejectbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left {
+    background-color: #9776a2 !important;
+    border: 1px solid #9776a2 !important;
+}
+
+:host ::ng-deep .ui-confirmdialog-acceptbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left:enabled:hover {
+    background-color: #BDA7C4 !important;   
+    border-color: #BDA7C4 !important;
+}
+
+:host ::ng-deep .ui-confirmdialog-rejectbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left:enabled:hover {
+    background-color: #BDA7C4 !important;   
+    border-color: #BDA7C4 !important;
+}
