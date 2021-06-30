@@ -75,7 +75,7 @@ export class PlanfinderComponent implements OnInit {
   plansBenifitsList: IPlansList[] = [];
   cols: any[];
   customSelectedBids = [];
-
+  customSelectedPlanName = [];
   selectedStateItems = [];
   selectedSalesRegionItems = [];
   selectedCountyItems = [];
@@ -85,6 +85,7 @@ export class PlanfinderComponent implements OnInit {
   selectedSnptypesItems = [];
   selectedCrosswalkItems = [];
   selectedBidIds = [];
+  selectedPlanName = [];
   selectedBenifit: string = "Premium";
   selectedEnrollmentFromPeriod: string = null;
   selectedEnrollmentToPeriod: string = null;
@@ -317,8 +318,10 @@ export class PlanfinderComponent implements OnInit {
   }
   pushIntoCustomBids() {
     this.customSelectedBids = [];
+    this.customSelectedPlanName = [];
     for (var i = 0; i < this.selectedBidIds.length; i++) {
       this.customSelectedBids.push({ bid: this.selectedBidIds[i], bidid: this.selectedBidIds[i] });
+      this.customSelectedPlanName.push({pname : this.selectedBidIds[i] + " " +this.selectedPlanName[i],pidName: this.selectedBidIds[i] + "   " +this.selectedPlanName[i]});
     }
     if (this.isColorCodeSelected) {
       // Dont open the modal
@@ -701,6 +704,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.isSelectAllChecked = false;
     this.selectedBidIds = [];
+    this.selectedPlanName = [];
     this.showCompareButton = false;
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
@@ -858,10 +862,11 @@ export class PlanfinderComponent implements OnInit {
   }
   checkUncheckAll() {
     this.selectedBidIds = [];
-
+    this.selectedPlanName = [];
     if (this.isSelectAllChecked) {
       for (var i = 0; i < this.plans.length; i++) {
         this.selectedBidIds.push(this.plans[i].bidId);
+        this.selectedPlanName.push(this.plans[i].planName);
       }
     }
 
@@ -873,15 +878,18 @@ export class PlanfinderComponent implements OnInit {
       var checkBidId = this.selectedBidIds.includes(plan.bidId);
       if (checkBidId == true) {
         this.selectedBidIds = this.selectedBidIds.filter(item => item != plan.bidId);
+        this.selectedPlanName = this.selectedPlanName.filter(item => item != plan.planName);
       }
       else {
-        this.selectedBidIds.push(plan.bidId)
+        this.selectedBidIds.push(plan.bidId);
+        this.selectedPlanName.push(plan.planName);
       }
       this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
     }
     else {
       if (this.selectedBidIds.length == 0) {
         this.selectedBidIds.push(plan.bidId);
+        this.selectedPlanName.push(plan.planName);
       }
     }
 
@@ -1764,6 +1772,7 @@ export class PlanfinderComponent implements OnInit {
 
   OnHomeSafetyChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnPersChange() {
@@ -1857,8 +1866,10 @@ export class PlanfinderComponent implements OnInit {
     }
     if (this.isSelectAllChecked) {
       this.selectedBidIds = [];
+      this.selectedPlanName = [];
       for (var i = 0; i < this.plans.length; i++) {
         this.selectedBidIds.push(this.plans[i].bidId);
+        this.selectedPlanName.push(this.plans[i].planName);
       }
     }
     if (this.selectedBidIds.length > 0) {
@@ -2011,7 +2022,8 @@ export class PlanfinderComponent implements OnInit {
     if (this.isColorCodeSelected == false) {
       this.isColorCodeSelected = true;
     }
-    this.basePlan = selectedPlan;
+    var newSelectedPlan = selectedPlan.substr(0,selectedPlan.indexOf(' '));
+    this.basePlan = newSelectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
     this.floatCheck = false;
@@ -2469,7 +2481,12 @@ export class PlanfinderComponent implements OnInit {
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
         let benefitName = result[0].isSortBy.split(",");
+        // console.log(benefitName);
+        // this.OnBenefitSelect(benefitName);
+        // this.sortBySelected.push(this.benefits[2]);
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
+        
+
       }
     });
     }else{
@@ -2852,6 +2869,7 @@ export class PlanfinderComponent implements OnInit {
       }
       else {
         this.selectedBidIds = [];
+        this.selectedPlanName = [];
       }
       this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
       if (this.showPlanCompare) {
@@ -2884,6 +2902,7 @@ export class PlanfinderComponent implements OnInit {
     this.showPlanCompare = false;
     this.showCompareButton = false;
     this.selectedBidIds = [];
+    this.selectedPlanName = [];
     this.plansBenefits = [];
     this.plansBenifitsList = [];
     this.valuesFromPython = [];

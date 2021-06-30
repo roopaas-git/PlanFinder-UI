@@ -620,6 +620,8 @@
                             <!-- <button type="button" class="btn btn-sm px-4"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
                                 (click)="getYOY()">YOY</button> -->
+
+                                
                             YOY &nbsp;&nbsp;
                             <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings"
                                 style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
@@ -1200,7 +1202,8 @@
     <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 808px;
+            right: 130px;">
                 <div class="modal-header px-4">
                     <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
                     <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
@@ -1214,9 +1217,9 @@
                             {{BidId}}
                         </option>
                     </select> -->
-                    <p-dropdown [style]="{'width': '100%'}" placeholder="Select Base Plan" class="mb-4 customColor"
-                        [options]="customSelectedBids" optionLabel="bid" optionValue="bidid"
-                        (onChange)="onBasePlanSelect($event.value.bid)">
+                    <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
+                        (onChange)="onBasePlanSelect($event.value.pname)">
                     </p-dropdown>
 
                 </div>
