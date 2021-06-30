@@ -511,7 +511,7 @@
                                       </option>
                                       </select> -->
                                 <p-dropdown [options]="benefits" class="different"
-                                    optionLabel="benefit" optionValue="benefit"
+                                    optionLabel="benefit" optionValue="benefit" [(ngModel)]="sortBySelected"
                                     (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
                                 </div>
@@ -615,7 +615,7 @@
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
                                 (click)="getYOY()">YOY</button> -->
                                 YOY &nbsp;&nbsp;
-                                <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings" style="width: 160px !important;"
+                                <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings" style="width: 160px !important;height: 31.5px !important;"
                                     [data]="optionsYOY" [(ngModel)]="selectedYoyItems" class="pc-filter-multiselect yoy-custom-compare"
                                      >
                                 </ng-multiselect-dropdown>
@@ -1195,7 +1195,8 @@
     <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 808px;
+            right: 130px;">
                 <div class="modal-header px-4">
                     <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
                     <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
@@ -1209,9 +1210,9 @@
                             {{BidId}}
                         </option>
                     </select> -->
-                    <p-dropdown [style]="{'width': '100%'}" placeholder="Select Base Plan" class="mb-4 customColor"
-                        [options]="customSelectedBids" optionLabel="bid" optionValue="bidid"
-                        (onChange)="onBasePlanSelect($event.value.bid)">
+                    <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
+                        (onChange)="onBasePlanSelect($event.value.pname)">
                     </p-dropdown>
 
                 </div>
