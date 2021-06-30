@@ -458,7 +458,8 @@
                     <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                         <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                             <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3 "
-                                (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;top: -2px;">
+                                (click)="toggleComparePlanBack()"
+                                style="border-radius:50%;padding: 4px 4px 4px 4px;top: -2px;">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -500,8 +501,9 @@
                                                 15</span></a>
                                     </span>
                                 </div>
-                            </div>    
-                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }" >
+                            </div>
+                            <div
+                                [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }">
                                 <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
                                 <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                         (change)="OnBenefitSelect($event.target.value)">
@@ -510,13 +512,13 @@
                                       {{benefit.benefit}}
                                       </option>
                                       </select> -->
-                                <p-dropdown [options]="benefits" class="different"
-                                    optionLabel="benefit" optionValue="benefit" [(ngModel)]="sortBySelected"
-                                    (onChange)="OnBenefitSelect($event.value.benefit)">
+                                <p-dropdown [options]="benefits" class="different" optionLabel="benefit"
+                                    optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
-                                </div>
-                            <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top" >    
-                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">Benefit Group</div>
+                            </div>
+                            <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top">
+                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">
+                                    Benefit Group</div>
                                 <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
                                     [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
                                     [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
@@ -541,7 +543,7 @@
                                             d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
                                     </svg>
                                 </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" >
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#openModal"><svg
                                             width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder2-open"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -598,13 +600,17 @@
                                 labelOn="ON" labelOff="OFF" defaultBgColor="#ed6f66" color="#59A946">
                             </ui-switch>
                         </div>
-                        <div style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
-                        <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
-                            placeholder="Search Benefit" type="search" field="benefits" [suggestions]="filteredBenefits"
-                            [minLength]="1" (completeMethod)="filterBenefits($event)"
-                            (onSelect)="onSelectFilterBenefit($event)" emptyMessage="No benefit(s) found">
-                        </p-autoComplete>
-                        <span style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i class="fa fa-search" aria-hidden="true"></i></span> 
+                        <div
+                            style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
+                                placeholder="Search Benefit" type="search" field="benefits"
+                                [suggestions]="filteredBenefits" [minLength]="1"
+                                (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
+                                emptyMessage="No benefit(s) found">
+                            </p-autoComplete>
+                            <span
+                                style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
+                                    class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                         <div class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;"
@@ -620,6 +626,12 @@
                                      >
                                 </ng-multiselect-dropdown>
                                 
+                            YOY &nbsp;&nbsp;
+                            <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings"
+                                style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
+                                class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
+                                (onDeSelect)="onYoYItemDeSelect()" >
+                            </ng-multiselect-dropdown>
                         </div>
                     </div>
                 </div>
@@ -639,13 +651,13 @@
                                                 <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
                                                 <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
                                                 <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
-                                            <i class="fas fa-arrow-up"></i>
-                                            </span>&nbsp;
-                                            <span class="growth-percent-ribbon">
-                                            {{plan.enrollmentGrowth}}%
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </span>&nbsp;
+                                                <span class="growth-percent-ribbon">
+                                                    {{plan.enrollmentGrowth}}%
+                                                </span>
                                             </span>
                                         </span>
-                                </span>
                                     </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
@@ -1054,11 +1066,10 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr class="dont-break-out"
-                                            *ngIf="rowData.year != previousBenifitYear ? true : false"
+                                        <tr class="dont-break-out"                                           
                                             [attr.aria-custom-tr]=rowData.benefits
-                                            [ngClass]="{'previousYear' : rowData.year == previousBenifitYears}"
-                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears">
+                                            [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
+                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
                                             <ng-container *ngFor="let col of columns,let i = index">
                                                 <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
                                                     [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
