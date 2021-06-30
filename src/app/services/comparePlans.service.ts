@@ -12,43 +12,44 @@ import { IAllBenefitGroup } from "../model/benefitGroup.model";
 export class ComparePlansservice {
     constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) { }
 
-    getAllBenefitGroups(isCostShareOnly: boolean): Observable<IAllBenefitGroup[]> {    
-        return this.http.get<IAllBenefitGroup[]>(`${this.config.apiEndpoint}ComparePlans/GetAllBenefitGroups/${isCostShareOnly}/`).pipe(map((data: any) => {            
+    getAllBenefitGroups(isCostShareOnly: boolean): Observable<IAllBenefitGroup[]> {
+        return this.http.get<IAllBenefitGroup[]>(`${this.config.apiEndpoint}ComparePlans/GetAllBenefitGroups/${isCostShareOnly}/`).pipe(map((data: any) => {
             return data.result
         }))
     }
-    
-    getBenefitDetails(bidId: IComparePlans, isCostShareOnly: boolean): Observable<any[]> {  
-        let body = JSON.stringify(bidId);        
+
+    getBenefitDetails(bidId: IComparePlans, isCostShareOnly: boolean, years: any[]): Observable<any[]> {
+        let body = JSON.stringify(bidId);
         const headers = new HttpHeaders().set('content-type', 'application/json');
-        return this.http.post<IComparePlans>(`${this.config.apiEndpoint}ComparePlans/GetPlans/${isCostShareOnly}/`, body, { headers: headers }).pipe(map((data: any) => {
+        console.log(years.toString());
+        return this.http.post<IComparePlans>(`${this.config.apiEndpoint}ComparePlans/GetPlans/${isCostShareOnly}/${years.toString()}/`, body, { headers: headers }).pipe(map((data: any) => {
 
             return data.result
         }))
     }
 
-    getComparePlanBenefitDetails(compareWithBasePlan: ICompareWithBasePlans): Observable<any[]> {
+    // getComparePlanBenefitDetails(compareWithBasePlan: ICompareWithBasePlans): Observable<any[]> {
+    //     let body = JSON.stringify(compareWithBasePlan);
+    //     const headers = new HttpHeaders().set('content-type', 'application/json');
+    //     return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlan/`, body, { headers: headers }).pipe(map((data: any) => {
+
+    //         return data.result
+    //     }))
+    // }
+
+    getComparePlanCompactBenefitDetails(compareWithBasePlan: ICompareWithBasePlans, isCostShareOnly:boolean ,years: any[]): Observable<any[]> {
         let body = JSON.stringify(compareWithBasePlan);
         const headers = new HttpHeaders().set('content-type', 'application/json');
-        return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlan/`, body, { headers: headers }).pipe(map((data: any) => {
+        return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlansDetails/${isCostShareOnly}/${years.toString()}/`, body, { headers: headers }).pipe(map((data: any) => {
 
             return data.result
         }))
     }
 
-    getComparePlanCompactBenefitDetails(compareWithBasePlan: ICompareWithBasePlans, isCostShareOnly: boolean): Observable<any[]> {
-        let body = JSON.stringify(compareWithBasePlan);
-        const headers = new HttpHeaders().set('content-type', 'application/json');
-        return this.http.post<ICompareWithBasePlans>(`${this.config.apiEndpoint}ComparePlans/CompareBasePlansDetails/${isCostShareOnly}/`, body, { headers: headers }).pipe(map((data: any) => {
-
-            return data.result
-        }))
-    }
-
-    getComparePlanBenefitInSortOrderDetails(comparePlansSort: IComparePlansWithOrder, isCostShareOnly: boolean): Observable<any[]> {
+    getComparePlanBenefitInSortOrderDetails(comparePlansSort: IComparePlansWithOrder, isCostShareOnly: boolean,years: any[]): Observable<any[]> {
         let body = JSON.stringify(comparePlansSort);
         const headers = new HttpHeaders().set('content-type', 'application/json');
-        return this.http.post<IComparePlansWithOrder>(`${this.config.apiEndpoint}ComparePlans/GetSortOrder/${isCostShareOnly}/`, body, { headers: headers }).pipe(map((data: any) => {
+        return this.http.post<IComparePlansWithOrder>(`${this.config.apiEndpoint}ComparePlans/GetSortOrder/${isCostShareOnly}/${years.toString()}/`, body, { headers: headers }).pipe(map((data: any) => {
 
             return data.result
         }))
