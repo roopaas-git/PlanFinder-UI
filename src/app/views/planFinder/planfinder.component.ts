@@ -368,10 +368,10 @@ export class PlanfinderComponent implements OnInit {
       bidId: this.selectedBidIds.toString(),
       stateId: this.selectedState,
       counties :  this.selectedCounty,
-      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      years : this.selectedYears.toString(),
       monthNumber : this.utcServerDateMonth
     }
-    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly, this.selectedYears)
+    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly )
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.masterPlansBenefits = [];
@@ -1511,18 +1511,13 @@ export class PlanfinderComponent implements OnInit {
   onCostOnlyToggleChange(status: any) {
     this.spinner.show();
     this.isCostShareOnly = status;
-<<<<<<< HEAD
-    this.bindAllPlanBenefitGroups();
-    if (this.selectedBenifit == 'Premium') {
-=======
     //this.bindAllPlanBenefitGroups();
     if(this.selectedBenifit  == 'Premium')
     {        
->>>>>>> 75d6fe5f446e557d893e4b62ee5f7847992bf1e1
       this.bindPlanBenfefitDetails();
-    } else {
+    }else{
       this.OnBenefitSelect(this.selectedBenifit);
-    }
+    }    
     if (this.isColorCodeSelected == true) {
       this.isColorCodeSelected = false;
       this.valuesFromPython = [];
@@ -1570,11 +1565,11 @@ export class PlanfinderComponent implements OnInit {
           enrollmentGrowth: enrollmentGrowth,
           stateId: this.selectedState,
           counties :  this.selectedCounty,
-          years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+          years :  this.selectedYears.toString(),
           monthNumber : this.utcServerDateMonth
         }
 
-        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort, this.isCostShareOnly, this.selectedYears)
+        this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort, this.isCostShareOnly)
           .subscribe((result: any[]) => {
             if (result.length > 0) {
               this.masterPlansBenefits = [];
@@ -2029,11 +2024,11 @@ export class PlanfinderComponent implements OnInit {
       comparePlan: comparePlans,
       stateId: this.selectedState,
       counties :  this.selectedCounty,
-      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      years : this.selectedYears.toString(),
       monthNumber : this.utcServerDateMonth
     }
     
-    this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly, this.selectedYears)
+    this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.plansBenefits = [];
