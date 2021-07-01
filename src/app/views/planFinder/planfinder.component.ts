@@ -426,20 +426,11 @@ export class PlanfinderComponent implements OnInit {
     this.filteredBenefits = filtered;
   }
 
-  onSelectFilterBenefit(event) {
-
-    console.log(event.benefits);
-    if(event.benefits  === 'Enrollments')
-    {
-      alert("Currently Under Implementation");     
-    }
-    else
-    {
+  onSelectFilterBenefit(event) {    
     this.spinner.show();
     $().rowHighlighter(true, event.benefits);
     this.spinner.hide();
-    $().rowHighlighter(false, event.benefits);
-    }
+    $().rowHighlighter(false, event.benefits);    
   }
 
   appfloatingscrollerStatus(statusType, isReInitialize) {
@@ -1443,23 +1434,31 @@ export class PlanfinderComponent implements OnInit {
     this.onChangeTopFilterNotifier();
   }
 
-  onCrossWalkItemSelect() {
+  onCrossWalkItemSelect() {    
     this.clearLeftSideItems();
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
   }
-  onCrossWalkSelectAll(items: any) {
-    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+  onCrossWalkSelectAll(items: any) {    
+    this.clearLeftSideItems(); 
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
+    this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
   }
   onCrossWalkDeSelectAll(items: any) {
     this.selectedCrosswalkItems = [];
-    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.clearLeftSideItems(); 
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
+    this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
@@ -1468,7 +1467,10 @@ export class PlanfinderComponent implements OnInit {
     this.onChangeTopFilterNotifier();
   }
   onCrossWalkDeSelect() {
-    this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.clearLeftSideItems(); 
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
+    this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
@@ -2248,11 +2250,8 @@ export class PlanfinderComponent implements OnInit {
   }
 
   capitalizedCase(obj: any) {
-    let name = obj.toLowerCase().replace('  ', '').split(' ');
-    for (let i = 0; i < name.length; i++) {
-      name[i] = name[i][0].toUpperCase() + name[i].slice(1);
-    }
-    return name.join(" ");
+    let first = obj.substr(0,1).toUpperCase();
+    return first + obj.substr(1); 
   }
 
   exportExcel() {
@@ -2308,7 +2307,7 @@ export class PlanfinderComponent implements OnInit {
 
           let rowData = plansBenefitCopy[i];
 
-          if (i == 1 && this.isYOYSelected && rowData['benefits'] == "Parent Organization") {
+          if (i !=0 && this.isYOYSelected && rowData['benefits'] == "Parent Organization") {
 
           }
           else {
