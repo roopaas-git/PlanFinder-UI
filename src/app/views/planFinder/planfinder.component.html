@@ -620,13 +620,11 @@
                             <!-- <button type="button" class="btn btn-sm px-4"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
                                 (click)="getYOY()">YOY</button> -->
-
-                                
                             YOY &nbsp;&nbsp;
                             <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings"
                                 style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
                                 class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
-                                (onDeSelect)="onYoYItemDeSelect()" >
+                                (onDeSelect)="onYoYItemDeSelect()">
                             </ng-multiselect-dropdown>
                         </div>
                     </div>
@@ -641,10 +639,10 @@
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
                                         <span class="plan-mem-ribbon-inner">
-                                        <span >{{plan.enrollment}} members &nbsp;</span>                                        
-                                          <span style="float: right;padding-right: 10px !important">
-                                            <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
-                                                <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+                                            <span>{{plan.enrollment}} members &nbsp;</span>
+                                            <span style="float: right;padding-right: 10px !important">
+                                                <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                    <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
                                                 <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
                                                 <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
                                                     <i class="fas fa-arrow-up"></i>
@@ -1062,8 +1060,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr class="dont-break-out"                                           
-                                            [attr.aria-custom-tr]=rowData.benefits
+                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
                                             [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
                                             [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
                                             <ng-container *ngFor="let col of columns,let i = index">
@@ -1157,11 +1154,15 @@
                     </select> -->
                     <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
                     <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
-                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">                        
+                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">
                         <ng-template let-option pTemplate="item">
                             <div>
-                                <span (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}} </span>
-                                <span class="custom-delete-scenario" (click)="OnScenarioSelect(-1, option.value.scenario)" ><i class="fa fa-trash"></i></span>
+                                <span
+                                    (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}}
+                                </span>
+                                <span class="custom-delete-scenario"
+                                    (click)="OnScenarioSelect(-1, option.value.scenario)"><i
+                                        class="fa fa-trash"></i></span>
                             </div>
                         </ng-template>
                     </p-dropdown>
