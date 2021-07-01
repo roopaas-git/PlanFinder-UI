@@ -8,7 +8,7 @@ export const environment = {
   apiEndPoint: 'http://192.168.2.40:8081/api/'
   //apiEndPoint :'http://planfinderapi.analytics-hub.com/api/'
   //apiEndPoint: 'http://192.168.2.40:8081/api/' 
-  //  apiEndPoint: 'http://localhost:3738/api/'  
+   // apiEndPoint: 'http://localhost:3738/api/'  
 };
 
 /*

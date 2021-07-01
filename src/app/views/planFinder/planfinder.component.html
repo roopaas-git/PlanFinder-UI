@@ -454,11 +454,12 @@
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5"
                 style="width: 100%;">
                 <div id="divFloat"
-                    [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true}">
+                    [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true,'divFloat-width-set':floatCheck == true && selectedBidIds?.length>5}">
                     <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                         <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                             <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3 "
-                                (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;top: -2px;">
+                                (click)="toggleComparePlanBack()"
+                                style="border-radius:50%;padding: 4px 4px 4px 4px;">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -500,8 +501,9 @@
                                                 15</span></a>
                                     </span>
                                 </div>
-                            </div>    
-                                <div [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }" >
+                            </div>
+                            <div
+                                [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }">
                                 <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
                                 <!-- <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2 btn-sortby"
                                         (change)="OnBenefitSelect($event.target.value)">
@@ -510,13 +512,35 @@
                                       {{benefit.benefit}}
                                       </option>
                                       </select> -->
-                                <p-dropdown [options]="benefits" class="different"
-                                    optionLabel="benefit" optionValue="benefit"
-                                    (onChange)="OnBenefitSelect($event.value.benefit)">
+                                <p-dropdown [options]="benefits" class="different" optionLabel="benefit"
+                                    optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
+                                <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
+                                    <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;margin-left: 20px;"
+                                        [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
+                                        data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()">Color
+                                        Code</button>
+                                    <!-- <button type="button" class="btn btn-sm px-4"
+                                        [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
+                                        (click)="getYOY()">YOY</button> -->
+        
+                                        
+                                    YOY &nbsp;&nbsp;
+                                    <ng-multiselect-dropdown #yoy [placeholder]="'Select Year'" [settings]="yoyDropdownSettings"
+                                        style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
+                                        class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
+                                        (onDeSelect)="onYoYItemDeSelect()" >
+                                    </ng-multiselect-dropdown>
                                 </div>
-                            <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top" >    
-                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">Benefit Group</div>
+                            </div>
+                            <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top">
+                                <div *ngIf="showPlanCompare" class="align-items-start" style="top: 2px;">
+                                    <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
+                                        labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
+                                    </ui-switch>
+                                </div>
+                                <!-- <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">
+                                    Benefit Group</div>
                                 <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
                                     [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
                                     [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
@@ -529,7 +553,7 @@
                                     class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
                                     (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
                                     Apply
-                                </button>
+                                </button> -->
                             </div>
                             <div class="dropdown ml-3" [ngClass]="{'div-margin-top':showPlanCompare}">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle " type="button"
@@ -541,7 +565,7 @@
                                             d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
                                     </svg>
                                 </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" >
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#openModal"><svg
                                             width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder2-open"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -592,34 +616,70 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4">
-                        <div class="mr-3 div-margin-top pc-plans-header" style="display: inline-block;">Cost Only</div>
+                        <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap;margin-left: 45px;margin-top: 5px;">
+                            Benefit Group</div>
+                        <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'" style="width: 280px;margin-left:-67px;"
+                            [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
+                            [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
+                            (onSelect)="onAllBenefitGroupsItemSelect()"
+                            (onDeSelect)="onAllBenefitGroupsDeSelect()"
+                            (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
+                            (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
+                        </ng-multiselect-dropdown>
+                        <button *ngIf="showPlanCompare"
+                            class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
+                            (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
+                            Apply
+                        </button>
+                        <!-- <div class="mr-3 div-margin-top pc-plans-header" style="display: inline-block;">Cost Only</div>
                         <div *ngIf="showPlanCompare" class="align-items-start">
                             <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
                                 labelOn="ON" labelOff="OFF" defaultBgColor="#ed6f66" color="#59A946">
                             </ui-switch>
                         </div>
-                        <div style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
-                        <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
-                            placeholder="Search Benefit" type="search" field="benefits" [suggestions]="filteredBenefits"
-                            [minLength]="1" (completeMethod)="filterBenefits($event)"
-                            (onSelect)="onSelectFilterBenefit($event)" emptyMessage="No benefit(s) found">
-                        </p-autoComplete>
-                        <span style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i class="fa fa-search" aria-hidden="true"></i></span> 
+                        <div
+                            style="border: 1px solid rgb(190, 187, 187);border-radius: 25px;margin:-1px 0 0 10px;background-color :#fff9f9;box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);">
+                            <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
+                                placeholder="Search Benefit" type="search" field="benefits"
+                                [suggestions]="filteredBenefits" [minLength]="1"
+                                (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
+                                emptyMessage="No benefit(s) found">
+                            </p-autoComplete>
+                            <span
+                                style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
+                                    class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                         <div class="ml-auto d-flex align-items-center ml-3">
                             <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;"
                                 [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()">Color
                                 Code</button>
-                            <!-- <button type="button" class="btn btn-sm px-4"
+                            <button type="button" class="btn btn-sm px-4"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
-                                (click)="getYOY()">YOY</button> -->
-                                YOY &nbsp;&nbsp;
-                                <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings" style="width: 160px !important;"
-                                    [data]="optionsYOY" [(ngModel)]="selectedYoyItems" class="pc-filter-multiselect yoy-custom-compare"
-                                     >
-                                </ng-multiselect-dropdown>
-                                
+                                (click)="getYOY()">YOY</button>
+                            YOY &nbsp;&nbsp;
+                            <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings"
+                                style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
+                                class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
+                                (onDeSelect)="onYoYItemDeSelect()">
+                            </ng-multiselect-dropdown> -->
+                            <div class="ml-auto d-flex align-items-center ml-3" style="margin-top: -10px;margin-right: -15px;">
+                            Benefits
+                            <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
+                            placeholder="Search Benefit" type="search" field="benefits" [style]="{'width':'50%'}" [inputStyle]="{'width':'50%'}"
+                                [suggestions]="filteredBenefits" [minLength]="1"
+                                (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
+                                emptyMessage="No benefit(s) found">
+                            </p-autoComplete>
+                            <!-- <div style="border-left: none;border:1px solid #b1afaf;height: 35px;margin: 0px 3px 0px -18px;width: 20px;"><i class="fas fa-angle-down" style="font-size: 15px;
+                                margin: 10px 3px 10px 1px;color: #858282;"></i></div> -->
+                           <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: none;height: 35px;border-radius: 0 5px 5px 0;">
+                            Search
+                           </button>
+                            <!-- <span
+                                style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
+                                    class="fa fa-search" aria-hidden="true"></i></span>
+                        </div> -->
                         </div>
                     </div>
                 </div>
@@ -633,19 +693,19 @@
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
                                         <span class="plan-mem-ribbon-inner">
-                                        <span >{{plan.enrollment}} members &nbsp;</span>                                        
-                                          <span style="float: right;padding-right: 10px !important">
-                                            <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
-                                                <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+                                            <span>{{plan.enrollment}} members &nbsp;</span>
+                                            <span style="float: right;padding-right: 10px !important">
+                                                <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                    <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
                                                 <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
                                                 <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
-                                            <i class="fas fa-arrow-up"></i>
-                                            </span>&nbsp;
-                                            <span class="growth-percent-ribbon">
-                                            {{plan.enrollmentGrowth}}%
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </span>&nbsp;
+                                                <span class="growth-percent-ribbon">
+                                                    {{plan.enrollmentGrowth}}%
+                                                </span>
                                             </span>
                                         </span>
-                                </span>
                                     </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
@@ -1054,11 +1114,9 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr class="dont-break-out"
-                                            *ngIf="rowData.year != previousBenifitYear ? true : false"
-                                            [attr.aria-custom-tr]=rowData.benefits
-                                            [ngClass]="{'previousYear' : rowData.year == previousBenifitYears}"
-                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears">
+                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
+                                            [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
+                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
                                             <ng-container *ngFor="let col of columns,let i = index">
                                                 <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
                                                     [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
@@ -1150,7 +1208,7 @@
                     </select> -->
                     <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
                     <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
-                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">                        
+                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">
                         <ng-template let-option pTemplate="item">
                             <div>
                                 <div class="custom-select-scenario" (click)="OnScenarioSelect(option.value.id)">{{option.value.scenario}} </div>
@@ -1195,7 +1253,8 @@
     <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 808px;
+            right: 130px;">
                 <div class="modal-header px-4">
                     <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
                     <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
@@ -1209,9 +1268,9 @@
                             {{BidId}}
                         </option>
                     </select> -->
-                    <p-dropdown [style]="{'width': '100%'}" placeholder="Select Base Plan" class="mb-4 customColor"
-                        [options]="customSelectedBids" optionLabel="bid" optionValue="bidid"
-                        (onChange)="onBasePlanSelect($event.value.bid)">
+                    <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
+                        (onChange)="onBasePlanSelect($event.value.pname)">
                     </p-dropdown>
 
                 </div>

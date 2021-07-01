@@ -75,15 +75,17 @@ export class PlanfinderComponent implements OnInit {
   plansBenifitsList: IPlansList[] = [];
   cols: any[];
   customSelectedBids = [];
-
+  customSelectedPlanName = [];
   selectedStateItems = [];
   selectedSalesRegionItems = [];
   selectedCountyItems = [];
-  selectedYoyItems = [];
+  selectedYoYItems = [];
+  selectedYears = [];
   selectedPlantypeItems = [];
   selectedSnptypesItems = [];
   selectedCrosswalkItems = [];
   selectedBidIds = [];
+  selectedPlanName = [];
   selectedBenifit: string = "Premium";
   selectedEnrollmentFromPeriod: string = null;
   selectedEnrollmentToPeriod: string = null;
@@ -237,6 +239,7 @@ export class PlanfinderComponent implements OnInit {
   showModalBox: boolean = false;
   utcServerDateMonth = new Date().getUTCMonth();
 
+
   floatCheck: boolean = false;
 
   @ViewChild('saveModal') closeModal: ElementRef;
@@ -260,8 +263,7 @@ export class PlanfinderComponent implements OnInit {
     if (this.floatCheck == true) {
       this.showDiscoverMoreBtn = false;
       scrollPositionAfter = window.pageYOffset;
-      if (scrollPosition >= scrollPositionAfter) 
-      {
+      if (scrollPosition >= scrollPositionAfter) {
         this.floatCheck = false;
       }
     }
@@ -279,16 +281,16 @@ export class PlanfinderComponent implements OnInit {
     this.floatCheck = true;
     this.showDiscoverMoreBtn = false;
   }
-  addingOptionsForYOY()
-  {
+  addingOptionsForYOY() {
     this.optionsYOY = [];
-    this.selectedYoyItems = [];
     var year = this.currentBenifitYear;
-    for(let i=1;i<=2;i++)
-    { 
-      this.optionsYOY.push(year-i);
+    this.selectedYears = [];
+
+    for (let i = 1; i <= 2; i++) {
+      this.optionsYOY.push(year - i);
     }
-    this.selectedYoyItems.push(this.optionsYOY[0]);
+    this.selectedYears.push(this.currentBenifitYear);
+    //this.selectedYoyItems.push(this.optionsYOY[0]);
   }
   constructor(private _userService: UserService, private _stateService: StateService, private _salesRegionService: SalesRegionService,
     private _countyService: CountyService, private _plantypeService: PlantypeService,
@@ -311,12 +313,14 @@ export class PlanfinderComponent implements OnInit {
     // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();
+    this.bindMaxperiodYOY();    
   }
   pushIntoCustomBids() {
     this.customSelectedBids = [];
+    this.customSelectedPlanName = [];
     for (var i = 0; i < this.selectedBidIds.length; i++) {
       this.customSelectedBids.push({ bid: this.selectedBidIds[i], bidid: this.selectedBidIds[i] });
+      this.customSelectedPlanName.push({pname : this.selectedBidIds[i] + " " +this.selectedPlanName[i],pidName: this.selectedBidIds[i] + "   " +this.selectedPlanName[i]});
     }
     if (this.isColorCodeSelected) {
       // Dont open the modal
@@ -350,6 +354,7 @@ export class PlanfinderComponent implements OnInit {
     //   this.bindAllPlanBenefitGroups();
     // }
     this.addingOptionsForYOY();
+    this.selectedYoYItems=[];
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
     this.goToTop();
@@ -366,11 +371,10 @@ export class PlanfinderComponent implements OnInit {
       bidId: this.selectedBidIds.toString(),
       stateId: this.selectedState,
       counties :  this.selectedCounty,
-      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      years : this.selectedYears.toString(),
       monthNumber : this.utcServerDateMonth
     }
-
-    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly)
+    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly )
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.masterPlansBenefits = [];
@@ -388,6 +392,7 @@ export class PlanfinderComponent implements OnInit {
           else {
             this.plansBenefits = this.masterPlansBenefits;
           }
+
           this.appfloatingscrollerStatus(true, this.isReInitializescroller);
           this.getColumns(this.plansBenefits);
         }
@@ -487,7 +492,7 @@ export class PlanfinderComponent implements OnInit {
     this.cols = this.plansBenifitsList;
     this.getPlanBenefitItems();
     this.updateRowGroupMetaData();
-    this.spinner.hide();
+    //this.spinner.hide();
   }
 
   toggleComparePlanBack() {
@@ -685,19 +690,19 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  onChangeTopFilterNotifier(){    
-    setTimeout (() => {
-      if(this.isTopFilterChangeActive)
-      {
+  onChangeTopFilterNotifier() {
+    setTimeout(() => {
+      if (this.isTopFilterChangeActive) {
         this.messageService.add({ severity: 'warn', summary: 'Please apply to update the results' });
       }
-    }, 5000);  
+    }, 5000);
   }
 
   getAllPlans() {
     this.spinner.show();
     this.isSelectAllChecked = false;
     this.selectedBidIds = [];
+    this.selectedPlanName = [];
     this.showCompareButton = false;
     this.getSelectedCrossWalk();
     this.getAllPlansDetails();
@@ -707,13 +712,12 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getSelectedCrossWalk() {
-    if(this.selectedCrosswalkItems.length > 0)
-    { 
+    if (this.selectedCrosswalkItems.length > 0) {
       for (let index = 0; index < this.selectedCrosswalkItems.length; index++) {
         this.selectedCrosswalk = index == 0 ? this.selectedCrosswalkItems[index].id : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[index].id;
       }
-    }else{
-      this.selectedCrosswalk= "0";
+    } else {
+      this.selectedCrosswalk = "0";
     }
   }
 
@@ -856,10 +860,11 @@ export class PlanfinderComponent implements OnInit {
   }
   checkUncheckAll() {
     this.selectedBidIds = [];
-
+    this.selectedPlanName = [];
     if (this.isSelectAllChecked) {
       for (var i = 0; i < this.plans.length; i++) {
         this.selectedBidIds.push(this.plans[i].bidId);
+        this.selectedPlanName.push(this.plans[i].planName);
       }
     }
 
@@ -871,15 +876,18 @@ export class PlanfinderComponent implements OnInit {
       var checkBidId = this.selectedBidIds.includes(plan.bidId);
       if (checkBidId == true) {
         this.selectedBidIds = this.selectedBidIds.filter(item => item != plan.bidId);
+        this.selectedPlanName = this.selectedPlanName.filter(item => item != plan.planName);
       }
       else {
-        this.selectedBidIds.push(plan.bidId)
+        this.selectedBidIds.push(plan.bidId);
+        this.selectedPlanName.push(plan.planName);
       }
       this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
     }
     else {
       if (this.selectedBidIds.length == 0) {
         this.selectedBidIds.push(plan.bidId);
+        this.selectedPlanName.push(plan.planName);
       }
     }
 
@@ -1099,6 +1107,27 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
+  onYoYItemSelect() {
+    this.spinner.show();
+    this.selectedYears = [];
+    this.selectedYears.push(this.currentBenifitYear);
+    for (let i = 0; i < this.selectedYoYItems.length; i++) {
+      this.selectedYears.push(this.selectedYoYItems[i]);
+    };
+    this.bindPlanBenfefitDetails();
+    //this.getYOY();
+  }
+  onYoYItemDeSelect() {
+    this.spinner.show();
+    this.selectedYears = [];
+    this.selectedYears.push(this.currentBenifitYear);
+    for (let i = 0; i < this.selectedYoYItems.length; i++) {
+      this.selectedYears.push(this.selectedYoYItems);
+    };
+    this.bindPlanBenfefitDetails();
+    //this.getYOY();
+  }
+
   onStateItemSelect() {
     this.spinner.show();
     this.selectedSalesRegionItems = [];
@@ -1308,7 +1337,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
     this.selectedCrosswalk = "";
-    this.selectedCrosswalk= "0";
+    this.selectedCrosswalk = "0";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1330,18 +1359,17 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    if(this.selectedPlantypeItems.length > 0)
-    { 
+    if (this.selectedPlantypeItems.length > 0) {
       for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
         this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
       }
       this.getSnptypeDefault(this.selectedPlantypes);
-    }else{
+    } else {
       this.selectedPlantype = "0";
       this.selectedSnptype = "0";
-      this.selectedCrosswalk= "0";
+      this.selectedCrosswalk = "0";
       this.spinner.hide();
-    }    
+    }
   }
 
   onSnptypeItemSelect() {
@@ -1386,26 +1414,25 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    if(this.selectedSnptypesItems.length > 0)
-    { 
+    if (this.selectedSnptypesItems.length > 0) {
       for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
         this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
       }
       this.getCrosswalkDefault(this.selectedSnptype);
-    }else{
+    } else {
       this.selectedSnptype = "0";
-      this.selectedCrosswalk= "0";
+      this.selectedCrosswalk = "0";
       this.spinner.hide();
     }
     // this.selectedSnptype == "" ? "" : this.getCrosswalkDefault(this.selectedSnptype);
   }
 
   onSnptypeDeSelectAll(items: any) {
-    this.clearLeftSideItems();    
+    this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
-    this.selectedCrosswalk= "0";
+    this.selectedCrosswalk = "0";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1431,12 +1458,12 @@ export class PlanfinderComponent implements OnInit {
     this.isTop15Clicked = false;
   }
   onCrossWalkDeSelectAll(items: any) {
-    this.selectedCrosswalkItems = [];    
+    this.selectedCrosswalkItems = [];
     this.clearLeftSideItems(); this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    
+
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
   }
@@ -1508,10 +1535,9 @@ export class PlanfinderComponent implements OnInit {
 
   OnBenefitSelect(item: string) {
     if (item != 'Select Benefit') {
-      
+
       // Yet to implement
-      if(item  == 'Enrollments')
-      {
+      if (item == 'Enrollments') {
         alert("Currently Under Implementation");
         item = "Enrollment Growth";
       }
@@ -1546,7 +1572,7 @@ export class PlanfinderComponent implements OnInit {
           enrollmentGrowth: enrollmentGrowth,
           stateId: this.selectedState,
           counties :  this.selectedCounty,
-          years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+          years :  this.selectedYears.toString(),
           monthNumber : this.utcServerDateMonth
         }
 
@@ -1613,7 +1639,7 @@ export class PlanfinderComponent implements OnInit {
           this.ReClickLink();
         }
       });
-      this.ReClickLink();
+    this.ReClickLink();
   }
 
   OnEnrollmentToPeriodChange(toPeriod: string) {
@@ -1632,7 +1658,7 @@ export class PlanfinderComponent implements OnInit {
           this.ReClickLink();
         }
       });
-      this.ReClickLink();
+    this.ReClickLink();
   }
 
   OnEnrollmentPeriodChange(period: string) {
@@ -1648,24 +1674,19 @@ export class PlanfinderComponent implements OnInit {
           this.ReClickLink();
         }
       });
-      this.ReClickLink();
+    this.ReClickLink();
   }
-  ReClickLink()
-  {
-    if(this.isAllClicked== true)
-    {
+  ReClickLink() {
+    if (this.isAllClicked == true) {
       this.QuickFilter(0);
     }
-    if(this.isTop5Clicked== true)
-    {
+    if (this.isTop5Clicked == true) {
       this.QuickFilter(5);
     }
-    if(this.isTop10Clicked== true)
-    {
+    if (this.isTop10Clicked == true) {
       this.QuickFilter(10);
     }
-    if(this.isTop15Clicked== true)
-    {
+    if (this.isTop15Clicked == true) {
       this.QuickFilter(15);
     }
   }
@@ -1750,6 +1771,7 @@ export class PlanfinderComponent implements OnInit {
 
   OnHomeSafetyChange() {
     this.FilterAllPlans();
+    this.ReClickLink();
   }
 
   OnPersChange() {
@@ -1843,8 +1865,10 @@ export class PlanfinderComponent implements OnInit {
     }
     if (this.isSelectAllChecked) {
       this.selectedBidIds = [];
+      this.selectedPlanName = [];
       for (var i = 0; i < this.plans.length; i++) {
         this.selectedBidIds.push(this.plans[i].bidId);
+        this.selectedPlanName.push(this.plans[i].planName);
       }
     }
     if (this.selectedBidIds.length > 0) {
@@ -1896,7 +1920,7 @@ export class PlanfinderComponent implements OnInit {
       singleSelection: false,
       itemsShowLimit: 2,
       allowSearchFilter: true,
-      enableCheckAll:false
+      enableCheckAll: false
     }
 
     this.planTypeDropdownSettings = {
@@ -1989,7 +2013,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   onBasePlanSelect(selectedPlan: string) {
-    this.spinner.show();
+    this.spinner.show();   
     this.closeColorModal.nativeElement.click()
     let compareBidIds1 = [...this.selectedBidIds]
     let comparePlans = compareBidIds1.toString();
@@ -1997,7 +2021,8 @@ export class PlanfinderComponent implements OnInit {
     if (this.isColorCodeSelected == false) {
       this.isColorCodeSelected = true;
     }
-    this.basePlan = selectedPlan;
+    var newSelectedPlan = selectedPlan.substr(0,selectedPlan.indexOf(' '));
+    this.basePlan = newSelectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
     this.floatCheck = false;
@@ -2010,10 +2035,10 @@ export class PlanfinderComponent implements OnInit {
       comparePlan: comparePlans,
       stateId: this.selectedState,
       counties :  this.selectedCounty,
-      years : this.currentBenifitYear.toString()+"," +(this.currentBenifitYear-1).toString(),
+      years : this.selectedYears.toString(),
       monthNumber : this.utcServerDateMonth
     }
-
+    
     this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
@@ -2029,6 +2054,7 @@ export class PlanfinderComponent implements OnInit {
             }
           });
           this.getColumns(this.plansBenefits);
+          console.log(this.plansBenefits);
           this.runscript(basePlan, comparePlans, this.userId);
         }
       }, err => {
@@ -2088,7 +2114,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getYOY() {
-    this.spinner.show();
+    //this.spinner.show();
     this.isYOYSelected = !this.isYOYSelected;
     this.previousBenifitYear = this.previousBenifitYear > this.currentBenifitYear ? this.previousBenifitYear - 2 : this.previousBenifitYear + 2;
     this.updateRowGroupMetaData();
@@ -2182,7 +2208,9 @@ export class PlanfinderComponent implements OnInit {
           if (year != this.previousBenifitYears) {
             let previousRowData = this.plansBenefits[i - 1];
             let previousRowGroup = previousRowData.sortGroup;
-            if (brand === previousRowGroup) {
+            if (brand == 'Plan Information') {
+            }
+            else if (brand === previousRowGroup) {
               this.rowGroupMetadata[brand].size++;
             }
             else {
@@ -2190,18 +2218,19 @@ export class PlanfinderComponent implements OnInit {
             }
           }
           else {
-            if (this.isYOYSelected) {
-              let previousRowData = this.plansBenefits[i - 1];
-              let previousRowGroup = previousRowData.sortGroup;
-              if (brand == 'Plan Information' && year != this.previousBenifitYear) {
-              }
-              else if (brand === previousRowGroup) {
-                this.rowGroupMetadata[brand].size++;
-              }
-              else {
-                this.rowGroupMetadata[brand] = { index: i, size: 1 };
-              }
+            // if (this.isYOYSelected) {
+            
+            let previousRowData = this.plansBenefits[i - 1];
+            let previousRowGroup = previousRowData.sortGroup;
+            if (brand == 'Plan Information') {
             }
+            else if (brand === previousRowGroup) {
+              this.rowGroupMetadata[brand].size++;
+            }
+            else {
+              this.rowGroupMetadata[brand] = { index: i, size: 1 };
+            }
+            //}
           }
         }
       }
@@ -2222,10 +2251,10 @@ export class PlanfinderComponent implements OnInit {
     let name = obj.toLowerCase().replace('  ', '').split(' ');
     for (let i = 0; i < name.length; i++) {
       name[i] = name[i][0].toUpperCase() + name[i].slice(1);
-    }    
+    }
     return name.join(" ");
   }
-  
+
   exportExcel() {
     this.floatCheck = false;
     this.goToTop();
@@ -2245,28 +2274,26 @@ export class PlanfinderComponent implements OnInit {
       let headerCount: number = 1;
 
       col.forEach(h => {
-        if(headerCount < 3){
-          worksheet.getColumn(headerCount).width = 45;   
-          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle'};          
+        if (headerCount < 3) {
+          worksheet.getColumn(headerCount).width = 45;
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle' };
         }
-        if(headerCount == 3){
-          worksheet.getColumn(headerCount).width = 7;  
-          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle', horizontal: 'right'};
+        if (headerCount == 3) {
+          worksheet.getColumn(headerCount).width = 7;
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle', horizontal: 'right' };
         }
-        if(headerCount > 3){
-          worksheet.getColumn(headerCount).width = 25;   
-          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle'};
-        }        
+        if (headerCount > 3) {
+          worksheet.getColumn(headerCount).width = 25;
+          worksheet.getColumn(headerCount).alignment = { wrapText: true, vertical: 'middle' };
+        }
 
-        if(h== "sortGroup")
-        {
-          header.push(this.capitalizedCase("benefits group"));    
+        if (h == "sortGroup") {
+          header.push(this.capitalizedCase("benefits group"));
         }
-        else
-        {
-          header.push(this.capitalizedCase(h));    
-        }            
-        headerCount++;      
+        else {
+          header.push(this.capitalizedCase(h));
+        }
+        headerCount++;
       });
 
       worksheet.addRow(header);
@@ -2395,25 +2422,25 @@ export class PlanfinderComponent implements OnInit {
       };
 
       worksheet.views = [{
-        state: 'frozen', 
-        xSplit: 3, 
-        ySplit: 1, 
-        topLeftCell: 'D2', 
+        state: 'frozen',
+        xSplit: 3,
+        ySplit: 1,
+        topLeftCell: 'D2',
         activeCell: 'A1'
       }];
-  
-      worksheet.getRow(1).font = { 
-        size: 11, 
-        bold: true, 
-        color: { argb: '78338b'}  
+
+      worksheet.getRow(1).font = {
+        size: 11,
+        bold: true,
+        color: { argb: '78338b' }
       };
-  
+
       worksheet.getRow(1).fill = {
         type: 'pattern',
-        pattern:'solid',
-        fgColor:{argb:'f4f4f4'}
-      };   
- 
+        pattern: 'solid',
+        fgColor: { argb: 'f4f4f4' }
+      };
+
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
           const blob = new Blob([plansBenefitCopy], {
@@ -2451,7 +2478,12 @@ export class PlanfinderComponent implements OnInit {
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
         let benefitName = result[0].isSortBy.split(",");
+        // console.log(benefitName);
+        // this.OnBenefitSelect(benefitName);
+        // this.sortBySelected.push(this.benefits[2]);
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
+        
+
       }
     });    
     this.floatCheck = false;
@@ -2836,6 +2868,7 @@ export class PlanfinderComponent implements OnInit {
       }
       else {
         this.selectedBidIds = [];
+        this.selectedPlanName = [];
       }
       this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
       if (this.showPlanCompare) {
@@ -2868,6 +2901,7 @@ export class PlanfinderComponent implements OnInit {
     this.showPlanCompare = false;
     this.showCompareButton = false;
     this.selectedBidIds = [];
+    this.selectedPlanName = [];
     this.plansBenefits = [];
     this.plansBenifitsList = [];
     this.valuesFromPython = [];
