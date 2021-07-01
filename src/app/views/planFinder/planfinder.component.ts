@@ -2058,7 +2058,7 @@ export class PlanfinderComponent implements OnInit {
           });
           this.getColumns(this.plansBenefits);
           console.log(this.plansBenefits);
-         // this.runscript(basePlan, comparePlans, this.userId);
+          this.runscript(basePlan, comparePlans, this.userId);
         }
       }, err => {
         console.log('HTTP Error', err);

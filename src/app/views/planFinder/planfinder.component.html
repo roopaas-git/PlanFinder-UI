@@ -454,12 +454,12 @@
             <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5"
                 style="width: 100%;">
                 <div id="divFloat"
-                    [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true}">
+                    [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true,'divFloat-width-set':floatCheck == true && selectedBidIds?.length>5}">
                     <div class="pc-plans-header pc-plans-sort d-flex mb-4">
                         <div *ngIf="showPlanCompare" style="padding-top: 2px;">
                             <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3 "
                                 (click)="toggleComparePlanBack()"
-                                style="border-radius:50%;padding: 4px 4px 4px 4px;top: -2px;">
+                                style="border-radius:50%;padding: 4px 4px 4px 4px;">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
@@ -515,9 +515,31 @@
                                 <p-dropdown [options]="benefits" class="different" optionLabel="benefit"
                                     optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
+                                <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
+                                    <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;margin-left: 20px;"
+                                        [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
+                                        data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()">Color
+                                        Code</button>
+                                    <!-- <button type="button" class="btn btn-sm px-4"
+                                        [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
+                                        (click)="getYOY()">YOY</button> -->
+        
+                                        
+                                    YOY &nbsp;&nbsp;
+                                    <ng-multiselect-dropdown #yoy [placeholder]="'Select Year'" [settings]="yoyDropdownSettings"
+                                        style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
+                                        class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
+                                        (onDeSelect)="onYoYItemDeSelect()" >
+                                    </ng-multiselect-dropdown>
+                                </div>
                             </div>
                             <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top">
-                                <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">
+                                <div *ngIf="showPlanCompare" class="align-items-start" style="top: 2px;">
+                                    <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
+                                        labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
+                                    </ui-switch>
+                                </div>
+                                <!-- <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap">
                                     Benefit Group</div>
                                 <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
                                     [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
@@ -531,7 +553,7 @@
                                     class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
                                     (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
                                     Apply
-                                </button>
+                                </button> -->
                             </div>
                             <div class="dropdown ml-3" [ngClass]="{'div-margin-top':showPlanCompare}">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle " type="button"
@@ -594,7 +616,22 @@
                         </div>
                     </div>
                     <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4">
-                        <div class="mr-3 div-margin-top pc-plans-header" style="display: inline-block;">Cost Only</div>
+                        <div *ngIf="showPlanCompare" class="mr-1" style="width: 160px;white-space: nowrap;margin-left: 45px;margin-top: 5px;">
+                            Benefit Group</div>
+                        <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'" style="width: 280px;margin-left:-67px;"
+                            [settings]="filterBenefitGroupsDropdownSettings" [data]="filterBenefitGroups"
+                            [(ngModel)]="selectedFilterBenefitGroupsItems" class="pc-filter-multiselect"
+                            (onSelect)="onAllBenefitGroupsItemSelect()"
+                            (onDeSelect)="onAllBenefitGroupsDeSelect()"
+                            (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
+                            (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
+                        </ng-multiselect-dropdown>
+                        <button *ngIf="showPlanCompare"
+                            class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
+                            (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
+                            Apply
+                        </button>
+                        <!-- <div class="mr-3 div-margin-top pc-plans-header" style="display: inline-block;">Cost Only</div>
                         <div *ngIf="showPlanCompare" class="align-items-start">
                             <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
                                 labelOn="ON" labelOff="OFF" defaultBgColor="#ed6f66" color="#59A946">
@@ -617,649 +654,635 @@
                                 [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
                                 data-toggle="modal" data-target="#colorModal" (click)="pushIntoCustomBids()">Color
                                 Code</button>
-                            <!-- <button type="button" class="btn btn-sm px-4"
+                            <button type="button" class="btn btn-sm px-4"
                                 [ngClass]="{'btn-hw-before' : isYOYSelected, 'btn-hw-click' : !isYOYSelected}"
-                                (click)="getYOY()">YOY</button> -->
+                                (click)="getYOY()">YOY</button>
                             YOY &nbsp;&nbsp;
                             <ng-multiselect-dropdown #yoy [placeholder]="'YOY'" [settings]="yoyDropdownSettings"
                                 style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
                                 class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
                                 (onDeSelect)="onYoYItemDeSelect()">
                             </ng-multiselect-dropdown> -->
-                            <div class="ml-auto d-flex align-items-center ml-3"
-                                style="margin-top: -10px;margin-right: -15px;">
-                                Benefits
-                                <p-autoComplete *ngIf="showPlanCompare"
-                                    class="align-items-start margin-second-pane mr-3 " placeholder="Search Benefit"
-                                    type="search" field="benefits" [style]="{'width':'50%'}"
-                                    [inputStyle]="{'width':'50%'}" [suggestions]="filteredBenefits" [minLength]="1"
-                                    (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
-                                    emptyMessage="No benefit(s) found">
-                                </p-autoComplete>
-                                <!-- <div style="border-left: none;border:1px solid #b1afaf;height: 35px;margin: 0px 3px 0px -18px;width: 20px;"><i class="fas fa-angle-down" style="font-size: 15px;
+                            <div class="ml-auto d-flex align-items-center ml-3" style="margin-top: -10px;margin-right: -15px;">
+                            Benefits
+                            <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
+                            placeholder="Search Benefit" type="search" field="benefits" [style]="{'width':'50%'}" [inputStyle]="{'width':'50%'}"
+                                [suggestions]="filteredBenefits" [minLength]="1"
+                                (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
+                                emptyMessage="No benefit(s) found">
+                            </p-autoComplete>
+                            <!-- <div style="border-left: none;border:1px solid #b1afaf;height: 35px;margin: 0px 3px 0px -18px;width: 20px;"><i class="fas fa-angle-down" style="font-size: 15px;
                                 margin: 10px 3px 10px 1px;color: #858282;"></i></div> -->
-                                <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before"
-                                    style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: none;height: 35px;border-radius: 0 5px 5px 0;">
-                                    Search
-                                </button>
-                                <!-- <span
+                           <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: none;height: 35px;border-radius: 0 5px 5px 0;">
+                            Search
+                           </button>
+                            <!-- <span
                                 style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
                                     class="fa fa-search" aria-hidden="true"></i></span>
                         </div> -->
-                            </div>
                         </div>
                     </div>
-                    <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto'}">
-                        <div *ngIf="!showPlanCompare">
-                            <div class="pc-plans" style="margin:0 1rem;">
-                                <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
-                                    <div class="card-body pb-1">
-                                        <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}.
-                                            {{plan.planName}} ({{plan.bidId}})</h3>
-                                        <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
-                                            style="display: inline-block;float: right;">
-                                            <span class="plan-mem-ribbon-inner">
-                                                <span>{{plan.enrollment}} members &nbsp;</span>
-                                                <span style="float: right;padding-right: 10px !important">
-                                                    <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
-                                                        <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
+                </div>
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto'}">
+                    <div *ngIf="!showPlanCompare">
+                        <div class="pc-plans" style="margin:0 1rem;">
+                            <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
+                                <div class="card-body pb-1">
+                                    <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}.
+                                        {{plan.planName}} ({{plan.bidId}})</h3>
+                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
+                                        style="display: inline-block;float: right;">
+                                        <span class="plan-mem-ribbon-inner">
+                                            <span>{{plan.enrollment}} members &nbsp;</span>
+                                            <span style="float: right;padding-right: 10px !important">
+                                                <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                    <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
                                                 <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
                                                 <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
-                                                        <i class="fas fa-arrow-up"></i>
-                                                    </span>&nbsp;
-                                                    <span class="growth-percent-ribbon">
-                                                        {{plan.enrollmentGrowth}}%
-                                                    </span>
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </span>&nbsp;
+                                                <span class="growth-percent-ribbon">
+                                                    {{plan.enrollmentGrowth}}%
                                                 </span>
                                             </span>
-                                        </div>
-                                        <div class="d-flex pc-plan-content">
-                                            <div class="left flex-grow-1 pr-4">
-                                                <div class="mb-2">
-                                                    <div class="pc-plan-rating badge badge-info px-2"
-                                                        [ngClass]="{'star-rating' : plan.starRating.includes('Not enough data available'),'star-rating1' : plan.starRating.includes('Plan too new to be measured')}">
-                                                        <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
-                                                        <svg class="pc-plan-rating-icon"
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewBox="0 0 24 24" fill="currentColor">
-                                                            <polygon
-                                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex align-items-start">
-                                                    <div class="border-right w-40 pr-2">
-                                                        <table class="table table-sm pc-plan-table mb-0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Premium:</td>
-                                                                    <td>${{plan.premiumCD}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>MOOP:</td>
-                                                                    <td>${{plan.moop}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Deductible:</td>
-                                                                    <td>${{plan.anualDrugDeductible}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>OOPC:</td>
-                                                                    <td>${{plan.oopc}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>TPV:</td>
-                                                                    <td>${{plan.tpv}}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="px-2 w-60">
-                                                        <table class="table table-sm pc-plan-table mb-0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>PCP:</td>
-                                                                    <td>{{plan.pcp}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Specialist:</td>
-                                                                    <td>{{plan.specialist}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Inpatient:</td>
-                                                                    <td>{{plan.inPatientAcute}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>OTC:</td>
-                                                                    <td>{{plan.octCoverage}}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex pc-plan-content">
+                                        <div class="left flex-grow-1 pr-4">
+                                            <div class="mb-2">
+                                                <div class="pc-plan-rating badge badge-info px-2"
+                                                    [ngClass]="{'star-rating' : plan.starRating.includes('Not enough data available'),'star-rating1' : plan.starRating.includes('Plan too new to be measured')}">
+                                                    <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
+                                                    <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
+                                                        width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                        <polygon
+                                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                                    </svg>
                                                 </div>
                                             </div>
-                                            <div class="right d-flex align-items-start pc-plan-benefits-wrapper">
-                                                <div class="w-50 pr-3">
-                                                    <ul class="pc-plan-benefits">
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbCompDental != 0000000">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbCompDental == 0000000">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Comprehensive
-                                                                Dental</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbChiropractor == 1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
+                                            <div class="d-flex align-items-start">
+                                                <div class="border-right w-40 pr-2">
+                                                    <table class="table table-sm pc-plan-table mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Premium:</td>
+                                                                <td>${{plan.premiumCD}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>MOOP:</td>
+                                                                <td>${{plan.moop}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Deductible:</td>
+                                                                <td>${{plan.anualDrugDeductible}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>OOPC:</td>
+                                                                <td>${{plan.oopc}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>TPV:</td>
+                                                                <td>${{plan.tpv}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="px-2 w-60">
+                                                    <table class="table table-sm pc-plan-table mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>PCP:</td>
+                                                                <td>{{plan.pcp}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Specialist:</td>
+                                                                <td>{{plan.specialist}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Inpatient:</td>
+                                                                <td>{{plan.inPatientAcute}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>OTC:</td>
+                                                                <td>{{plan.octCoverage}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="right d-flex align-items-start pc-plan-benefits-wrapper">
+                                            <div class="w-50 pr-3">
+                                                <ul class="pc-plan-benefits">
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbCompDental != 0000000">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbCompDental == 0000000">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Comprehensive
+                                                            Dental</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbChiropractor == 1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
 
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbChiropractor != 1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Chiropractor</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbMeal ==1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbMeal !=1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Meal</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbFitness.indexOf('-') == -1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbFitness.includes('-')">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Fitness</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbOTC == 1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbOTC != 1">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-name p-1 ml-2">OTC</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbVision != 00">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbVision == 00">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Vision</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="w-50 pl-3">
-                                                    <ul class="pc-plan-benefits">
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbHearing != 00">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbHearing == 00">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">Hearing</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbWorldWideEmergency != 000">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbWorldWideEmergency == 000">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-name p-1 ml-2">Worldwide
-                                                                Emegency</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbTeleHealth != '-'">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbTeleHealth == '-'">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-name p-1 ml-2">Tele
-                                                                Health</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbHomeSupport.indexOf('-') == -1 && plan.sbHomeSupport?.length > 2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbHomeSupport.includes('-')">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-name p-1 ml-2">Home
-                                                                Support</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbHomeSaftey.indexOf('-') == -1 && plan.sbHomeSaftey?.length > 2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbHomeSaftey.includes('-')">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-name p-1 ml-2">Home
-                                                                Safety</span>
-                                                        </li>
-                                                        <li class="pc-plan-benefits-item">
-                                                            <span class="pc-plan-benefits-item-icon text-success"
-                                                                *ngIf="plan.sbPers.indexOf('-') == -1 && plan.sbPers?.length > 2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-check">
-                                                                    <polyline points="20 6 9 17 4 12" />
-                                                                </svg>
-                                                            </span>
-                                                            <span class="pc-plan-benefits-item-icon text-danger"
-                                                                *ngIf="plan.sbPers.includes('-')">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                                                                    height="22" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="3"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-x">
-                                                                    <line x1="18" y1="6" x2="6" y2="18" />
-                                                                    <line x1="6" y1="6" x2="18" y2="18" />
-                                                                </svg>
-                                                            </span>
-                                                            <span
-                                                                class="pc-plan-benefits-item-name p-1 ml-2">PERS</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex card-footer bg-transparent border-0">
-                                        <div class="left">
-                                            <div class="form-check form-check-left custom-checkbox">
-                                                <input type="checkbox" class="form-check-input d-none"
-                                                    id="addToCompare-{{plan.bidId}}" [checked]="checkTrue(plan.bidId)"
-                                                    (change)="getCheckedBidId(plan)" value="{{plan.bidId}}" />
-                                                <label class="form-check-label" for="addToCompare-{{plan.bidId}}">
-                                                    <span>Add to Compare</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="showPlanCompare">
-                            <div class="pc-plans-compare">
-                                <div class="pc-plan-compare-table-wrap">
-                                    <p-table [value]="plansBenefits" [columns]='cols'
-                                        tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
-                                        [sortOrder]="0" (onSort)="onSort()">
-                                        <ng-template pTemplate="header" let-columns>
-                                            <tr>
-                                                <ng-container *ngFor="let col of columns, let i = index">
-                                                    <th class="dont-break-out" *ngIf=" i === 0 "
-                                                        [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
-                                                    </th>
-                                                    <th class="dont-break-out" *ngIf=" i != 2 && i !=0 "
-                                                        [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
-                                                        {{col.header}}
-                                                    </th>
-                                                </ng-container>
-                                            </tr>
-                                        </ng-template>
-                                        <ng-template pTemplate="body" let-rowData let-columns="columns"
-                                            let-rowIndex="rowIndex">
-                                            <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
-                                                [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
-                                                [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
-                                                <ng-container *ngFor="let col of columns,let i = index">
-                                                    <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
-                                                        [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
-                                                        class="sortOrderTd dont-break-out "
-                                                        style="font-weight: bold !important;">
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbChiropractor != 1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
                                                         <span
-                                                            class="textRotation dont-break-out">{{rowData.sortGroup}}</span>
-                                                    </td>
-                                                    <td *ngIf=" i > 0 && i != 2 "
-                                                        [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
-                                                        [ngClass]="{'benefits-font-bold' : i === 1}"
-                                                        class="dont-break-out " (click)="handleClick(col.field)">
-                                                        {{rowData[col.field]}}
-                                                    </td>
-                                                </ng-container>
-                                            </tr>
-                                        </ng-template>
-                                    </p-table>
+                                                            class="pc-plan-benefits-item-name p-1 ml-2">Chiropractor</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbMeal ==1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbMeal !=1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Meal</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbFitness.indexOf('-') == -1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbFitness.includes('-')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Fitness</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbOTC == 1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbOTC != 1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">OTC</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbVision != 00">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbVision == 00">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Vision</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="w-50 pl-3">
+                                                <ul class="pc-plan-benefits">
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbHearing != 00">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbHearing == 00">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Hearing</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbWorldWideEmergency != 000">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbWorldWideEmergency == 000">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Worldwide
+                                                            Emegency</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbTeleHealth != '-'">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbTeleHealth == '-'">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Tele
+                                                            Health</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbHomeSupport.indexOf('-') == -1 && plan.sbHomeSupport?.length > 2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbHomeSupport.includes('-')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Home
+                                                            Support</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbHomeSaftey.indexOf('-') == -1 && plan.sbHomeSaftey?.length > 2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbHomeSaftey.includes('-')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">Home
+                                                            Safety</span>
+                                                    </li>
+                                                    <li class="pc-plan-benefits-item">
+                                                        <span class="pc-plan-benefits-item-icon text-success"
+                                                            *ngIf="plan.sbPers.indexOf('-') == -1 && plan.sbPers?.length > 2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-check">
+                                                                <polyline points="20 6 9 17 4 12" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-icon text-danger"
+                                                            *ngIf="plan.sbPers.includes('-')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="22"
+                                                                height="22" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="3"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-x">
+                                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="pc-plan-benefits-item-name p-1 ml-2">PERS</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex card-footer bg-transparent border-0">
+                                    <div class="left">
+                                        <div class="form-check form-check-left custom-checkbox">
+                                            <input type="checkbox" class="form-check-input d-none"
+                                                id="addToCompare-{{plan.bidId}}" [checked]="checkTrue(plan.bidId)"
+                                                (change)="getCheckedBidId(plan)" value="{{plan.bidId}}" />
+                                            <label class="form-check-label" for="addToCompare-{{plan.bidId}}">
+                                                <span>Add to Compare</span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div *ngIf="showCompareButton">
-                            <button #btnClick type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
-                                (click)="toggleComparePlan()">
-                                Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
-                            </button>
                         </div>
                     </div>
-                </div>
-                <div [ngClass]="{'pc-plans-wrapper-blur':isTopFilterChangeActive}"></div>
-            </div>
-            <button *ngIf="showScrollTopBtn" role="button" class="back-to-top-btn" aria-label="Scroll to Top"
-                (click)="goToTop()">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-10.646.354a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11a.5.5 0 0 1-1 0V6.207L5.354 8.354z" />
-                </svg>
-            </button>
-            <button *ngIf="showPlanCompare && showDiscoverMoreBtn" class="btn-custom-discoverMore discoverMore"
-                (click)="showTopDiv()">
-                Discover more &nbsp; <i class="fas fa-caret-down" style="font-size:22px !important"></i>
-            </button>
-        </div>
-        <div class="modal fade" id="saveViewModal" tabindex="-1" role="dialog" aria-labelledby="saveViewModalTitle"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form #saveForm="ngForm">
-                        <div class="modal-header px-4">
-                            <h5 class="modal-title" id="saveViewModalTitle">Save View</h5>
-                            <button #saveModal type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body clearfix p-4">
-                            <input type="text" class="form-control mb-4" id="SaveScenarioName" name="SaveScenarioName"
-                                placeholder="Enter Scenario name" [(ngModel)]="SaveScenarioName"
-                                #SaveScenarioControl="ngModel" (input)="checkScenarioName()"
-                                [ngClass]="{ 'is-invalid': saveForm.submitted && SaveScenarioControl.invalid }"
-                                required>
-                            <div *ngIf="saveForm.submitted && SaveScenarioControl.errors" class="invalid-feedback">
-                                <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">
-                                    Scenario
-                                    name is required</div>
+                    <div *ngIf="showPlanCompare">
+                        <div class="pc-plans-compare">
+                            <div class="pc-plan-compare-table-wrap">
+                                <p-table [value]="plansBenefits" [columns]='cols'
+                                    tableStyleClass="pc-plan-compare-table" sortField="sortGroup" sortMode="single"
+                                    [sortOrder]="0" (onSort)="onSort()">
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <ng-container *ngFor="let col of columns, let i = index">
+                                                <th class="dont-break-out" *ngIf=" i === 0 "
+                                                    [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
+                                                </th>
+                                                <th class="dont-break-out" *ngIf=" i != 2 && i !=0 "
+                                                    [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
+                                                    {{col.header}}
+                                                </th>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-columns="columns"
+                                        let-rowIndex="rowIndex">
+                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
+                                            [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
+                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
+                                            <ng-container *ngFor="let col of columns,let i = index">
+                                                <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
+                                                    [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
+                                                    class="sortOrderTd dont-break-out "
+                                                    style="font-weight: bold !important;">
+                                                    <span
+                                                        class="textRotation dont-break-out">{{rowData.sortGroup}}</span>
+                                                </td>
+                                                <td *ngIf=" i > 0 && i != 2 "
+                                                    [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
+                                                    [ngClass]="{'benefits-font-bold' : i === 1}" class="dont-break-out "
+                                                    (click)="handleClick(col.field)"> {{rowData[col.field]}}
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
                             </div>
-                            <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
-                                {{scenarioAlreadyExists}}
-                            </div>
-                            <button type="submit" id="btnSaveScenario" class="btn btn-hw-before float-right px-5"
-                                (click)="saveUserInputs($event)">Save</button>
                         </div>
-                    </form>
+                    </div>
+                    <div *ngIf="showCompareButton">
+                        <button #btnClick type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
+                            (click)="toggleComparePlan()">
+                            Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
+            <div [ngClass]="{'pc-plans-wrapper-blur':isTopFilterChangeActive}"></div>
         </div>
-        <div class="modal fade" id="openModal" tabindex="-1" aria-labelledby="openModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+        <button *ngIf="showScrollTopBtn" role="button" class="back-to-top-btn" aria-label="Scroll to Top"
+            (click)="goToTop()">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up-circle-fill" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-10.646.354a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11a.5.5 0 0 1-1 0V6.207L5.354 8.354z" />
+            </svg>
+        </button>
+        <button *ngIf="showPlanCompare && showDiscoverMoreBtn" class="btn-custom-discoverMore discoverMore"
+            (click)="showTopDiv()">
+            Discover more &nbsp; <i class="fas fa-caret-down" style="font-size:22px !important"></i>
+        </button>
+    </div>
+    <div class="modal fade" id="saveViewModal" tabindex="-1" role="dialog" aria-labelledby="saveViewModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form #saveForm="ngForm">
                     <div class="modal-header px-4">
-                        <h5 class="modal-title" id="openModalTitle">Open View</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
+                        <h5 class="modal-title" id="saveViewModalTitle">Save View</h5>
+                        <button #saveModal type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body clearfix p-4">
-                        <!-- <select id="openView" class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
+                        <input type="text" class="form-control mb-4" id="SaveScenarioName" name="SaveScenarioName"
+                            placeholder="Enter Scenario name" [(ngModel)]="SaveScenarioName"
+                            #SaveScenarioControl="ngModel" (input)="checkScenarioName()"
+                            [ngClass]="{ 'is-invalid': saveForm.submitted && SaveScenarioControl.invalid }" required>
+                        <div *ngIf="saveForm.submitted && SaveScenarioControl.errors" class="invalid-feedback">
+                            <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
+                                name is required</div>
+                        </div>
+                        <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
+                            {{scenarioAlreadyExists}}
+                        </div>
+                        <button type="submit" id="btnSaveScenario" class="btn btn-hw-before float-right px-5"
+                            (click)="saveUserInputs($event)">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="openModal" tabindex="-1" aria-labelledby="openModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header px-4">
+                    <h5 class="modal-title" id="openModalTitle">Open View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body clearfix p-4">
+                    <!-- <select id="openView" class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
                         <option value="0" selected>Select Scenario</option>
                         <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
                             {{scenario.scenario}}
                         </option>
                     </select> -->
-                        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
-                        <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
-                            class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">
-                            <ng-template let-option pTemplate="item">
-                                <div>
-                                    <span
-                                        (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}}
-                                    </span>
-                                    <span class="custom-delete-scenario"
-                                        (click)="OnScenarioSelect(-1, option.value.scenario)"><i
-                                            class="fa fa-trash"></i></span>
-                                </div>
-                            </ng-template>
-                        </p-dropdown>
-                        <!-- <button type="button" class="btn btn-primary float-right px-5">Open</button> -->
-                    </div>
+                    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+                    <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
+                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">
+                        <ng-template let-option pTemplate="item">
+                            <div>
+                                <span
+                                    (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}}
+                                </span>
+                                <span class="custom-delete-scenario"
+                                    (click)="OnScenarioSelect(-1, option.value.scenario)"><i
+                                        class="fa fa-trash"></i></span>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                    <!-- <button type="button" class="btn btn-primary float-right px-5">Open</button> -->
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="saveAsModal" tabindex="-1" aria-labelledby="saveAsModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form #saveAsForm="ngForm">
-                        <div class="modal-header px-4">
-                            <h5 class="modal-title" id="saveAsModalTitle">Save View As</h5>
-                            <button #saveAsModal type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body clearfix p-4">
-                            <input type="text" class="form-control mb-4" id="ScenarioName" name="ScenarioName"
-                                placeholder="Enter view name" [(ngModel)]="scenarioName" #scenarioControl="ngModel"
-                                (input)="checkSaveASScenarioName()"
-                                [ngClass]="{ 'is-invalid': saveAsForm.submitted && scenarioControl.invalid }" required>
-                            <div *ngIf="saveAsForm.submitted && scenarioControl.errors" class="invalid-feedback">
-                                <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
-                                    Name is required</div>
-                            </div>
-                            <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
-                                {{scenarioAlreadyExists}}
-                            </div>
-                            <button type="submit" class="btn btn-hw-before float-right px-5" id="btnSaveAsScenario"
-                                (click)="saveUserInputs($event)">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" style="width: 808px;
-            right: 130px;">
+    </div>
+    <div class="modal fade" id="saveAsModal" tabindex="-1" aria-labelledby="saveAsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form #saveAsForm="ngForm">
                     <div class="modal-header px-4">
-                        <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
-                        <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            #openModal>
+                        <h5 class="modal-title" id="saveAsModalTitle">Save View As</h5>
+                        <button #saveAsModal type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body clearfix p-4">
-                        <!-- <select class="form-control form-control-md mb-4" (change)="onBasePlanSelect($event.target.value)">
+                        <input type="text" class="form-control mb-4" id="ScenarioName" name="ScenarioName"
+                            placeholder="Enter view name" [(ngModel)]="scenarioName" #scenarioControl="ngModel"
+                            (input)="checkSaveASScenarioName()"
+                            [ngClass]="{ 'is-invalid': saveAsForm.submitted && scenarioControl.invalid }" required>
+                        <div *ngIf="saveAsForm.submitted && scenarioControl.errors" class="invalid-feedback">
+                            <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
+                                Name is required</div>
+                        </div>
+                        <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
+                            {{scenarioAlreadyExists}}
+                        </div>
+                        <button type="submit" class="btn btn-hw-before float-right px-5" id="btnSaveAsScenario"
+                            (click)="saveUserInputs($event)">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 808px;
+            right: 130px;">
+                <div class="modal-header px-4">
+                    <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
+                    <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body clearfix p-4">
+                    <!-- <select class="form-control form-control-md mb-4" (change)="onBasePlanSelect($event.target.value)">
                         <option selected>Select Base Plan</option>
                         <option *ngFor="let BidId of selectedBidIds">
                             {{BidId}}
                         </option>
                     </select> -->
-                        <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
-                            [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
-                            (onChange)="onBasePlanSelect($event.value.pname)">
-                        </p-dropdown>
+                    <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
+                        (onChange)="onBasePlanSelect($event.value.pname)">
+                    </p-dropdown>
 
-                    </div>
                 </div>
             </div>
         </div>
-        <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#f6b5b1">
-            <p style="color: #FFF">Please Wait. </p>
-        </ngx-spinner>
-        <p-toast position="top-right" class="custom-toast" sticky=false></p-toast>
     </div>
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#f6b5b1">
+        <p style="color: #FFF">Please Wait. </p>
+    </ngx-spinner>
+    <p-toast position="top-right" class="custom-toast" sticky=false></p-toast>
+</div>
