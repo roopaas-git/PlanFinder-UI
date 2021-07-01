@@ -314,7 +314,7 @@ export class PlanfinderComponent implements OnInit {
     // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();
+    this.bindMaxperiodYOY();    
   }
   pushIntoCustomBids() {
     this.customSelectedBids = [];
@@ -355,6 +355,7 @@ export class PlanfinderComponent implements OnInit {
     //   this.bindAllPlanBenefitGroups();
     // }
     this.addingOptionsForYOY();
+    this.selectedYoYItems=[];
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
     this.goToTop();
@@ -1120,6 +1121,7 @@ export class PlanfinderComponent implements OnInit {
     //this.getYOY();
   }
   onYoYItemDeSelect() {
+    this.spinner.show();
     this.selectedYears = [];
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
