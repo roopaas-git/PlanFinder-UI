@@ -570,8 +570,16 @@ box-shadow: none !important;
     font-size:8px;
 }
 
+.custom-select-scenario
+{
+    width: 94%; 
+    display: inline-block;
+}
+
 .custom-delete-scenario
 {
+    width: 5%; 
+    display: inline-block;
     float: right;
     padding: 0 10px 0 0;
 }

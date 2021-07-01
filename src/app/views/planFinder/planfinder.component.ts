@@ -235,7 +235,6 @@ export class PlanfinderComponent implements OnInit {
   filteredBenefits: any[];
   isTopFilterChangeActive: boolean = false;
   showModalBox: boolean = false;
-  confirmDialogMessage: string = '';
   utcServerDateMonth = new Date().getUTCMonth();
 
   floatCheck: boolean = false;
@@ -402,12 +401,10 @@ export class PlanfinderComponent implements OnInit {
     this.filteredBenefits = [];
     this.advanceBenefitSearchItems = [];
     this.plansBenefits.forEach(element => {
-      if (element.year != this.currentBenifitYear) {
+      if (element.year == this.currentBenifitYear) {
         this.advanceBenefitSearchItems.push({ benefits: element.benefits });
-      }
-      
+      }      
     });
-    console.log(this.advanceBenefitSearchItems.length);
   }
 
   filterBenefits(event) {
@@ -2444,9 +2441,7 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  OnScenarioSelect(id: number, name : string) {
-    if(id != -1)
-    {
+  OnScenarioSelect(id: number) {    
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
@@ -2458,29 +2453,31 @@ export class PlanfinderComponent implements OnInit {
         let benefitName = result[0].isSortBy.split(",");
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
       }
-    });
-    }else{
-      this.confirmDialogMessage = name;
-      this.ShowConfirmation();   
-      alert("This scenario is not deleted - API Currently Under Implementation!");        
-    }
+    });    
     this.floatCheck = false;
     this.goToTop();
   }
   
-  ShowConfirmation() {    
+  OnConfirmationDeleteScenario(id: number, name : string) {   
     this.confirmationService.confirm({
-        message: 'Do you want to delete '+this.confirmDialogMessage,
+        message: 'Do you want to delete '+name,
         header: 'Delete Confirmation',
         icon: 'pi pi-info-circle',
         accept: () => {
           this.spinner.show();
-          this.closeOpenModal.nativeElement.click();
-          this.spinner.hide();
-          this.messageService.add({ severity: 'success', summary: this.confirmDialogMessage +' was deleted.' });
-        },
-        reject: () => {
-           // this.msgs = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+          this._scenarioService.deleteScenarioById(id).subscribe((result) => {
+            if (result != null) {   
+                this.closeOpenModal.nativeElement.click();       
+                this.spinner.hide();
+              if(result == true)
+              {                
+                this.messageService.add({ severity: 'success', summary: name +' was deleted.' });       
+                this.bindScenarioNames();
+              }else{                
+                this.messageService.add({ severity: 'error', summary: 'Your attempt to delete '+ name +' could not be completed, Please contact administrator.'});         
+              }                         
+            }
+          });         
         }
     });
 }

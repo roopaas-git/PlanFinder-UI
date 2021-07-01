@@ -1153,8 +1153,8 @@
                         class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">                        
                         <ng-template let-option pTemplate="item">
                             <div>
-                                <span (click)="OnScenarioSelect(option.value.id, option.value.scenario)">{{option.value.scenario}} </span>
-                                <span class="custom-delete-scenario" (click)="OnScenarioSelect(-1, option.value.scenario)" ><i class="fa fa-trash"></i></span>
+                                <div class="custom-select-scenario" (click)="OnScenarioSelect(option.value.id)">{{option.value.scenario}} </div>
+                                <div class="custom-delete-scenario" (click)="OnConfirmationDeleteScenario(option.value.id, option.value.scenario)" ><i class="fa fa-trash"></i></div>
                             </div>
                         </ng-template>
                     </p-dropdown>
