@@ -26,7 +26,7 @@ export class ScenarioService {
 
     deleteScenarioById(scenarioId: number) {
         return this.http.delete<boolean[]>(`${this.config.apiEndpoint}Scenario/${scenarioId}`).pipe(map((data: any) => {
-            console.log(data.result);
+           
             return data.result;
         }));
     }

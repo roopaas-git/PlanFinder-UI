@@ -1101,20 +1101,31 @@ export class PlanfinderComponent implements OnInit {
   onYoYItemSelect() {
     this.spinner.show();
     this.selectedYears = [];
+    this.isYOYSelected = false;
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems[i]);
     };
+    
+    if(this.selectedYears.length > 1)
+    {
+      this.isYOYSelected = true;
+    }
     this.bindPlanBenfefitDetails();
     //this.getYOY();
   }
   onYoYItemDeSelect() {
     this.spinner.show();
     this.selectedYears = [];
+    this.isYOYSelected = false;
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems);
     };
+    if(this.selectedYears.length > 1)
+    {
+      this.isYOYSelected = true;
+    }
     this.bindPlanBenfefitDetails();
     //this.getYOY();
   }
@@ -1610,7 +1621,7 @@ export class PlanfinderComponent implements OnInit {
         }
 
         if (this.selectedBenifit == "TPV") {
-          this.plans = this.plans.sort((a, b) => { return b.tpv > a.tpv ? 1 : -1 });
+          this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
         }
 
         if (this.selectedBenifit == "OOPC") {
@@ -2056,7 +2067,7 @@ export class PlanfinderComponent implements OnInit {
             }
           });
           this.getColumns(this.plansBenefits);
-          console.log(this.plansBenefits);
+          //console.log(this.plansBenefits);
           this.runscript(basePlan, comparePlans, this.userId);
         }
       }, err => {
