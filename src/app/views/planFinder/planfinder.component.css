@@ -1,40 +1,28 @@
 .old-car{
     background-color: red !important;
 }
-
 .custom-benefit-ddb{
-    border-radius: 0 5px 5px 0;
-    margin: 0 0 0 -2px;
-    z-index: 999;
+    border-radius: 0 5px 5px 0; margin: 0 0 0 -2px; z-index: 999;
 }
-
 .custom-selectAll
 {
     padding: 0.6% 0 0 2.2%;
 }
-
 .green{
     background-color:#c6e0b4 !important;
 }
-
 .red{
     background-color: #FF7D7D !important;
 }
-
 .gray {
-    color: #fff !important;
-    background-color: gray !important;
+    color: #fff !important; background-color: gray !important;
 }
-
 /* START  */
 /* app.floating-scroller CSS  */
 #floating-scrollbar{border-bottom:2px solid #000!important}.webkit-scrollbar+#floating-scrollbar::-webkit-scrollbar,.webkit-scrollbar::-webkit-scrollbar{height:12px}::-webkit-scrollbar-button:end,::-webkit-scrollbar-button:start{display:none}::-webkit-scrollbar-thumb,::-webkit-scrollbar-track-piece{-webkit-border-radius:8px}::-webkit-scrollbar-track-piece{background-color:#444}::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#777}::-webkit-scrollbar-thumb:hover{background-color:#aaa}
-/*.floating-container{overflow-x: scroll;} .floating-container{ overflow: auto;  } */
 /* app.floating-scroller CSS  */
 /* END  */
-
-/* Frezze Table Header & Highlight Row  */
-
+/* START  *//* Frezze Table Header & Highlight Row  */
 :host(::ng-deep .box ){
   /* #f6e2e1 */
   background-color: #F8C6C1 !important;
@@ -63,6 +51,7 @@
   :host(::ng-deep   .ui-table table) {        
       width: 99.9% !important; 
   }
+  /* END  */ /* Frezze Table Header & Highlight Row  */
 
   .pc {
       position: absolute !important;      
@@ -139,8 +128,7 @@
 :host(::ng-deep .multiselect-dropdown .dropdown-btn .selected-item) 
 {
      background-color:  #AC91B4 !important;
-     font-weight:600 !important;
-     /* background: -webkit-linear-gradient(left, #d7c8dc  0%,#BDA7C4 40%) !important; */
+     font-weight:600 !important;     
      border:  #BDA7C4 !important;
      font-family: "Open Sans";
      overflow: hidden;
@@ -187,8 +175,7 @@ a:not([href])
     border-color:  #f8c4c1 !important;
     background-color: #f8c4c1 !important;
     position: absolute;
-    margin-top: 7px !important;
-   
+    margin-top: 7px !important;   
 }
 .btn-outline-primary-new:hover
 {
@@ -208,8 +195,7 @@ a:not([href])
 :host(::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked + div:before)
 {
     background-color: #f4a39d!important;
-    background: #f4a39d !important ;
-    
+    background: #f4a39d !important ;    
 }
 /*border of dropdown checkboxes*/
 :host(::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:before )
@@ -217,13 +203,11 @@ a:not([href])
     border: 2px solid #333333 !important;
     color: #9776a2 !important;
 }
-
 :host(::ng-deep .multiselect-item-checkbox input[type=checkbox]:checked+div:before) 
 {
     -webkit-animation:.2s ease-in customHWmultiselectScale !important;
     animation:.2s ease-in customHWmultiselectScale !important;
 }  
-
 /*For custom width of toggle button*/
 :host(::ng-deep .switch-medium){
     width: 110px !important;
@@ -233,20 +217,17 @@ a:not([href])
 /*toggle button small width*/
 :host(::ng-deep .switch-medium.checked small){
     left: 80px !important;
-
 }
 /*on and off toggle switch modifications*/
 :host(::ng-deep .switch .off)
 {
     color: #fff !important;
-    margin-top: -0.7mm;
-    /* margin-right: 1rem; */
+    margin-top: -0.7mm;   
 }
 :host(::ng-deep .switch .on)
 {
     color: #fff !important;
-    margin-top: -0.7mm;
-    /* margin-left: 1rem; */
+    margin-top: -0.7mm;   
 }
 /* For the open,save,download dropdown*/
 .dropdown-item.hover, .dropdown-item:hover
@@ -255,37 +236,27 @@ a:not([href])
     text-decoration: none;
     background-color: #f4a39d !important;
   }
-/* select:focus > option:checked{ 
-    background: #000 !important;
-} */    
-
 :host(::ng-deep .la-ball-fussion > div:first-child){
 color: #f6b5b1 !important;
 }
-
 :host(::ng-deep .la-ball-fussion > div:nth-child(2)){
 color: #f4a39d !important;
 }
-
 :host(::ng-deep .la-ball-fussion > div:nth-child(3)){
 color: #f28d86 !important;
 }
-
 :host(::ng-deep .la-ball-fussion > div:nth-child(4)){
 color: #ed6f66 !important;
 }
-
 .benefits-font-bold
 {
     font-weight: bold;
-
 }
 .dont-break-out {
     overflow-wrap: break-word !important;
     word-wrap: break-word !important;
     word-break: break-word !important;
   }
-
 /* color for dropdown toggel after yoy and color code */
 .btn-outline-secondary:not(:disabled):not(.disabled):active, .btn-outline-secondary:not(:disabled):not(.disabled).active, .show > .btn-outline-secondary.dropdown-toggle {
     color: #fff;
@@ -309,7 +280,6 @@ color: #ed6f66 !important;
     transition: border-color 0.2s, box-shadow 0.2s;
     min-width: 5em;
     min-height: 1em !important;
-
 }
 /*for unsetting on click background colour for sort by dropdown*/
 :host(::ng-deep .different  .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight, body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item-group.ui-state-highlight) {
@@ -371,14 +341,12 @@ color: #ed6f66 !important;
       25% { background-color: #F8C4C1 ; color: #ffffff;}
       75% { background-color: #F8C4C1 ; color: #ffffff;}
       100% { background-color: #F8C4C1 ; color: #ffffff;}
-  }
-  
+  }  
   :host(::ng-deep .form-control:focus )
   {
     box-shadow: 0 0 0 0.2em #bda7c4;
     border-color: #bda7c4; 
-  }
-   
+  }   
    /*Focus colour for three dropdown in left panel*/
 :host(::ng-deep .customColor .ui-dropdown:not(.ui-state-disabled).ui-state-focus)
 {
@@ -391,55 +359,37 @@ color: #ed6f66 !important;
     background-color: #F8C4C1 !important;
 }
 :host(::ng-deep span .ui-corner-all){
-/* border-radius: 40px !important; */
 min-width:350px;
 }
 :host(::ng-deep span .ui-inputtext:enabled:focus:not(.ui-state-error))
 {
-    /* box-shadow: 0 0 0 0.2em #bda7c4; */
-    /* border-color: #bda7c4; */
     box-shadow:none;
     border-color:#333333;
 }
 :host(::ng-deep .different .ui-inputtext){
-    font-size: 12.7px !important; 
-    
+    font-size: 12.7px !important;     
 }
-/* :host(::ng-deep .setSize .ui-dropdown-panel .ui-dropdown-item) {
-    font-size: 12px !important ;
-} */
 .discoverMore
 {
   position: fixed;
-  /* bottom: 650px; */
   top:50px;
   left: 42%;
   z-index: 100;
 }
-
 .floatinDiv>div
 {
     margin: 0 0 0 2rem;
     padding: 0 2rem 0 0;
 }
-
 .floatinDiv
 {
-    /* width: 100%; */
     opacity: 0;
     animation-name: moveDiv ;
     animation-duration: 2s; 
     animation-fill-mode: forwards; 
     animation-delay: 0.2s;
-    /* position: fixed;
-    z-index: 100;
-    top:52px; 
-    min-width: 97%;
-    left: 3px; */
     background-color: #fff;
-    top:53.2px !important; 
-    /* left:0;
-    width:99vw; */
+    top:53.2px !important;   
 }
 .divFloat-width-set
 {
@@ -467,10 +417,6 @@ width:99vw;
     border-radius: 2px;
     border:none;
 }
-/* :host(::ng-deep .pc-plan-compare-table .ui-table-tbody > tr:nth-child(even)) {
-    
-    font-size: 40px;
-} */
 :host(::ng-deep .pc-plan-compare-table .ui-table-tbody)
 {
     font-size: 11px;
@@ -488,27 +434,9 @@ width:99vw;
     border-right: none;
     border-radius: 5px 0px 0px 5px;
 }
-/* :host(::ng-deep span .ui-inputtext::-webkit-input-placeholder) {
-    color: rgb(190, 187, 187);
- } */
  .margin-second-pane {
     margin-left: 12px;
 }
-
-/* :host(::ng-deep span .ui-corner-all .ui-autocomplete-list-item) {
-    min-width: 360px;
-    background-color: #fff9f9 !important;
-}
-:host(::ng-deep i-autocomplete-panel)
-{
-left:0px !important;
-border-radius: 6px ;
-box-shadow: none !important;
-}
-:host(::ng-deep .ui-autocomplete .ui-inputtext)
-{
-    background-color: #fff9f9;
-} */
 :host(::ng-deep .ui-autocomplete-panel .ui-autocomplete-items .ui-autocomplete-list-item.ui-state-highlight)
 {
     color: #333333;
@@ -523,10 +451,6 @@ border-color: #b1afaf!important;
 :host(::ng-deep  span .ui-corner-all){
         min-width: 260px;
     }
-/* :host(::ng-deep  .ui-autocomplete-panel .ui-autocomplete-items){
-        padding: 0;
-        min-width: 278px !important;
-} */
 :host(::ng-deep .ui-autocomplete .ui-autocomplete-panel) {
     min-width: 100%;
     border-radius: 2px 2px 2px 2px !important;
@@ -540,7 +464,6 @@ border-color: #b1afaf!important;
     display: inline-flex;
     padding-top: 9px !important;
 }
-
 .label-sortBy-padding
 {
     padding-top: 7px !important;
@@ -549,22 +472,10 @@ border-color: #b1afaf!important;
 {
     left:75px !important;
 }
-:host(::ng-deep input[type="search"]::-webkit-search-cancel-button)  {
-    -webkit-appearance: none;
-    content: '';   
-    display: block;
-    width: 15px;
-    height: 15px;
-    background-image: url("/assets/images/search-icon-30x30.png");
-    background-repeat: no-repeat;
-    background-size: 15px;
-    background-position: top left;    
-  }
 .div-margin-top
 {
   margin-top: 5px !important;
 }
-
 .pc-plans-wrapper-blur
 {
     position: absolute;
@@ -577,31 +488,25 @@ border-color: #b1afaf!important;
     box-shadow: 1px 0px 1px 1px #00000082 !important;
     animation: fadeIn 5s ease-in;
 }
-
-
 @keyframes fadeIn {
     0% {opacity:0; }
     100% {opacity:1;}
-  }
-  
+}  
 @-webkit-keyframes fadeIn {
     0% {opacity:0; }
     100% {opacity:1; }
-  }
-  
+}  
 .growth-percent-ribbon
 {
     background-color:#0d8e0d;
     border-radius: 3.4px;padding: 1px 3px 1px 3.5px;
     font-size:8px;
 }
-
 .custom-select-scenario
 {
     width: 94%; 
     display: inline-block;
 }
-
 .custom-delete-scenario
 {
     width: 5%; 
@@ -609,34 +514,27 @@ border-color: #b1afaf!important;
     float: right;
     padding: 0 10px 0 0;
 }
-
 :host ::ng-deep .ui-button-icon-left.ui-clickable.pi.pi-check {
     display: none !important;
 }
-
 :host ::ng-deep .ui-button-icon-left.ui-clickable.pi.pi-times {
     display: none !important;
 }
-
 :host ::ng-deep .ui-button.ui-button-text-icon-left .ui-button-text {
     padding: 0.429em !important;
 }
-
 :host ::ng-deep .ui-confirmdialog-acceptbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left {
     background-color: #9776a2 !important;
     border: 1px solid #9776a2 !important;
 }
-
 :host ::ng-deep .ui-confirmdialog-rejectbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left {
     background-color: #9776a2 !important;
     border: 1px solid #9776a2 !important;
 }
-
 :host ::ng-deep .ui-confirmdialog-acceptbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left:enabled:hover {
     background-color: #BDA7C4 !important;   
     border-color: #BDA7C4 !important;
 }
-
 :host ::ng-deep .ui-confirmdialog-rejectbutton.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left:enabled:hover {
     background-color: #BDA7C4 !important;   
     border-color: #BDA7C4 !important;
