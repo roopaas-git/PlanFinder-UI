@@ -2385,11 +2385,11 @@ export class PlanfinderComponent implements OnInit {
 
             if (this.isColorCodeSelected) {
               if (this.isYOYSelected) {
-                if ((newRow[2] == this.previousBenifitYears)) {
-                  isRowColorable = false;
+                if ((newRow[2] == this.currentBenifitYear)) {
+                  isRowColorable = true;
                 }
                 else {
-                  isRowColorable = true;
+                  isRowColorable = false;
                 }
               }
               else {
