@@ -1121,7 +1121,9 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
+    this.isColorCodeSelected=false;
     this.selectedYears.push(this.currentBenifitYear);
+    
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems[i]);
     };
@@ -1138,6 +1140,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
+    this.isColorCodeSelected=false;
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems);
