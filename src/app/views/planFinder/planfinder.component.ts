@@ -281,6 +281,24 @@ export class PlanfinderComponent implements OnInit {
     this.floatCheck = true;
     this.showDiscoverMoreBtn = false;
   }
+  settingYOYColour()
+  {
+    getComputedStyle(document.documentElement)
+    .getPropertyValue('--colour-ab-c');
+    getComputedStyle(document.documentElement)
+    .getPropertyValue('--colour-ab-cd');
+    var largest = Math.max.apply(0, this.optionsYOY);
+    if(this.selectedYoYItems[0]==largest)
+    {
+    document.documentElement.style.setProperty('--colour-ab-c', '#81A5E7');
+    document.documentElement.style.setProperty('--colour-ab-cd', '#F8C4C1');
+    }
+    else{
+    document.documentElement.style.setProperty('--colour-ab-c', '#F8C4C1');
+    document.documentElement.style.setProperty('--colour-ab-cd', '#81A5E7');
+
+    }
+  }
   addingOptionsForYOY() {
     this.optionsYOY = [];
     var year = this.currentBenifitYear;
@@ -320,7 +338,7 @@ export class PlanfinderComponent implements OnInit {
     this.customSelectedPlanName = [];
     for (var i = 0; i < this.selectedBidIds.length; i++) {
       this.customSelectedBids.push({ bid: this.selectedBidIds[i], bidid: this.selectedBidIds[i] });
-      this.customSelectedPlanName.push({pname : this.selectedBidIds[i] + " " +this.selectedPlanName[i],pidName: this.selectedBidIds[i] + "   " +this.selectedPlanName[i]});
+      this.customSelectedPlanName.push({pname : this.selectedPlanName[i]+ " " +"("+this.selectedBidIds[i]+")",pidName: this.selectedBidIds[i]});
     }
     if (this.isColorCodeSelected) {
       // Dont open the modal
@@ -1099,6 +1117,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   onYoYItemSelect() {
+    this.settingYOYColour();
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
@@ -1115,6 +1134,7 @@ export class PlanfinderComponent implements OnInit {
     //this.getYOY();
   }
   onYoYItemDeSelect() {
+    this.settingYOYColour();
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
@@ -2035,7 +2055,7 @@ export class PlanfinderComponent implements OnInit {
       this.isColorCodeSelected = true;
     }
     var newSelectedPlan = selectedPlan.substr(0,selectedPlan.indexOf(' '));
-    this.basePlan = newSelectedPlan;
+    this.basePlan = selectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
     this.floatCheck = false;

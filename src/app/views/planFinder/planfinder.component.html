@@ -472,7 +472,7 @@
                             <input type="checkbox" class="form-check-input d-none" id="SelectAll"
                                 [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
                             <label class="form-check-label" for="SelectAll">
-                                <span>Select All</span><span style="padding-left: 40px;">{{plans?.length}} Plans</span>
+                                <span>Select All</span><span style="padding-left: 40px;">Showing {{plans?.length}} Plans</span>
                             </label>
                         </div>
                         <!-- <div [ngClass]="{}"
@@ -1270,7 +1270,7 @@
                     </select> -->
                     <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
                         [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
-                        (onChange)="onBasePlanSelect($event.value.pname)">
+                        (onChange)="onBasePlanSelect($event.value.pidName)">
                     </p-dropdown>
 
                 </div>
