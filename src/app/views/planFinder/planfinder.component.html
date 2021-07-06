@@ -1180,7 +1180,7 @@
                             <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
                                 name is required</div>
                         </div>
-                        <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
+                        <div *ngIf="checkValidScenario" class="alert alert-danger">
                             {{scenarioAlreadyExists}}
                         </div>
                         <button type="submit" id="btnSaveScenario" class="btn btn-hw-before float-right px-5"
@@ -1240,8 +1240,8 @@
                             <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
                                 Name is required</div>
                         </div>
-                        <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
-                            {{scenarioAlreadyExists}}
+                        <div *ngIf="checkValidScenario" class="alert alert-danger">
+                           {{scenarioAlreadyExists}}
                         </div>
                         <button type="submit" class="btn btn-hw-before float-right px-5" id="btnSaveAsScenario"
                             (click)="saveUserInputs($event)">Save</button>
