@@ -2337,6 +2337,7 @@ export class PlanfinderComponent implements OnInit {
       }
 
       if (plansBenefitCopy) {
+        let rowIndexCount = 2;
         for (let i = 0; i < plansBenefitCopy.length; i++) {
 
           let rowData = plansBenefitCopy[i];
@@ -2382,6 +2383,35 @@ export class PlanfinderComponent implements OnInit {
             });
 
             const row = worksheet.addRow(newRow);
+
+            if (this.isYOYSelected)
+            {
+              if (newRow[2] != this.currentBenifitYear) {
+                                
+                
+                if(newRow[2] == (this.currentBenifitYear-1))
+                {
+                  console.log(this.currentBenifitYear-1);
+
+                  worksheet.getRow(rowIndexCount).fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'F8C4C1' }
+                  };
+                }
+
+                if(newRow[2] == (this.currentBenifitYear-2))
+                {
+                  
+                  worksheet.getRow(rowIndexCount).fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: '81A5E7' }
+                  };
+                }
+              }
+            }
+
 
             if (this.isColorCodeSelected) {
               if (this.isYOYSelected) {
@@ -2442,10 +2472,11 @@ export class PlanfinderComponent implements OnInit {
                 });
               }
             }
+            rowIndexCount++;
           }
         }
       }
-
+     
       worksheet.autoFilter = {
         from: 'A1',
         to: {
