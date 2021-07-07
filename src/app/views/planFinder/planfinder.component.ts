@@ -36,8 +36,8 @@ import { IAllBenefitGroup } from 'src/app/model/benefitGroup.model';
 import * as ExcelJS from "exceljs/dist/exceljs.min.js";
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { DropdownModule } from 'primeng/dropdown';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 declare var $: any;
 
@@ -216,6 +216,7 @@ export class PlanfinderComponent implements OnInit {
   previousBenifitYear: number;
   previousBenifitYears: string;
   scenarioAlreadyExists: string = "";
+  checkValidScenario: boolean = false;
   scenarioNamesOnly = [];
   userSelectedScenarioResults: IScenarioResults[];
   isEnrollmentSelected: number = 0;
@@ -281,21 +282,19 @@ export class PlanfinderComponent implements OnInit {
     this.floatCheck = true;
     this.showDiscoverMoreBtn = false;
   }
-  settingYOYColour()
-  {
+  settingYOYColour() {
     getComputedStyle(document.documentElement)
-    .getPropertyValue('--colour-ab-c');
+      .getPropertyValue('--colour-ab-c');
     getComputedStyle(document.documentElement)
-    .getPropertyValue('--colour-ab-cd');
+      .getPropertyValue('--colour-ab-cd');
     var largest = Math.max.apply(0, this.optionsYOY);
-    if(this.selectedYoYItems[0]==largest)
-    {
-    document.documentElement.style.setProperty('--colour-ab-c', '#81A5E7');
-    document.documentElement.style.setProperty('--colour-ab-cd', '#F8C4C1');
+    if (this.selectedYoYItems[0] == largest) {
+      document.documentElement.style.setProperty('--colour-ab-c', '#81A5E7');
+      document.documentElement.style.setProperty('--colour-ab-cd', '#F8C4C1');
     }
-    else{
-    document.documentElement.style.setProperty('--colour-ab-c', '#F8C4C1');
-    document.documentElement.style.setProperty('--colour-ab-cd', '#81A5E7');
+    else {
+      document.documentElement.style.setProperty('--colour-ab-c', '#F8C4C1');
+      document.documentElement.style.setProperty('--colour-ab-cd', '#81A5E7');
 
     }
   }
@@ -331,14 +330,14 @@ export class PlanfinderComponent implements OnInit {
     // this.bindAllPlanBenefitGroups();
     this.bindScenarioNames();
     this.bindMaxperiod();
-    this.bindMaxperiodYOY();    
+    this.bindMaxperiodYOY();
   }
   pushIntoCustomBids() {
     this.customSelectedBids = [];
     this.customSelectedPlanName = [];
     for (var i = 0; i < this.selectedBidIds.length; i++) {
       this.customSelectedBids.push({ bid: this.selectedBidIds[i], bidid: this.selectedBidIds[i] });
-      this.customSelectedPlanName.push({pname : this.selectedPlanName[i]+ " " +"("+this.selectedBidIds[i]+")",pidName: this.selectedBidIds[i]});
+      this.customSelectedPlanName.push({ pname: this.selectedPlanName[i] + " " + "(" + this.selectedBidIds[i] + ")", pidName: this.selectedBidIds[i] });
     }
     if (this.isColorCodeSelected) {
       // Dont open the modal
@@ -365,14 +364,14 @@ export class PlanfinderComponent implements OnInit {
     this.isColorCodeSelected = false;
     this.goToTop();
     this.isReInitializescroller = false;
-    if (this.userSelectedScenarioResults == null) {      
+    if (this.userSelectedScenarioResults == null) {
       this.bindAllPlanBenefitGroups();
     }
     // if (this.userSelectedScenarioResults == null) {      
     //   this.bindAllPlanBenefitGroups();
     // }
     this.addingOptionsForYOY();
-    this.selectedYoYItems=[];
+    this.selectedYoYItems = [];
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
     this.goToTop();
@@ -388,11 +387,11 @@ export class PlanfinderComponent implements OnInit {
     let bidId: IComparePlans = {
       bidId: this.selectedBidIds.toString(),
       stateId: this.selectedState,
-      counties :  this.selectedCounty,
-      years : this.selectedYears.toString(),
-      monthNumber : this.utcServerDateMonth
+      counties: this.selectedCounty,
+      years: this.selectedYears.toString(),
+      monthNumber: this.utcServerDateMonth
     }
-    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly )
+    this._comparePlansService.getBenefitDetails(bidId, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
           this.masterPlansBenefits = [];
@@ -426,7 +425,7 @@ export class PlanfinderComponent implements OnInit {
     this.plansBenefits.forEach(element => {
       if (element.year == this.currentBenifitYear) {
         this.advanceBenefitSearchItems.push({ benefits: element.benefits });
-      }      
+      }
     });
   }
 
@@ -444,11 +443,11 @@ export class PlanfinderComponent implements OnInit {
     this.filteredBenefits = filtered;
   }
 
-  onSelectFilterBenefit(event) {    
+  onSelectFilterBenefit(event) {
     this.spinner.show();
     $().rowHighlighter(true, event.benefits);
     this.spinner.hide();
-    $().rowHighlighter(false, event.benefits);    
+    $().rowHighlighter(false, event.benefits);
   }
 
   appfloatingscrollerStatus(statusType, isReInitialize) {
@@ -1121,15 +1120,14 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
-    this.isColorCodeSelected=false;
+    this.isColorCodeSelected = false;
     this.selectedYears.push(this.currentBenifitYear);
-    
+
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems[i]);
     };
-    
-    if(this.selectedYears.length > 1)
-    {
+
+    if (this.selectedYears.length > 1) {
       this.isYOYSelected = true;
     }
     this.bindPlanBenfefitDetails();
@@ -1140,13 +1138,12 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
-    this.isColorCodeSelected=false;
+    this.isColorCodeSelected = false;
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems);
     };
-    if(this.selectedYears.length > 1)
-    {
+    if (this.selectedYears.length > 1) {
       this.isYOYSelected = true;
     }
     this.bindPlanBenfefitDetails();
@@ -1468,7 +1465,7 @@ export class PlanfinderComponent implements OnInit {
     this.onChangeTopFilterNotifier();
   }
 
-  onCrossWalkItemSelect() {    
+  onCrossWalkItemSelect() {
     this.clearLeftSideItems();
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
@@ -1478,8 +1475,8 @@ export class PlanfinderComponent implements OnInit {
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
   }
-  onCrossWalkSelectAll(items: any) {    
-    this.clearLeftSideItems(); 
+  onCrossWalkSelectAll(items: any) {
+    this.clearLeftSideItems();
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
     this.isSelectAllChecked = false; this.isAllClicked = false;
@@ -1489,7 +1486,7 @@ export class PlanfinderComponent implements OnInit {
   }
   onCrossWalkDeSelectAll(items: any) {
     this.selectedCrosswalkItems = [];
-    this.clearLeftSideItems(); 
+    this.clearLeftSideItems();
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
     this.isSelectAllChecked = false; this.isAllClicked = false;
@@ -1501,7 +1498,7 @@ export class PlanfinderComponent implements OnInit {
     this.onChangeTopFilterNotifier();
   }
   onCrossWalkDeSelect() {
-    this.clearLeftSideItems(); 
+    this.clearLeftSideItems();
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
     this.isSelectAllChecked = false; this.isAllClicked = false;
@@ -1555,12 +1552,11 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.isCostShareOnly = status;
     //this.bindAllPlanBenefitGroups();
-    if(this.selectedBenifit  == 'Premium')
-    {        
+    if (this.selectedBenifit == 'Premium') {
       this.bindPlanBenfefitDetails();
-    }else{
+    } else {
       this.OnBenefitSelect(this.selectedBenifit);
-    }    
+    }
     if (this.isColorCodeSelected == true) {
       this.isColorCodeSelected = false;
       this.valuesFromPython = [];
@@ -1607,9 +1603,9 @@ export class PlanfinderComponent implements OnInit {
           OOPC: oopc,
           enrollmentGrowth: enrollmentGrowth,
           stateId: this.selectedState,
-          counties :  this.selectedCounty,
-          years :  this.selectedYears.toString(),
-          monthNumber : this.utcServerDateMonth
+          counties: this.selectedCounty,
+          years: this.selectedYears.toString(),
+          monthNumber: this.utcServerDateMonth
         }
 
         this._comparePlansService.getComparePlanBenefitInSortOrderDetails(comparePlansSort, this.isCostShareOnly)
@@ -2049,7 +2045,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   onBasePlanSelect(selectedPlan: string) {
-    this.spinner.show();   
+    this.spinner.show();
     this.closeColorModal.nativeElement.click()
     let compareBidIds1 = [...this.selectedBidIds]
     let comparePlans = compareBidIds1.toString();
@@ -2057,7 +2053,7 @@ export class PlanfinderComponent implements OnInit {
     if (this.isColorCodeSelected == false) {
       this.isColorCodeSelected = true;
     }
-    var newSelectedPlan = selectedPlan.substr(0,selectedPlan.indexOf(' '));
+    var newSelectedPlan = selectedPlan.substr(0, selectedPlan.indexOf(' '));
     this.basePlan = selectedPlan;
     this.valuesFromPython = null;
     this.getCompareBasePlanS(this.basePlan, comparePlans);
@@ -2070,11 +2066,11 @@ export class PlanfinderComponent implements OnInit {
       basePlan: basePlan,
       comparePlan: comparePlans,
       stateId: this.selectedState,
-      counties :  this.selectedCounty,
-      years : this.selectedYears.toString(),
-      monthNumber : this.utcServerDateMonth
+      counties: this.selectedCounty,
+      years: this.selectedYears.toString(),
+      monthNumber: this.utcServerDateMonth
     }
-    
+
     this._comparePlansService.getComparePlanCompactBenefitDetails(compareWithBasePlan, this.isCostShareOnly)
       .subscribe((result: any[]) => {
         if (result.length > 0) {
@@ -2159,7 +2155,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   saveUserInputs(event) {
-    if (this.scenarioAlreadyExists == "Scenario Name Already Exists!") { return; }
+    if (this.checkValidScenario) { return; }
     let elementId: string = (event.target as Element).id;
     let selectedModal = elementId == "btnSaveScenario" ? 1 : 2;
     let ScenarioValue = selectedModal == 1 ? this.SaveScenarioName : this.scenarioName;
@@ -2215,12 +2211,16 @@ export class PlanfinderComponent implements OnInit {
 
     this._userInputService.addUserInputs(userInputData).subscribe((res: IApiResponse) => {
       if (res.success) {
+        this.scenarioAlreadyExists="";
+        this.checkValidScenario=false;
         selectedModal == 1 ? this.closeModal.nativeElement.click() : this.closeSaveAsModal.nativeElement.click();
         selectedModal == 1 ? this.SaveScenarioName = "" : this.scenarioName = "";
         this.messageService.add({ severity: 'success', summary: 'Saved successfully' });
         this.bindScenarioNames();
       }
       else {
+        this.scenarioAlreadyExists="";
+        this.checkValidScenario=false;
         selectedModal == 1 ? this.closeModal.nativeElement.click() : this.closeSaveAsModal.nativeElement.click();
         selectedModal == 1 ? this.SaveScenarioName = "" : this.scenarioName = "";
         this.messageService.add({ severity: 'error', summary: res.error });
@@ -2255,7 +2255,7 @@ export class PlanfinderComponent implements OnInit {
           }
           else {
             // if (this.isYOYSelected) {
-            
+
             let previousRowData = this.plansBenefits[i - 1];
             let previousRowGroup = previousRowData.sortGroup;
             if (brand == 'Plan Information') {
@@ -2284,8 +2284,8 @@ export class PlanfinderComponent implements OnInit {
   }
 
   capitalizedCase(obj: any) {
-    let first = obj.substr(0,1).toUpperCase();
-    return first + obj.substr(1); 
+    let first = obj.substr(0, 1).toUpperCase();
+    return first + obj.substr(1);
   }
 
   exportExcel() {
@@ -2342,7 +2342,7 @@ export class PlanfinderComponent implements OnInit {
 
           let rowData = plansBenefitCopy[i];
 
-          if (i !=0 && this.isYOYSelected && rowData['benefits'] == "Parent Organization") {
+          if (i != 0 && this.isYOYSelected && rowData['benefits'] == "Parent Organization") {
 
           }
           else {
@@ -2532,7 +2532,7 @@ export class PlanfinderComponent implements OnInit {
     });
   }
 
-  OnScenarioSelect(id: number) {    
+  OnScenarioSelect(id: number) {
     this._scenarioService.getScenarioResultsById(id).subscribe((result) => {
       if (result != null) {
         this.spinner.show();
@@ -2546,37 +2546,36 @@ export class PlanfinderComponent implements OnInit {
         // this.OnBenefitSelect(benefitName);
         // this.sortBySelected.push(this.benefits[2]);
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-        
+
 
       }
-    });    
+    });
     this.floatCheck = false;
     this.goToTop();
   }
-  
-  OnConfirmationDeleteScenario(id: number, name : string) {   
+
+  OnConfirmationDeleteScenario(id: number, name: string) {
     this.confirmationService.confirm({
-        message: 'Do you want to delete '+name,
-        header: 'Delete Confirmation',
-        icon: 'pi pi-info-circle',
-        accept: () => {
-          this.spinner.show();
-          this._scenarioService.deleteScenarioById(id).subscribe((result) => {
-            if (result != null) {   
-                this.closeOpenModal.nativeElement.click();       
-                this.spinner.hide();
-              if(result == true)
-              {                
-                this.messageService.add({ severity: 'success', summary: name +' was deleted.' });       
-                this.bindScenarioNames();
-              }else{                
-                this.messageService.add({ severity: 'error', summary: 'Your attempt to delete '+ name +' could not be completed, Please contact administrator.'});         
-              }                         
+      message: 'Do you want to delete ' + name,
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.spinner.show();
+        this._scenarioService.deleteScenarioById(id).subscribe((result) => {
+          if (result != null) {
+            this.closeOpenModal.nativeElement.click();
+            this.spinner.hide();
+            if (result == true) {
+              this.messageService.add({ severity: 'success', summary: name + ' was deleted.' });
+              this.bindScenarioNames();
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Your attempt to delete ' + name + ' could not be completed, Please contact administrator.' });
             }
-          });         
-        }
+          }
+        });
+      }
     });
-}
+  }
 
   loadStateValues(id: number, salesRegionId: string, countyId: string, planTypes: [], snpTypes: string[], crossWalks: string[]) {
     this._stateService.getStates().subscribe((result: IState[]) => {
@@ -2944,19 +2943,31 @@ export class PlanfinderComponent implements OnInit {
   }
 
   checkScenarioName() {
-    if (this.scenarioNamesOnly.includes(this.SaveScenarioName.toLowerCase())) {
-      this.scenarioAlreadyExists = "Scenario Name Already Exists";
+    if (this.SaveScenarioName.trim().length === 0) {
+      this.checkValidScenario = true;
+      this.scenarioAlreadyExists = "Scenario name is required";
+    }
+    else if (this.scenarioNamesOnly.includes(this.SaveScenarioName.toLowerCase())) {
+      this.checkValidScenario = true;
+      this.scenarioAlreadyExists = "Scenario name already exists!";
     }
     else {
+      this.checkValidScenario = false;
       this.scenarioAlreadyExists = "";
     }
   }
 
   checkSaveASScenarioName() {
-    if (this.scenarioNamesOnly.includes(this.scenarioName.toLowerCase())) {
-      this.scenarioAlreadyExists = "Scenario Name Already Exists";
+    if (this.scenarioName.trim().length === 0) {
+      this.checkValidScenario = true;
+      this.scenarioAlreadyExists = "Scenario name is required";
+    }
+    else if (this.scenarioNamesOnly.includes(this.scenarioName.toLowerCase())) {
+      this.checkValidScenario = true;
+      this.scenarioAlreadyExists = "Scenario name already exists!";
     }
     else {
+      this.checkValidScenario = false;
       this.scenarioAlreadyExists = "";
     }
   }

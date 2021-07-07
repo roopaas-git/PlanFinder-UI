@@ -4,7 +4,7 @@
         <div class="pc-header">
             <div class="pc-header-filter pc-filter d-flex flex-column px-3 pt-3 mb-3">
                 <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap bg-white shadow-sm pb-3 align-items-center">
-                    <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3 d-flex custom-filter-section-left">
+                    <div class="left pc-filter-group-name text-nowrap mr-2my-2 pl-3 d-flex custom-filter-section-left">
                         Plans
                     </div>
                     <div class="center pc-filter-group custom-filter-section-right">
@@ -683,7 +683,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : 'auto'}">
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : '0 1rem'}">
                     <div *ngIf="!showPlanCompare">
                         <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
@@ -693,13 +693,12 @@
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
                                         <span class="plan-mem-ribbon-inner">
-                                            <span>{{plan.enrollment}} members &nbsp;</span>
+                                            <span style="margin-left: -9px;">{{plan.enrollment}} members &nbsp;</span>
                                             <span style="float: right;padding-right: 10px !important">
                                                 <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
-                                                    <!-- <i *ngIf="plan.enrollmentGrowth?.includes('+')" class="fas fa-arrow-up"></i>
-                                                <i *ngIf="plan.enrollmentGrowth?.includes('-')" class="fas fa-arrow-down"></i>
-                                                <i *ngIf="plan.enrollmentGrowth === '0'">-</i> -->
-                                                    <i class="fas fa-arrow-up"></i>
+                                                    <i *ngIf="plan.enrollmentGrowth > 0" class="fas fa-arrow-up"></i>
+                                                    <i *ngIf="plan.enrollmentGrowth < 0" class="fas fa-arrow-down"></i>
+                                                    <i *ngIf="plan.enrollmentGrowth === 0" class="fas fa-minus"></i>
                                                 </span>&nbsp;
                                                 <span class="growth-percent-ribbon">
                                                     {{plan.enrollmentGrowth}}%
