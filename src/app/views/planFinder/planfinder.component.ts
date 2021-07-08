@@ -701,7 +701,7 @@ export class PlanfinderComponent implements OnInit {
   onChangeTopFilterNotifier() {
     setTimeout(() => {
       if (this.isTopFilterChangeActive) {
-        this.messageService.add({ severity: 'warn', summary: 'Please apply to update the results' });
+        this.messageService.add({ severity: 'warn', summary: 'Please click on FIND PLANS' });
       }
     }, 5000);
   }
@@ -1565,16 +1565,8 @@ export class PlanfinderComponent implements OnInit {
     this.goToTop();
   }
 
-  OnBenefitSelect(item: string) {
-    if (item != 'Select Benefit') {
-
-      // Yet to implement
-      if (item == 'Enrollments') {
-        alert("Currently Under Implementation");
-        item = "Enrollment Growth";
-      }
-      // Yet to implement
-
+  OnBenefitSelect(item: string) {    
+    if (item != 'Select Benefit') {     
       this.valuesFromPython = [];
       this.selectedBenifit = item;
       if (this.showPlanCompare) {
@@ -1586,11 +1578,13 @@ export class PlanfinderComponent implements OnInit {
         let premium: string = '0';
         let tpv: string = '0';
         let oopc: string = '0';
+        let enrollments: string = '0';
         let enrollmentGrowth: string = '0';
 
         this.selectedBenifit == "Premium" ? premium = "1" : premium = "0";
         this.selectedBenifit == "TPV" ? tpv = "1" : tpv = "0";
         this.selectedBenifit == "OOPC" ? oopc = "1" : oopc = "0";
+        this.selectedBenifit == "Enrollments" ? enrollments = "1" : enrollments = "0";
         this.selectedBenifit == "Enrollment Growth" ? enrollmentGrowth = "1" : enrollmentGrowth = "0";
 
         this.basePlan = this.basePlan == '' ? 'Base' : this.basePlan;
@@ -1601,6 +1595,7 @@ export class PlanfinderComponent implements OnInit {
           premium: premium,
           tpv: tpv,
           OOPC: oopc,
+          enrollments : enrollments,
           enrollmentGrowth: enrollmentGrowth,
           stateId: this.selectedState,
           counties: this.selectedCounty,
@@ -1635,8 +1630,7 @@ export class PlanfinderComponent implements OnInit {
       }
       else {
         if (this.selectedBenifit == "Premium") {
-          this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 });
-
+          this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 }); 
         }
 
         if (this.selectedBenifit == "TPV") {
@@ -1647,9 +1641,12 @@ export class PlanfinderComponent implements OnInit {
           this.plans = this.plans.sort((a, b) => { return a.oopc - b.oopc });
         }
 
-        if (this.selectedBenifit == "Enrollment Growth") {
-          this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
+        if (this.selectedBenifit == "Enrollments") {
+          this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+        }
 
+        if (this.selectedBenifit == "Enrollment Growth") {
+          this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
         }
       }
     }
@@ -1886,8 +1883,13 @@ export class PlanfinderComponent implements OnInit {
       if (this.selectedBenifit == "OOPC") {
         this.plans = this.plans.sort((a, b) => { return a.oopc - b.oopc });
       }
+      
+      if (this.selectedBenifit == "Enrollments") {
+        this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+      }
+
       if (this.selectedBenifit == "Enrollment Growth") {
-        this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
+        this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
       }
     }
 
@@ -2386,13 +2388,10 @@ export class PlanfinderComponent implements OnInit {
 
             if (this.isYOYSelected)
             {
-              if (newRow[2] != this.currentBenifitYear) {
-                                
+              if (newRow[2] != this.currentBenifitYear) {                               
                 
                 if(newRow[2] == (this.currentBenifitYear-1))
                 {
-                  console.log(this.currentBenifitYear-1);
-
                   worksheet.getRow(rowIndexCount).fill = {
                     type: 'pattern',
                     pattern: 'solid',
@@ -2401,8 +2400,7 @@ export class PlanfinderComponent implements OnInit {
                 }
 
                 if(newRow[2] == (this.currentBenifitYear-2))
-                {
-                  
+                {                  
                   worksheet.getRow(rowIndexCount).fill = {
                     type: 'pattern',
                     pattern: 'solid',
@@ -2411,8 +2409,6 @@ export class PlanfinderComponent implements OnInit {
                 }
               }
             }
-
-
             if (this.isColorCodeSelected) {
               if (this.isYOYSelected) {
                 if ((newRow[2] == this.currentBenifitYear)) {
@@ -2918,8 +2914,12 @@ export class PlanfinderComponent implements OnInit {
       this.plans = this.plans.sort((a, b) => { return a.oopc - b.oopc });
     }
 
+    if (this.selectedBenifit == "Enrollments") {
+      this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+    }
+
     if (this.selectedBenifit == "Enrollment Growth") {
-      this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
+      this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
     }
     this.spinner.hide();
   }

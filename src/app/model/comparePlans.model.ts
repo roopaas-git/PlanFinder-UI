@@ -21,6 +21,7 @@ export interface IComparePlansWithOrder {
     premium: string;
     tpv: string;
     OOPC: string;
+    enrollments: string;
     enrollmentGrowth: string;
     stateId: number;
     counties: string;
