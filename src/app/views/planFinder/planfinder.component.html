@@ -683,12 +683,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : '0 1rem'}">
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : '0rem'}">
                     <div *ngIf="!showPlanCompare">
                         <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
-                                    <h3 class="pc-plan-name" style="display: inline-block;width: 85%;">{{i+1}}.
+                                    <h3 class="pc-plan-name dont-break-out" style="display: inline-block;width: 67%;">{{i+1}}.
                                         {{plan.planName}} ({{plan.bidId}})</h3>
                                     <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
