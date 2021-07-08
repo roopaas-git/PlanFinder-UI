@@ -1121,6 +1121,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedYears = [];
     this.isYOYSelected = false;
     this.isColorCodeSelected = false;
+    this.showModalBox = false;
     this.selectedYears.push(this.currentBenifitYear);
 
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
