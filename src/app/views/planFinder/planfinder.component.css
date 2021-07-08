@@ -421,13 +421,14 @@ width:99vw;
 {
     font-size: 11px;
 }
-:host(::ng-deep .ui-dropdown-panel .ui-dropdown-item) {
+:host(::ng-deep .setSize .ui-dropdown-panel .ui-dropdown-item) {
     font-weight: normal;
     border: 0 none;
     cursor: pointer;
     margin: 1px 0;
     padding: 0.5em .23em 0.5em .4em !important;
     text-align: left;
+    margin-left: -3px !important;
 }
 :host(::ng-deep .ui-autocomplete .ui-corner-all)
 {
