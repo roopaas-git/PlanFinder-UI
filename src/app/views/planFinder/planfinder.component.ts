@@ -1596,7 +1596,7 @@ export class PlanfinderComponent implements OnInit {
           premium: premium,
           tpv: tpv,
           OOPC: oopc,
-          enrollments : enrollments,
+          enrollment : enrollments,
           enrollmentGrowth: enrollmentGrowth,
           stateId: this.selectedState,
           counties: this.selectedCounty,
