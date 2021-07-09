@@ -717,6 +717,11 @@ export class PlanfinderComponent implements OnInit {
     this.getEnrollmentPeriod();
     this.bindAllPlanBenefitGroups();
     this.isTopFilterChangeActive = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+    this.clearLeftSideItems()
   }
 
   getSelectedCrossWalk() {
@@ -1120,8 +1125,12 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
+    if(this.isColorCodeSelected==true)
+    {
     this.isColorCodeSelected = false;
     this.showModalBox = false;
+    this.messageService.add({ severity: 'success', summary: 'Color Code removed' });
+    }
     this.selectedYears.push(this.currentBenifitYear);
 
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
