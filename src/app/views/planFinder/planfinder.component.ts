@@ -539,10 +539,11 @@ export class PlanfinderComponent implements OnInit {
   bindScenarioNames() {
     this._scenarioService.getScenarios(this.userId).subscribe((result: IScenario[]) => {
       if (result.length > 0) {
+        this.scenarioNamesOnly=[];
         this.scenarios = result;
         result.forEach(element => {
-          this.scenarioNamesOnly.push(element.scenario.toString().toLowerCase());
-        });
+          this.scenarioNamesOnly.push(element.scenario.toString().toLowerCase());         
+        });       
       }
     })
   }
@@ -2229,6 +2230,8 @@ export class PlanfinderComponent implements OnInit {
         selectedModal == 1 ? this.SaveScenarioName = "" : this.scenarioName = "";
         this.messageService.add({ severity: 'success', summary: 'Saved successfully' });
         this.bindScenarioNames();
+       
+      
       }
       else {
         this.scenarioAlreadyExists="";
@@ -2236,6 +2239,7 @@ export class PlanfinderComponent implements OnInit {
         selectedModal == 1 ? this.closeModal.nativeElement.click() : this.closeSaveAsModal.nativeElement.click();
         selectedModal == 1 ? this.SaveScenarioName = "" : this.scenarioName = "";
         this.messageService.add({ severity: 'error', summary: res.error });
+        this.scenarioAlreadyExists="";
       }
     })
     this.floatCheck = false;
@@ -2571,9 +2575,9 @@ export class PlanfinderComponent implements OnInit {
           if (result != null) {
             this.closeOpenModal.nativeElement.click();
             this.spinner.hide();
-            if (result == true) {
-              this.messageService.add({ severity: 'success', summary: name + ' was deleted.' });
+            if (result == true) {              
               this.bindScenarioNames();
+              this.messageService.add({ severity: 'success', summary: name + ' was deleted.' });
             } else {
               this.messageService.add({ severity: 'error', summary: 'Your attempt to delete ' + name + ' could not be completed, Please contact administrator.' });
             }
