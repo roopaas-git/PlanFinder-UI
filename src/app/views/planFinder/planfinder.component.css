@@ -555,3 +555,11 @@ border-color: #b1afaf!important;
     color: #696868;
     font-size: 14px;
 }
+.margin-13-twoDigit
+{
+    margin-left: 13px;
+}
+.margin-13-threeDigit
+{
+    margin-left: 25px;
+}
