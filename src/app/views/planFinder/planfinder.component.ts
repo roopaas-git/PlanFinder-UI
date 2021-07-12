@@ -237,6 +237,7 @@ export class PlanfinderComponent implements OnInit {
   advanceBenefitSearchItems = [];
   filteredBenefits: any[];
   isTopFilterChangeActive: boolean = false;
+  isTopFilterChangeActiveNotify: boolean = false;
   showModalBox: boolean = false;
   utcServerDateMonth = new Date().getUTCMonth();
 
@@ -364,16 +365,17 @@ export class PlanfinderComponent implements OnInit {
     this.isColorCodeSelected = false;
     this.goToTop();
     this.isReInitializescroller = false;
-    if (this.userSelectedScenarioResults == null) {
+    if (this.userSelectedScenarioResults == null) {      
       this.bindAllPlanBenefitGroups();
     }
     // if (this.userSelectedScenarioResults == null) {      
     //   this.bindAllPlanBenefitGroups();
     // }
-    this.addingOptionsForYOY();
+    this.addingOptionsForYOY();    
     this.selectedYoYItems = [];
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
+    alert(this.selectedBenifit);
     this.goToTop();
   }
 
@@ -692,8 +694,11 @@ export class PlanfinderComponent implements OnInit {
         }
         else {
           this.spinner.hide();
+          if(!this.isTopFilterChangeActive)
+    {
           this.isTopFilterChangeActive = true;
           this.onChangeTopFilterNotifier();
+    }
         }
       }
     });
@@ -702,7 +707,9 @@ export class PlanfinderComponent implements OnInit {
   onChangeTopFilterNotifier() {
     setTimeout(() => {
       if (this.isTopFilterChangeActive) {
+        this.isTopFilterChangeActiveNotify = true;
         this.messageService.add({ severity: 'warn', summary: 'Please click on FIND PLANS' });
+        this.isTopFilterChangeActive = false;
       }
     }, 5000);
   }
@@ -718,6 +725,7 @@ export class PlanfinderComponent implements OnInit {
     this.getEnrollmentPeriod();
     this.bindAllPlanBenefitGroups();
     this.isTopFilterChangeActive = false;
+  //  this.isTopFilterChangeActiveNotify = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
@@ -743,6 +751,11 @@ export class PlanfinderComponent implements OnInit {
           this.copyOfPlans = result.sort((a, b) => { return a.premiumCD - b.premiumCD });
           this.bindBenifits();
           this.getFilterValues();
+        }
+        else
+        {
+          this.isTopFilterChangeActive = true;
+          this.messageService.add({ severity: 'warn', summary: 'No Plans Found' });
         }
         this.plans = result;
         this.spinner.hide();
@@ -909,7 +922,7 @@ export class PlanfinderComponent implements OnInit {
 
   ChangePremium(premiumValue) {
     this.selectedPremiumMinValue = premiumValue.values[0];
-    this.selectedPremiumMaxValue = premiumValue.values[1];
+    this.selectedPremiumMaxValue = premiumValue.values[1];    
     this.FilterAllPlans();
     this.ReClickLink();
   }
@@ -1189,9 +1202,11 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
 
   onSalesRegionSelect() {
@@ -1236,9 +1251,11 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
 
   onSalesRegionDeSelect() {
@@ -1252,8 +1269,12 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
-
+   // this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+   if(!this.isTopFilterChangeActive)
+    {
+    this.isTopFilterChangeActive = true;
+    this.onChangeTopFilterNotifier();
+    }
   }
 
   onCountyItemSelect() {
@@ -1321,9 +1342,11 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
 
   onPlanTypeItemSelect() {
@@ -1376,9 +1399,11 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
 
   onPlanTypeDeSelect() {
@@ -1471,15 +1496,20 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
 
   onCrossWalkItemSelect() {
     this.clearLeftSideItems();
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1488,8 +1518,11 @@ export class PlanfinderComponent implements OnInit {
   }
   onCrossWalkSelectAll(items: any) {
     this.clearLeftSideItems();
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
     this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
@@ -1498,20 +1531,28 @@ export class PlanfinderComponent implements OnInit {
   onCrossWalkDeSelectAll(items: any) {
     this.selectedCrosswalkItems = [];
     this.clearLeftSideItems();
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
     this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
   }
   onCrossWalkDeSelect() {
     this.clearLeftSideItems();
+    if(!this.isTopFilterChangeActive)
+    {
     this.isTopFilterChangeActive = true;
     this.onChangeTopFilterNotifier();
+    }
     this.isSelectAllChecked = false; this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
@@ -1576,7 +1617,7 @@ export class PlanfinderComponent implements OnInit {
     this.goToTop();
   }
 
-  OnBenefitSelect(item: string) {    
+  OnBenefitSelect(item: string) {        
     if (item != 'Select Benefit') {     
       this.valuesFromPython = [];
       this.selectedBenifit = item;
@@ -1653,11 +1694,11 @@ export class PlanfinderComponent implements OnInit {
         }
 
         if (this.selectedBenifit == "Enrollments") {
-          this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+          this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
         }
 
         if (this.selectedBenifit == "Enrollment Growth") {
-          this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
+          this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
         }
       }
     }
@@ -1896,11 +1937,11 @@ export class PlanfinderComponent implements OnInit {
       }
       
       if (this.selectedBenifit == "Enrollments") {
-        this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+        this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
       }
 
       if (this.selectedBenifit == "Enrollment Growth") {
-        this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
+        this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
       }
     }
 
@@ -2929,11 +2970,11 @@ export class PlanfinderComponent implements OnInit {
     }
 
     if (this.selectedBenifit == "Enrollments") {
-      this.plans = this.plans.sort((a, b) => { return a.enrollment > b.enrollment ? 1 : -1 });
+      this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
     }
 
     if (this.selectedBenifit == "Enrollment Growth") {
-      this.plans = this.plans.sort((a, b) => { return a.enrollmentGrowth > b.enrollmentGrowth ? 1 : -1 });
+      this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
     }
     this.spinner.hide();
   }
