@@ -375,7 +375,6 @@ export class PlanfinderComponent implements OnInit {
     this.selectedYoYItems = [];
     this.bindPlanBenfefitDetails();
     this.bindBenifits();
-    alert(this.selectedBenifit);
     this.goToTop();
   }
 
