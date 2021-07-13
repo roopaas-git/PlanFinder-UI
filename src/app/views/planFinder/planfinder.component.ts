@@ -723,8 +723,6 @@ export class PlanfinderComponent implements OnInit {
     this.getAllPlansDetails();
     this.getEnrollmentPeriod();
     this.bindAllPlanBenefitGroups();
-    this.isTopFilterChangeActive = false;
-  //  this.isTopFilterChangeActiveNotify = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
@@ -748,12 +746,15 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result.sort((a, b) => { return a.premiumCD - b.premiumCD });
           this.copyOfPlans = result.sort((a, b) => { return a.premiumCD - b.premiumCD });
+          this.isTopFilterChangeActive = false;
+          this.isTopFilterChangeActiveNotify = false;
           this.bindBenifits();
           this.getFilterValues();
         }
         else
         {
-          this.isTopFilterChangeActive = true;
+          this.isTopFilterChangeActive = false;
+          this.isTopFilterChangeActiveNotify = true;
           this.messageService.add({ severity: 'warn', summary: 'No Plans Found' });
         }
         this.plans = result;
