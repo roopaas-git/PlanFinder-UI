@@ -1162,7 +1162,12 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
+    if(this.isColorCodeSelected==true)
+    {
     this.isColorCodeSelected = false;
+    this.showModalBox = false;
+    this.messageService.add({ severity: 'success', summary: 'Color Code removed' });
+    }
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems);
