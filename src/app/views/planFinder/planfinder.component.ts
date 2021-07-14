@@ -240,7 +240,7 @@ export class PlanfinderComponent implements OnInit {
   isTopFilterChangeActiveNotify: boolean = false;
   showModalBox: boolean = false;
   utcServerDateMonth = new Date().getUTCMonth();
-
+  selectedBenefitModel: any;
 
   floatCheck: boolean = false;
 
@@ -363,10 +363,11 @@ export class PlanfinderComponent implements OnInit {
     this.isDownload = false;
     this.isEnrollmentGrowthEnabled = false;
     this.isColorCodeSelected = false;
-    this.goToTop();
+    //this.goToTop();
     this.isReInitializescroller = false;
     if (this.userSelectedScenarioResults == null) {      
       this.bindAllPlanBenefitGroups();
+     this.selectedBenefitModel = this.benefits[0];     
     }
     // if (this.userSelectedScenarioResults == null) {      
     //   this.bindAllPlanBenefitGroups();
@@ -374,7 +375,7 @@ export class PlanfinderComponent implements OnInit {
     this.addingOptionsForYOY();    
     this.selectedYoYItems = [];
     this.bindPlanBenfefitDetails();
-    this.bindBenifits();
+    //this.bindBenifits();
     this.goToTop();
   }
 
@@ -468,7 +469,19 @@ export class PlanfinderComponent implements OnInit {
     }
   }
 
+  isBenefitGroupSelected()
+  {
+    if(this.selectedFilterBenefitGroupsItems.length == 0)
+    {
+      this.messageService.add({ severity: 'error', summary: 'REQUIRED! Benefit Group.' });
+      return false;
+    }
+    return true;
+  }
+
   rebindPlanBenfefitDetails() {
+    if(this.isBenefitGroupSelected())
+    {
     if (this.isColorCodeSelected == true) {
       this.isColorCodeSelected = false;
       this.valuesFromPython = [];
@@ -490,6 +503,8 @@ export class PlanfinderComponent implements OnInit {
     this.goToTop();
     this.floatCheck = false;
   }
+}
+
 
   getColumns(planBenefits: any) {
     this.plansBenifitsList = [];
@@ -509,6 +524,7 @@ export class PlanfinderComponent implements OnInit {
     this.appfloatingscrollerStatus(false, this.isReInitializescroller);
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
+    this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == this.selectedBenifit).id)-1];
     this.plansBenefits = [];
     this.plansBenifitsList = [];
     this.finalValuesFromPython = null;
@@ -755,7 +771,7 @@ export class PlanfinderComponent implements OnInit {
         {
           this.isTopFilterChangeActive = false;
           this.isTopFilterChangeActiveNotify = true;
-          this.messageService.add({ severity: 'warn', summary: 'No Plans Found' });
+          this.messageService.add({ severity: 'warn', summary: 'No Plan(s) Found.' });
         }
         this.plans = result;
         this.spinner.hide();
@@ -1621,6 +1637,8 @@ export class PlanfinderComponent implements OnInit {
     if (item != 'Select Benefit') {     
       this.valuesFromPython = [];
       this.selectedBenifit = item;
+      this.selectedBenefitModel = [];
+      this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == item).id)-1];
       if (this.showPlanCompare) {
         this.spinner.show();
         this.plansBenefits = [];
@@ -1674,6 +1692,8 @@ export class PlanfinderComponent implements OnInit {
                 this.plansBenefits = this.masterPlansBenefits;
               }
               this.getColumns(this.plansBenefits);
+              this.ReClickLink(); 
+              this.showCompareButton = false
             }
           }, err => {
             console.log('HTTP Error', err);
@@ -1700,6 +1720,7 @@ export class PlanfinderComponent implements OnInit {
         if (this.selectedBenifit == "Enrollment Growth") {
           this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
         }
+        this.ReClickLink();    
       }
     }
   }

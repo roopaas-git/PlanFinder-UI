@@ -512,8 +512,8 @@
                                       {{benefit.benefit}}
                                       </option>
                                       </select> -->
-                                <p-dropdown [options]="benefits" class="different" optionLabel="benefit"
-                                    optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
+                                <p-dropdown [options]="benefits" [(ngModel)] = "selectedBenefitModel" class="different" 
+                                    optionLabel="benefit" optionValue="benefit" (onChange)="OnBenefitSelect($event.value.benefit)">
                                 </p-dropdown>
                                 <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
                                     <button type="button" class="btn btn-sm px-4 mr-3" style="white-space: nowrap;margin-left: 20px;"
@@ -526,7 +526,7 @@
         
                                         
                                     YOY &nbsp;&nbsp;
-                                    <ng-multiselect-dropdown #yoy [placeholder]="'Select Year'" [settings]="yoyDropdownSettings"
+                                    <ng-multiselect-dropdown #yoy [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false" [placeholder]="'Select Year'" [settings]="yoyDropdownSettings"
                                         style="width: 160px !important;" [data]="optionsYOY" [(ngModel)]="selectedYoYItems"
                                         class="pc-filter-multiselect yoy-custom-compare" (onSelect)="onYoYItemSelect()"
                                         (onDeSelect)="onYoYItemDeSelect()" >
@@ -535,7 +535,7 @@
                             </div>
                             <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top">
                                 <div *ngIf="showPlanCompare" class="align-items-start" style="top: 2px;">
-                                    <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
+                                    <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)" [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"
                                         labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66" color="#59A946">
                                     </ui-switch>
                                 </div>
@@ -673,9 +673,10 @@
                             </p-autoComplete>
                             <!-- <div style="border-left: none;border:1px solid #b1afaf;height: 35px;margin: 0px 3px 0px -18px;width: 20px;"><i class="fas fa-angle-down" style="font-size: 15px;
                                 margin: 10px 3px 10px 1px;color: #858282;"></i></div> -->
-                           <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: none;height: 35px;border-radius: 0 5px 5px 0;">
-                            Search
-                           </button>
+                           <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" 
+                           style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: 
+                           none;height: 35px;border-radius: 0 5px 5px 0;"
+                           > Search </button>
                             <!-- <span
                                 style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
                                     class="fa fa-search" aria-hidden="true"></i></span>
