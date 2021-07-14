@@ -1178,7 +1178,12 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.selectedYears = [];
     this.isYOYSelected = false;
+    if(this.isColorCodeSelected==true)
+    {
     this.isColorCodeSelected = false;
+    this.showModalBox = false;
+    this.messageService.add({ severity: 'success', summary: 'Color Code removed' });
+    }
     this.selectedYears.push(this.currentBenifitYear);
     for (let i = 0; i < this.selectedYoYItems.length; i++) {
       this.selectedYears.push(this.selectedYoYItems);
@@ -2850,18 +2855,39 @@ export class PlanfinderComponent implements OnInit {
 
     let pMinValue = this.userSelectedScenarioResults[0].premiumMin;
     let pMaxValue = this.userSelectedScenarioResults[0].premiumMax;
+    //selected user scenario Premium
+    this.premiumMinDefaultValue = pMinValue;
+    this.premiumMaxDefaultValue = pMaxValue;
+
     let eMinValue = this.userSelectedScenarioResults[0].enrollmentMin;
     let eMaxValue = this.userSelectedScenarioResults[0].enrollmentMax;
+    //selected user scenario enrollment
+    this.enrollmentMinDefaultValue = eMinValue;
+    this.enrollmentMaxDefaultValue = eMaxValue;
+
     let eChangeMinValue = this.userSelectedScenarioResults[0].enrollmentChangeMin;
     let eChangeMaxValue = this.userSelectedScenarioResults[0].enrollmentChangeMax;
+    //selected user scenario change in enrollment
+    this.enrollmentChangeMinDefaultValue = eChangeMinValue;
+    this.enrollmentChangeMaxDefaultValue = eChangeMaxValue;
+
     let mMinValue = this.userSelectedScenarioResults[0].moopMin;
     let mMaxValue = this.userSelectedScenarioResults[0].moopMax;
+    //selected user scenario moop slider
+    this.moopMinDefaultValue = mMinValue;
+    this.moopMaxDefaultValue = mMaxValue;
 
     let mHDMinValue = this.userSelectedScenarioResults[0].hdMin;
     let mHDMaxValue = this.userSelectedScenarioResults[0].hdMax;
+    //selected user scenario hd slider
+    this.HDMinDefaultValue = mHDMinValue;
+    this.HDMaxDefaultValue = mHDMaxValue;
 
     let mDDMinValue = this.userSelectedScenarioResults[0].ddMin;
     let mDDMaxValue = this.userSelectedScenarioResults[0].ddMax;
+    //selected user scenario dd slider
+    this.DDMinDefaultValue = mDDMinValue;
+    this.DDMaxDefaultValue = mDDMaxValue;
 
     this.premiumRangeValues = [pMinValue, pMaxValue];
     this.selectedPremiumMinValue = pMinValue;
