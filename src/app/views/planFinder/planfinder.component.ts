@@ -241,6 +241,9 @@ export class PlanfinderComponent implements OnInit {
   showModalBox: boolean = false;
   utcServerDateMonth = new Date().getUTCMonth();
   selectedBenefitModel: any;
+  selectedEnrollmentModel: any;
+  selectedEnrollmentToModel:any;
+  selectedEnrollmentFromModel:any;
 
   floatCheck: boolean = false;
 
@@ -743,7 +746,11 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    this.clearLeftSideItems()
+    this.clearLeftSideItems();
+    // let abc = this.selectedBenifit;
+    this.selectedBenefitModel=[];
+    this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == "Premium").id)-1];
+    // this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == abc).id)-1];
   }
 
   getSelectedCrossWalk() {
@@ -2619,11 +2626,20 @@ export class PlanfinderComponent implements OnInit {
         let snpTypes = result[0].snpTypeId.split(",");
         let crossWalks = result[0].crossWalkId.split(",");
         let benefitName = result[0].isSortBy.split(",");
+        let enrollmentSelect = result[0].enrollmentMonth.split(",");
+        let enrollmentFromSelect = result[0].enrollmentFromMonth.split(",");
+        let enrollmentToSelect = result[0].enrollmentToMonth.split(",");
         // console.log(benefitName);
         // this.OnBenefitSelect(benefitName);
         // this.sortBySelected.push(this.benefits[2]);
+        this.selectedBenefitModel = [];
+        this.selectedEnrollmentModel = [];
+        this.selectedEnrollmentToModel = [];
+        this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == benefitName).id)-1];
+        this.selectedEnrollmentModel = this.enrollmentPeriod[(this.enrollmentPeriod.find(x=>x.period == enrollmentSelect).id)-1];
+        this.selectedEnrollmentToModel = this.enrollmentPeriod[(this.enrollmentPeriod.find(x=>x.period == enrollmentFromSelect).id)-1];
+        this.selectedEnrollmentFromModel = this.enrollmentPeriod[(this.enrollmentPeriod.find(x=>x.period == enrollmentToSelect).id)-1];
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-
 
       }
     });

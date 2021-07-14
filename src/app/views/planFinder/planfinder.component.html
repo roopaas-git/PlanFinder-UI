@@ -170,8 +170,7 @@
                                 <p-dropdown class="w-auto d-inline-flex ml-2 setSize"
                                     [options]="(enrollmentPeriod)?.reverse()" optionLabel="period"
                                     optionValue="enrollmentPeriod"
-                                    (onChange)="OnEnrollmentPeriodChange($event.value.period)">
-
+                                    (onChange)="OnEnrollmentPeriodChange($event.value.period)" [(ngModel)] = "selectedEnrollmentModel">
                                 </p-dropdown>
 
                             </div>
@@ -210,7 +209,7 @@
                                         </select> -->
                                         <p-dropdown id="enrRangeMin" class="w-auto d-inline-flex ml-2 setSize"
                                             [options]="enrollmentPeriod" optionLabel="period"
-                                            optionValue="enrollmentPeriod"
+                                            optionValue="enrollmentPeriod"   [(ngModel)]="selectedEnrollmentToModel"
                                             (onChange)="OnEnrollmentFromPeriodChange($event.value.period)">
                                         </p-dropdown>
                                     </div>
@@ -227,7 +226,7 @@
                                         </select> -->
                                         <p-dropdown id="enrRangeMax" class="w-auto d-inline-flex ml-2 setSize"
                                             [options]="enrollmentPeriod" optionLabel="period"
-                                            optionValue="enrollmentPeriod"
+                                            optionValue="enrollmentPeriod" [(ngModel)]="selectedEnrollmentFromModel"
                                             (onChange)="OnEnrollmentToPeriodChange($event.value.period)">
                                         </p-dropdown>
                                     </div>
