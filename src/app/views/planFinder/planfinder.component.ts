@@ -244,6 +244,7 @@ export class PlanfinderComponent implements OnInit {
   selectedEnrollmentModel: any;
   selectedEnrollmentToModel:any;
   selectedEnrollmentFromModel:any;
+  searchBenefitEvent:any =null;
 
   floatCheck: boolean = false;
 
@@ -435,6 +436,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   filterBenefits(event) {
+    this.searchBenefitEvent = null;
     this.filteredBenefits = [];
     let filtered: any[] = [];
     let query = event.query;
@@ -448,7 +450,18 @@ export class PlanfinderComponent implements OnInit {
     this.filteredBenefits = filtered;
   }
 
+
+  selectFilterBenefit()
+  {
+    this.spinner.show();
+    $().rowHighlighter(true, this.searchBenefitEvent.benefits);
+    this.spinner.hide();
+    $().rowHighlighter(false, this.searchBenefitEvent.benefits);
+  }
+
   onSelectFilterBenefit(event) {
+    this.searchBenefitEvent = null;
+    this.searchBenefitEvent = event;
     this.spinner.show();
     $().rowHighlighter(true, event.benefits);
     this.spinner.hide();

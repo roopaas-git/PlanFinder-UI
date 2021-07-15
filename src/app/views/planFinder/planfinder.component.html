@@ -675,7 +675,8 @@
                            <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" 
                            style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: 
                            none;height: 35px;border-radius: 0 5px 5px 0;"
-                           > Search </button>
+                            [disabled]="searchBenefitEvent === null ? true : false"
+                           (click)="selectFilterBenefit()"> Search </button>
                             <!-- <span
                                 style="margin-top:7px;margin:7px 10px 0 -15px ;color: rgb(190, 187, 187);background-color :#fff9f9;"><i
                                     class="fa fa-search" aria-hidden="true"></i></span>
