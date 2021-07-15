@@ -244,6 +244,12 @@ export class PlanfinderComponent implements OnInit {
   selectedEnrollmentModel: any;
   selectedEnrollmentToModel:any;
   selectedEnrollmentFromModel:any;
+  disableSliderPremium: boolean = false;
+  disableSliderEnr: boolean = false;
+  disableSliderChangeEnr: boolean = false;
+  disableSliderHD: boolean = false;
+  disableSliderDD: boolean = false;
+  disableSliderMOOP: boolean = false;
 
   floatCheck: boolean = false;
 
@@ -747,10 +753,13 @@ export class PlanfinderComponent implements OnInit {
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
     this.clearLeftSideItems();
-    // let abc = this.selectedBenifit;
-    this.selectedBenefitModel=[];
-    this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == "Premium").id)-1];
-    // this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == abc).id)-1];
+    if (this.userSelectedScenarioResults == null) {      
+      this.selectedBenefitModel=[];
+      let sBenefit = this.selectedBenifit;
+      this.selectedBenefitModel = this.benefits[(this.benefits.find(x=>x.benefit == "Premium").id)-1];
+      this.selectedBenifit="Premium";
+       }
+    setTimeout(() => {  this.checkRangeDisable(); }, 10000);
   }
 
   getSelectedCrossWalk() {
@@ -885,7 +894,7 @@ export class PlanfinderComponent implements OnInit {
     this.DDRangeValues = [this.DDMinValue, this.DDMaxValue];
     this.selectedDDMinValue = this.DDMinValue;
     this.selectedDDMaxValue = this.DDMaxValue;
-    this.spinner.hide();
+    this.spinner.hide();  
   }
 
   bindRangeValues() {
@@ -918,7 +927,7 @@ export class PlanfinderComponent implements OnInit {
       }
     }
 
-    this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false;
+    this.selectedBidIds.length > 1 ? this.showCompareButton = true : this.showCompareButton = false; 
   }
 
   getCheckedBidId(plan: IPlans) {
@@ -2304,8 +2313,6 @@ export class PlanfinderComponent implements OnInit {
         selectedModal == 1 ? this.SaveScenarioName = "" : this.scenarioName = "";
         this.messageService.add({ severity: 'success', summary: 'Saved successfully' });
         this.bindScenarioNames();
-       
-      
       }
       else {
         this.scenarioAlreadyExists="";
@@ -2640,7 +2647,6 @@ export class PlanfinderComponent implements OnInit {
         this.selectedEnrollmentToModel = this.enrollmentPeriod[(this.enrollmentPeriod.find(x=>x.period == enrollmentFromSelect).id)-1];
         this.selectedEnrollmentFromModel = this.enrollmentPeriod[(this.enrollmentPeriod.find(x=>x.period == enrollmentToSelect).id)-1];
         this.loadStateValues(result[0].stateId, result[0].salesRegionId, result[0].countyId, planTypes, snpTypes, crossWalks);
-
       }
     });
     this.floatCheck = false;
@@ -2930,6 +2936,34 @@ export class PlanfinderComponent implements OnInit {
     this.selectedDDMaxValue = mDDMaxValue;
 
 
+  }
+  checkRangeDisable()
+  {
+    if(this.premiumMinDefaultValue==this.premiumMaxDefaultValue)
+    {
+     this.disableSliderPremium=true;
+    }
+   if(this.enrollmentMinDefaultValue==this.enrollmentMaxDefaultValue)
+    {
+     this.disableSliderEnr=true;
+    }
+   if(this.enrollmentChangeMinDefaultValue==this.enrollmentChangeMaxDefaultValue)
+    {
+     this.disableSliderChangeEnr=true;
+    }
+   if(this.moopMinDefaultValue==this.moopMaxDefaultValue)
+    {
+     this.disableSliderMOOP=true;
+    }
+   if(this.HDMinDefaultValue==this.HDMaxDefaultValue)
+    {
+     this.disableSliderHD=true;
+    }
+   if(this.DDMinDefaultValue==this.DDMaxDefaultValue)
+    {
+     this.disableSliderDD=true;
+    }
+    // this.disableSlider=true;
   }
 
   loadLeftFilterValues() {
