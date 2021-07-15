@@ -103,7 +103,7 @@
                             <h3 class="pc-sidebar-filter-title mb-3">Premium</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
                                 <p-slider id="premiumRangeSlider" [(ngModel)]="premiumRangeValues" [range]="true"
-                                    (onChange)="ChangePremium($event)" [max]="premiumMaxDefaultValue"
+                                    (onChange)="ChangePremium($event)" [max]="premiumMaxDefaultValue" [disabled]="disableSliderPremium"
                                     [min]="premiumMinDefaultValue">
                                 </p-slider>
                             </div>
@@ -185,7 +185,7 @@
                                     </div>
                                     <div class="pc-sidebar-filter-slider mb-2 pl-2">
                                         <p-slider id="enrollmentRangeSlider" [(ngModel)]="enrollmentRangeValues"
-                                            (onChange)="ChangeEnrollment($event)" [range]="true"
+                                            (onChange)="ChangeEnrollment($event)" [range]="true" [disabled]="disableSliderEnr"
                                             [max]="enrollmentMaxDefaultValue" [min]="enrollmentMinDefaultValue">
                                         </p-slider>
                                     </div>
@@ -243,7 +243,7 @@
                                     </div>
                                     <div class="pc-sidebar-filter-slider mb-2 pl-2">
                                         <p-slider id="enrollmentDiffRangeSlider"
-                                            [(ngModel)]="enrollmentChangeRangeValues"
+                                            [(ngModel)]="enrollmentChangeRangeValues" [disabled]="disableSliderChangeEnr"
                                             (onChange)="ChangeEnrollmentIn($event)" [range]="true"
                                             [max]="enrollmentChangeMaxDefaultValue"
                                             [min]="enrollmentChangeMinDefaultValue">
@@ -276,7 +276,7 @@
                         <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
                             <h3 class="pc-sidebar-filter-title mb-3">Health Deductible</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
-                                <p-slider id="HDRangeSlider" [(ngModel)]="HDRangeValues" [range]="true"
+                                <p-slider id="HDRangeSlider" [(ngModel)]="HDRangeValues" [range]="true" [disabled]="disableSliderHD"
                                     (onChange)="ChangeHD($event)" [max]="HDMaxDefaultValue" [min]="HDMinDefaultValue">
                                 </p-slider>
                             </div>
@@ -301,7 +301,7 @@
                         <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
                             <h3 class="pc-sidebar-filter-title mb-3">Drug Deductible</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
-                                <p-slider id="DDRangeSlider" [(ngModel)]="DDRangeValues" [range]="true"
+                                <p-slider id="DDRangeSlider" [(ngModel)]="DDRangeValues" [range]="true" [disabled]="disableSliderDD"
                                     (onChange)="ChangeDD($event)" [max]="DDMaxDefaultValue" [min]="DDMinDefaultValue">
                                 </p-slider>
                             </div>
@@ -327,7 +327,7 @@
                             <h3 class="pc-sidebar-filter-title mb-3">MOOP</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
                                 <p-slider id="moopRangeSlider" [(ngModel)]="moopRangeValues" [range]="true"
-                                    (onChange)="ChangeMOOP($event)" [max]="moopMaxDefaultValue"
+                                    (onChange)="ChangeMOOP($event)" [max]="moopMaxDefaultValue" [disabled]="disableSliderMOOP"
                                     [min]="moopMinDefaultValue">
                                 </p-slider>
                             </div>
