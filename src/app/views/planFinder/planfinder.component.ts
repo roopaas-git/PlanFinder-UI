@@ -761,7 +761,7 @@ export class PlanfinderComponent implements OnInit {
         this.messageService.add({ severity: 'warn', summary: 'Please click on FIND PLANS' });
         this.isTopFilterChangeActive = false;
       }
-    }, 5000);
+    }, 10000);
   }
 
   getAllPlans() {
