@@ -542,11 +542,11 @@ border-color: #b1afaf!important;
 }
 :host(::ng-deep .yoy-custom-compare .multiselect-dropdown .dropdown-btn .selected-item:first-child)
 {
-    background-color:  var(--colour-ab-cd) !important;
+    background-color:  var(--colour-second-change) !important;
 }
 :host(::ng-deep .yoy-custom-compare .multiselect-dropdown .dropdown-btn .selected-item)
 {
-    background-color:   var(--colour-ab-c) !important;
+    background-color:   var(--colour-first-change) !important;
 }
 :host(::ng-deep .switch-labeled ){
     top: 2px !important;
