@@ -465,6 +465,11 @@ export class PlanfinderComponent implements OnInit {
     $().rowHighlighter(false, this.searchBenefitEvent.benefits);
   }
 
+  onClearFilterBenefit()
+  {
+    this.searchBenefitEvent = null;
+  }
+
   onSelectFilterBenefit(event) {
     this.searchBenefitEvent = null;
     this.searchBenefitEvent = event;
@@ -978,7 +983,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPremiumMaxValue = premiumValue.values[1];    
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   ChangeEnrollment(enrollmentValue) {
@@ -986,7 +991,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedEnrollmentMaxValue = enrollmentValue.values[1];
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   ChangeEnrollmentIn(enrollmentChangeValue) {
@@ -994,7 +999,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedEnrollmentChangeMaxValue = enrollmentChangeValue.values[1];
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   ChangeMOOP(moopValue) {
@@ -1002,7 +1007,7 @@ export class PlanfinderComponent implements OnInit {
     this.selectedMoopMaxValue = moopValue.values[1];
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangeHD(HDValue) {
@@ -1010,14 +1015,14 @@ export class PlanfinderComponent implements OnInit {
     this.selectedHDMaxValue = HDValue.values[1];
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+  //  this.sortAgain();
   }
   ChangeDD(DDValue) {
     this.selectedDDMinValue = DDValue.values[0];
     this.selectedDDMaxValue = DDValue.values[1];
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+  //  this.sortAgain();
   }
 
   ChangePremiumFromMinInput(newValue: string) {
@@ -1031,7 +1036,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangePremiumFromMaxInput(newValue: string) {
@@ -1045,7 +1050,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangeMoopFromMinInput(newValue: string) {
@@ -1059,7 +1064,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+   //this.sortAgain();
   }
 
   ChangeMoopFromMaxInput(newValue: string) {
@@ -1073,7 +1078,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
   ChangeHDFromMinInput(newValue: string) {
     let value = + newValue.replace('$', '');
@@ -1086,7 +1091,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangeHDFromMaxInput(newValue: string) {
@@ -1100,7 +1105,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangeDDFromMinInput(newValue: string) {
@@ -1114,7 +1119,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   ChangeDDFromMaxInput(newValue: string) {
@@ -1128,7 +1133,7 @@ export class PlanfinderComponent implements OnInit {
       this.FilterAllPlans();
     }
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   getStates() {
@@ -1221,7 +1226,13 @@ export class PlanfinderComponent implements OnInit {
     if (this.selectedYears.length > 1) {
       this.isYOYSelected = true;
     }
-    this.bindPlanBenfefitDetails();
+
+    if (this.selectedBenifit == 'Premium') {
+      this.bindPlanBenfefitDetails();
+    } else {
+      this.OnBenefitSelect(this.selectedBenifit);
+    }
+    //this.bindPlanBenfefitDetails();
     //this.getYOY();
   }
   onYoYItemDeSelect() {
@@ -1242,7 +1253,12 @@ export class PlanfinderComponent implements OnInit {
     if (this.selectedYears.length > 1) {
       this.isYOYSelected = true;
     }
-    this.bindPlanBenfefitDetails();
+    if (this.selectedBenifit == 'Premium') {
+      this.bindPlanBenfefitDetails();
+    } else {
+      this.OnBenefitSelect(this.selectedBenifit);
+    }
+    //this.bindPlanBenfefitDetails();
     //this.getYOY();
   }
 
@@ -1846,45 +1862,45 @@ export class PlanfinderComponent implements OnInit {
       this.QuickFilter(15);
     }
   }
-  sortAgain()
-  {
-    if (this.selectedBenifit == "Premium") {
-      this.plans = this.plans.sort((a, b) => { return a.premiumCD - b.premiumCD });
-    }
+  // sortAgain()
+  // {
+  //   if (this.selectedBenifit == "Premium") {
+  //     this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD });
+  //   }
 
-    if (this.selectedBenifit == "TPV") {
-      this.plans = this.plans.sort((a, b) => { return b.tpv < a.tpv ? 1 : -1 });
-    }
+  //   if (this.selectedBenifit == "TPV") {
+  //     this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
+  //   }
 
-    if (this.selectedBenifit == "OOPC") {
-      this.plans = this.plans.sort((a, b) => { return a.oopc - b.oopc });
-    }
+  //   if (this.selectedBenifit == "OOPC") {
+  //     this.plans = this.plans.sort((a, b) => { return a.oopc - b.oopc });
+  //   }
     
-    if (this.selectedBenifit == "Enrollments") {
-      this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
-    }
+  //   if (this.selectedBenifit == "Enrollments") {
+  //     this.plans = this.plans.sort((a, b) => { return b.enrollment > a.enrollment ? 1 : -1 });
+  //   }
 
-    if (this.selectedBenifit == "Enrollment Growth") {
-      this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
-    }
-  }
+  //   if (this.selectedBenifit == "Enrollment Growth") {
+  //     this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
+  //   }
+  // }
 
   OnPartDChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnPartBChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnPlanCoverageChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   // OnHealthDedictibleChange() {
@@ -1898,77 +1914,77 @@ export class PlanfinderComponent implements OnInit {
   OnAmbulanceChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnComprehensiveDentalChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnChiroPractorChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   OnMealChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   OnFitnessChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnOTCChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnVisionChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnHearingChange() {
     this.FilterAllPlans();
-    this.ReClickLink();
+   // this.ReClickLink();
   }
 
   OnEmergencyChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnTeleHealthChange() {
     this.FilterAllPlans();
-    this.ReClickLink();
+   // this.ReClickLink();
   }
 
   OnHomeSupport() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   OnHomeSafetyChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+   // this.sortAgain();
   }
 
   OnPersChange() {
     this.FilterAllPlans();
     this.ReClickLink();
-    this.sortAgain();
+    //this.sortAgain();
   }
 
   FilterAllPlans() {
@@ -2036,11 +2052,11 @@ export class PlanfinderComponent implements OnInit {
       this.plans = this.plans.filter(x => this.isOTCChecked == true ? x.sbOTC == 1 : x.sbOTC != -1);
 
       if (this.selectedBenifit == "Premium") {
-        this.plans = this.plans.sort((a, b) => { return a.premiumCD - b.premiumCD });
+        this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 }); 
       }
 
       if (this.selectedBenifit == "TPV") {
-        this.plans = this.plans.sort((a, b) => { return b.tpv > a.tpv ? 1 : -1 });
+        this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
       }
 
       if (this.selectedBenifit == "OOPC") {
@@ -2849,8 +2865,8 @@ export class PlanfinderComponent implements OnInit {
             userSelectedCrossWalkItems.push({ id: element.id, crosswalk: element.crosswalk });
           }
         });
-        for (let index = 0; index < this.selectedCrosswalkItems.length; index++) {
-          this.selectedCrosswalk = index == 0 ? this.selectedCrosswalkItems[index].id : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[index].id;
+        for (let index = 0; index < userSelectedCrossWalkItems.length; index++) {
+          this.selectedCrosswalk = index == 0 ? userSelectedCrossWalkItems[index].id : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[index].id;
         }
         this.selectedCrosswalkItems = userSelectedCrossWalkItems;
         this.checkForLoadAllPlans();
@@ -3124,11 +3140,11 @@ export class PlanfinderComponent implements OnInit {
     }
 
     if (this.selectedBenifit == "Premium") {
-      this.plans = this.plans.sort((a, b) => { return a.premiumCD - b.premiumCD });
+      this.plans = this.plans.sort((a, b) => { return a.premiumCD > b.premiumCD ? 1 : -1 }); 
     }
 
     if (this.selectedBenifit == "TPV") {
-      this.plans = this.plans.sort((a, b) => { return b.tpv > a.tpv ? 1 : -1 });
+      this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
     }
 
     if (this.selectedBenifit == "OOPC") {

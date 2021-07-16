@@ -550,7 +550,7 @@
                             Benefits
                             <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
                             placeholder="Search Benefit" type="search" field="benefits" [style]="{'width':'50%'}" [inputStyle]="{'width':'50%'}"
-                                [suggestions]="filteredBenefits" [minLength]="1"
+                                [suggestions]="filteredBenefits" [minLength]="1" (onClear) = onClearFilterBenefit()
                                 (completeMethod)="filterBenefits($event)" (onSelect)="onSelectFilterBenefit($event)"
                                 emptyMessage="No benefit(s) found">
                             </p-autoComplete>
