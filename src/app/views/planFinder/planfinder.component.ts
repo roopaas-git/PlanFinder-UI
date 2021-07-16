@@ -550,6 +550,14 @@ export class PlanfinderComponent implements OnInit {
     this.plansBenefits = [];
     this.plansBenifitsList = [];
     this.finalValuesFromPython = null;
+    if ((this.isAllClicked == true)||(this.isTop5Clicked == true)||(this.isTop10Clicked == true)||(this.isTop15Clicked == true))
+    { }
+    else{
+      this.isAllClicked = true;
+    }
+    this.showCompareButton = false;
+    this.ReClickLink(); 
+
     this.isDownload = true;
     this.goToTop();
     this.floatCheck = false;
@@ -1725,9 +1733,7 @@ export class PlanfinderComponent implements OnInit {
               else {
                 this.plansBenefits = this.masterPlansBenefits;
               }
-              this.getColumns(this.plansBenefits);
-              this.ReClickLink(); 
-              this.showCompareButton = false
+              this.getColumns(this.plansBenefits);                  
             }
           }, err => {
             console.log('HTTP Error', err);
@@ -2109,7 +2115,7 @@ export class PlanfinderComponent implements OnInit {
     console.log("Selected Column : ", items);
   }
 
-  QuickFilter(count: number) {
+  QuickFilter(count: number) {    
     this.showAll = count;
     if (count == 0) {
       this.isAllClicked = true;
