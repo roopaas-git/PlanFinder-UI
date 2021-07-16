@@ -765,6 +765,12 @@ export class PlanfinderComponent implements OnInit {
   }
 
   getAllPlans() {
+    this.disableSliderPremium = false;
+    this.disableSliderEnr= false;
+    this.disableSliderChangeEnr = false;
+    this.disableSliderHD = false;
+    this.disableSliderDD = false;
+    this.disableSliderMOOP = false;
     this.spinner.show();
     this.isSelectAllChecked = false;
     this.selectedBidIds = [];
