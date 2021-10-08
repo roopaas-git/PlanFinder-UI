@@ -55,11 +55,21 @@ export class ComparePlansservice {
         }))
     }
 
+    // runPythonScript(basePlan: string, compareBidIds: string, userId: string) {
+    //     return this.http.get<any[]>(`${this.config.apiEndpoint}Plans/Run/${basePlan}/${compareBidIds}/${userId}`).pipe(map((data: any) => {
+    //         return data.result;
+    //     }))
+    // }
+
     runPythonScript(basePlan: string, compareBidIds: string, userId: string) {
-        return this.http.get<any[]>(`${this.config.apiEndpoint}Plans/Run/${basePlan}/${compareBidIds}/${userId}`).pipe(map((data: any) => {
+        let body = JSON.stringify(compareBidIds);
+        const data={"compareBidIds":compareBidIds};
+        const headers = new HttpHeaders().set('content-type', 'application/json');
+        return this.http.post<any[]>(`${this.config.apiEndpoint}Plans/Run/${basePlan}/${userId}`, data, { headers: headers }).pipe(map((data: any) => {
             return data.result;
         }))
     }
+
 
     readDataFromJson(userId: string) {
         return this.http.get(`${this.config.apiEndpoint}Plans/ReadJsonFile/${userId}`).pipe(map((data: any) => {
