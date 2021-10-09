@@ -251,6 +251,7 @@ export class PlanfinderComponent implements OnInit {
   disableSliderHD: boolean = false;
   disableSliderDD: boolean = false;
   disableSliderMOOP: boolean = false;
+  disableEnrollments:boolean=false;
 
   floatCheck: boolean = false;
 
@@ -662,15 +663,15 @@ export class PlanfinderComponent implements OnInit {
       if (result) {
         this.states = result;
         this.selectedStateItems = [{ id: result[0].id, state: result[0].state }];
-        this.selectedState = result[0].id;
-        this.getSalesRegionDefault(this.clientId,this.selectedState);
+        this.getSalesRegionDefault(this.clientId, result[0].id);
       }
     });
   }
 
   getSalesRegionDefault(clientId: number, stateId: number) {
     this._salesRegionService.getSalesRegions(clientId, stateId).subscribe((result) => {
-      if (result != null) {        
+      if (result != null) {
+        this.selectedState = stateId;
         this.salesRegions = result;
         this.selectedSalesRegionItems = result;
         for (let i = 0; i < result.length; i++) {
@@ -686,15 +687,13 @@ export class PlanfinderComponent implements OnInit {
       if (result != null) {
         this.selectedSalesRegion = salesRegionId;
         this.counties = result;
-        this.selectedCountyItems = result;
-        console.log(result);
         this.selectedCounties = [];
         result.forEach(element => {
           this.selectedCounties.push(element.id);
         });
         //this.selectedCountyItems = [{ id: result[17].id, counties: result[17].counties }]
         //this.selectedCounties.push(result[17].id);
-        
+        this.selectedCountyItems = result;
         this.getPlantypeDefault(this.selectedCounties);
       }
     });

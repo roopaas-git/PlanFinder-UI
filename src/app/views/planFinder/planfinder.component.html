@@ -153,8 +153,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
-                        <div class="pc-sidebar-filter-item px-3">
+                        <div *ngIf="disableEnrollments" class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div *ngIf="disableEnrollments" class="pc-sidebar-filter-item px-3">
                             <h3 class="pc-sidebar-filter-title mb-3">Enrollment</h3>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <label class="mb-0" for="enrollMonth">Enrollment Month</label>
@@ -573,7 +573,7 @@
                                         <h3 class="pc-plan-name dont-break-out" style="display: inline-block;width: 67%;"[ngClass]="{'margin-13-twoDigit' : (i+1)>9 && (i+1)<=99,'margin-13-threeDigit' : (i+1)>99}" >
                                             {{plan.planName}} ({{plan.bidId}})</h3>
                                     </div>
-                                    <div class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
+                                    <div *ngIf="disableEnrollments" class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
                                         style="display: inline-block;float: right;">
                                         <span class="plan-mem-ribbon-inner">
                                             <span style="margin-left: -9px;">{{plan.enrollment}} members &nbsp;</span>
