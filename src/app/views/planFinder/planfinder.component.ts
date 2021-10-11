@@ -2289,7 +2289,7 @@ export class PlanfinderComponent implements OnInit {
     if (this.valuesFromPython && this.valuesFromPython.length) {
       if (this.valuesFromPython.length > 0) {
         if (count == 1) {
-          this.singleValueFromArray = this.valuesFromPython.filter(x => x.Benefit.trim() == columnValue.trim());
+          this.singleValueFromArray = this.valuesFromPython.filter(x => x.Benefit.toUpperCase().trim() == columnValue.toUpperCase().trim());
         }
       }
     }
