@@ -658,3 +658,11 @@ span.selected-item.ng-star-inserted {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.tooltip-custom.ui-tooltip .ui-tooltip-text {
+  font-size: 11px;
+ 
+}
+.tooltip-custom.ui-tooltip
+{
+  max-width: 300px;
+}

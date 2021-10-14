@@ -20,6 +20,7 @@ import { DropdownModule} from 'primeng/dropdown';
 import { AutoCompleteModule} from 'primeng/autocomplete';
 import { ConfirmDialogModule} from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { ConfirmationService } from 'primeng/api';
         UiSwitchModule,
         DropdownModule,
         AutoCompleteModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        TooltipModule
     ],
     exports: [],
     providers: [ConfirmationService]

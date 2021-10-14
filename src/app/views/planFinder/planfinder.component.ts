@@ -86,6 +86,7 @@ export class PlanfinderComponent implements OnInit {
   selectedCrosswalkItems = [];
   selectedBidIds = [];
   selectedPlanName = [];
+  selectedPlanBidIds = [];
   selectedBenifit: string = "Premium";
   selectedEnrollmentFromPeriod: string = null;
   selectedEnrollmentToPeriod: string = null;
@@ -251,7 +252,7 @@ export class PlanfinderComponent implements OnInit {
   disableSliderHD: boolean = false;
   disableSliderDD: boolean = false;
   disableSliderMOOP: boolean = false;
-  disableEnrollments:boolean=false;
+  disableEnrollments: boolean = false;
 
   floatCheck: boolean = false;
 
@@ -290,6 +291,8 @@ export class PlanfinderComponent implements OnInit {
       }
     }
   }
+
+
   showTopDiv() {
     this.floatCheck = true;
     this.showDiscoverMoreBtn = false;
@@ -369,6 +372,10 @@ export class PlanfinderComponent implements OnInit {
 
   toggleComparePlan() {
     this.spinner.show();
+    this.selectedPlanBidIds=[];
+    for (var i = 0; i < this.selectedBidIds.length; i++) {     
+      this.selectedPlanBidIds.push({ pname: this.selectedPlanName[i] + " " + "(" + this.selectedBidIds[i] + ")" });
+    }
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = false;
     this.isDownload = false;
@@ -534,7 +541,14 @@ export class PlanfinderComponent implements OnInit {
     let val = planBenefits[0];
     let col = Object.keys(val);
     col.forEach(items => {
-      this.plansBenifitsList.push({ field: items, header: items });
+      let Checkplan = this.selectedPlanBidIds.find(x => x.pname.toLowerCase()== items.toLowerCase())      
+      // let Checkplan = this.plans.find(x => x.planName.toLowerCase() + ' (' + x.bidId.toLowerCase() + ')' == items.toLowerCase())
+       if (Checkplan != undefined) {
+         this.plansBenifitsList.push({ field: items, header: Checkplan.pname });
+       }
+       else {
+         this.plansBenifitsList.push({ field: items, header: items });
+       }
     });
     this.cols = this.plansBenifitsList;
     this.getPlanBenefitItems();
@@ -662,8 +676,8 @@ export class PlanfinderComponent implements OnInit {
     this._stateService.getStates().subscribe((result: IState[]) => {
       if (result) {
         this.states = result;
-        this.selectedStateItems = [{ id: result[0].id, state: result[0].state }];
-        this.getSalesRegionDefault(this.clientId, result[0].id);
+        this.selectedStateItems = [{ id: result[36].id, state: result[36].state }];
+        this.getSalesRegionDefault(this.clientId, result[36].id);
       }
     });
   }
@@ -2275,10 +2289,10 @@ export class PlanfinderComponent implements OnInit {
       if (result) {
         this.valuesFromPython = result;
         this.messageService.add({ severity: 'success', summary: 'Color Code Applied' });
-        this.spinner.hide();
+        //this.spinner.hide();
       }
     })
-   
+
   }
 
   applyColors(count, year, columnValue, headerValue) {
@@ -2664,7 +2678,9 @@ export class PlanfinderComponent implements OnInit {
         pattern: 'solid',
         fgColor: { argb: 'f4f4f4' }
       };
-
+      if (!this.isColorCodeSelected) {
+        worksheet.spliceColumns(4, 1);
+        }
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
           const blob = new Blob([plansBenefitCopy], {
