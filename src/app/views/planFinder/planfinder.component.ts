@@ -2506,6 +2506,9 @@ export class PlanfinderComponent implements OnInit {
         if (h == "sortGroup") {
           header.push(this.capitalizedCase("benefits group"));
         }
+        else if (h == "businessLogic") {
+          header.push(this.capitalizedCase("Business Logic for Color Coding"));
+        }
         else {
           header.push(this.capitalizedCase(h));
         }
