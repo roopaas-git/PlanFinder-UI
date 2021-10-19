@@ -88,6 +88,7 @@ export class PlanfinderComponent implements OnInit {
   selectedPlanName = [];
   selectedPlanBidIds = [];
   selectedBenifit: string = "Premium";
+  selectedPreviousBenifit: string = "Premium";
   selectedEnrollmentFromPeriod: string = null;
   selectedEnrollmentToPeriod: string = null;
   CurrentPeriod: string;
@@ -342,7 +343,7 @@ export class PlanfinderComponent implements OnInit {
     this.dropdownsettings();
     this.bindRangeDefaultValues();
     this.bindBenifits();
-    // this.bindAllPlanBenefitGroups();
+    // this.bindAllPlanBenefitGroups();g
     this.bindScenarioNames();
     this.bindMaxperiod();
     this.bindMaxperiodYOY();
@@ -372,10 +373,12 @@ export class PlanfinderComponent implements OnInit {
 
   toggleComparePlan() {
     this.spinner.show();
-    this.selectedPlanBidIds=[];
-    for (var i = 0; i < this.selectedBidIds.length; i++) {     
+    this.selectedPlanBidIds = [];
+
+    for (var i = 0; i < this.selectedBidIds.length; i++) {
       this.selectedPlanBidIds.push({ pname: this.selectedPlanName[i] + " " + "(" + this.selectedBidIds[i] + ")" });
     }
+
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = false;
     this.isDownload = false;
@@ -385,6 +388,7 @@ export class PlanfinderComponent implements OnInit {
     this.isReInitializescroller = false;
     if (this.userSelectedScenarioResults == null) {
       this.bindAllPlanBenefitGroups();
+      this.selectedPreviousBenifit = this.selectedBenifit;
       this.selectedBenefitModel = this.benefits[0];
     }
     // if (this.userSelectedScenarioResults == null) {      
@@ -541,14 +545,14 @@ export class PlanfinderComponent implements OnInit {
     let val = planBenefits[0];
     let col = Object.keys(val);
     col.forEach(items => {
-      let Checkplan = this.selectedPlanBidIds.find(x => x.pname.toLowerCase()== items.toLowerCase())      
+      let Checkplan = this.selectedPlanBidIds.find(x => x.pname.toLowerCase() == items.toLowerCase())
       // let Checkplan = this.plans.find(x => x.planName.toLowerCase() + ' (' + x.bidId.toLowerCase() + ')' == items.toLowerCase())
-       if (Checkplan != undefined) {
-         this.plansBenifitsList.push({ field: items, header: Checkplan.pname });
-       }
-       else {
-         this.plansBenifitsList.push({ field: items, header: items });
-       }
+      if (Checkplan != undefined) {
+        this.plansBenifitsList.push({ field: items, header: Checkplan.pname });
+      }
+      else {
+        this.plansBenifitsList.push({ field: items, header: items });
+      }
     });
     this.cols = this.plansBenifitsList;
     this.getPlanBenefitItems();
@@ -561,7 +565,8 @@ export class PlanfinderComponent implements OnInit {
     this.appfloatingscrollerStatus(false, this.isReInitializescroller);
     this.showPlanCompare = !this.showPlanCompare;
     this.showCompareButton = this.selectedBidIds.length >= 2 ? true : false;
-    this.selectedBenefitModel = this.benefits[(this.benefits.find(x => x.benefit == this.selectedBenifit).id) - 1];
+    this.selectedBenefitModel = this.benefits[(this.benefits.find(x => x.benefit == this.selectedPreviousBenifit).id) - 1];
+    this.selectedBenifit = this.selectedPreviousBenifit;
     this.plansBenefits = [];
     this.plansBenifitsList = [];
     this.finalValuesFromPython = null;
@@ -575,6 +580,7 @@ export class PlanfinderComponent implements OnInit {
     this.isDownload = true;
     this.goToTop();
     this.floatCheck = false;
+    this.pushIntoCustomBids();
   }
 
   goToTop() {
@@ -695,6 +701,7 @@ export class PlanfinderComponent implements OnInit {
       }
     });
   }
+
 
   getCountiesDefault(state: number, salesRegionId: string) {
     this._countyService.getCounties(state, salesRegionId, this.clientId).subscribe((result) => {
@@ -1280,13 +1287,21 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
-    this.clearLeftSideItems();
-    this.getSalesRegionDefault(this.clientId, this.selectedStateItems[0].id);
+    this.salesRegions = [];
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
+
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+
+    this.clearLeftSideItems();
+    this.getSalesRegionDefault(this.clientId, this.selectedStateItems[0].id);
+
   }
 
   onStateDeSelect() {
@@ -1296,6 +1311,11 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.salesRegions = [];
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1313,13 +1333,21 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
 
+    this.selectedSalesRegion = "";
+    for (let i = 0; i < this.selectedSalesRegionItems.length; i++) {
+      this.selectedSalesRegion = i == 0 ? this.selectedSalesRegionItems[i].id.toString() : this.selectedSalesRegion + "," + this.selectedSalesRegionItems[i].id.toString();
+    }
+    this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
   }
 
   onSalesRegionSelectAll(items: any) {
@@ -1328,14 +1356,21 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
-    this.selectedSalesRegionItems = items;
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    this.selectedSalesRegionItems = items;
+    this.selectedSalesRegion = "";
+    for (let i = 0; i < this.selectedSalesRegionItems.length; i++) {
+      this.selectedSalesRegion = i == 0 ? this.selectedSalesRegionItems[i].id.toString() : this.selectedSalesRegion + "," + this.selectedSalesRegionItems[i].id.toString();
+    }
     this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
-
   }
 
   onSalesRegionDeSelectAll(items: any) {
@@ -1344,11 +1379,17 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    this.selectedSalesRegion = "";
+
     if (!this.isTopFilterChangeActive) {
       this.isTopFilterChangeActive = true;
       this.onChangeTopFilterNotifier();
@@ -1379,12 +1420,15 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
-    this.selectedCounties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    this.selectedCounties = [];
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -1397,31 +1441,16 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
-    this.selectedCountyItems = items
-    this.selectedCounties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    for (let i = 0; i < this.selectedCountyItems.length; i++) {
-      this.selectedCounties.push(this.selectedCountyItems[i].id);
-    };
-    this.getPlantypeDefault(this.selectedCounties);
-  }
-
-  onCountyDeSelect() {
-    this.spinner.show();
-    this.clearLeftSideItems();
-    this.selectedPlantypeItems = [];
-    this.selectedSnptypesItems = [];
-    this.selectedCrosswalkItems = [];
+    this.selectedCountyItems = items;
     this.selectedCounties = [];
-    this.isSelectAllChecked = false;
-    this.isAllClicked = false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedCountyItems.length; i++) {
       this.selectedCounties.push(this.selectedCountyItems[i].id);
     };
@@ -1433,11 +1462,15 @@ export class PlanfinderComponent implements OnInit {
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    this.selectedCounties = [];
     if (!this.isTopFilterChangeActive) {
       this.isTopFilterChangeActive = true;
       this.onChangeTopFilterNotifier();
@@ -1449,6 +1482,8 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.selectedPlantypes = "";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
@@ -1466,6 +1501,8 @@ export class PlanfinderComponent implements OnInit {
     this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.selectedPlantypeItems = items;
     this.selectedPlantypes = "";
     this.isSelectAllChecked = false;
@@ -1481,14 +1518,12 @@ export class PlanfinderComponent implements OnInit {
 
   onPlanTypeDeSelectAll(items: any) {
     this.clearLeftSideItems();
-    this.selectedPlantypeItems = [];
-    this.selectedPlantype = "0";
+    this.snptypes = [];
+    this.crosswalk = [];
     this.selectedSnptypesItems = [];
-    this.selectedSnptypes = "";
-    this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
-    this.selectedCrosswalk = "";
-    this.selectedCrosswalk = "0";
+    this.selectedPlantypeItems = [];
+    this.selectedPlantype = "";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
@@ -1500,34 +1535,12 @@ export class PlanfinderComponent implements OnInit {
     }
   }
 
-  onPlanTypeDeSelect() {
-    this.spinner.show();
-    this.clearLeftSideItems();
-    this.selectedSnptypesItems = [];
-    this.selectedCrosswalkItems = [];
-    this.selectedPlantypes = "";
-    this.isSelectAllChecked = false;
-    this.isAllClicked = false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
-    if (this.selectedPlantypeItems.length > 0) {
-      for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
-        this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
-      }
-      this.getSnptypeDefault(this.selectedPlantypes);
-    } else {
-      this.selectedPlantype = "0";
-      this.selectedSnptype = "0";
-      this.selectedCrosswalk = "0";
-      this.spinner.hide();
-    }
-  }
 
   onSnptypeItemSelect() {
     this.spinner.show();
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
+    this.crosswalk = [];
     this.selectedSnptype = "";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
@@ -1544,6 +1557,7 @@ export class PlanfinderComponent implements OnInit {
     this.spinner.show();
     this.clearLeftSideItems();
     this.selectedCrosswalkItems = [];
+    this.crosswalk = [];
     this.selectedSnptype = "";
     this.selectedSnptypesItems = items;
     this.isSelectAllChecked = false;
@@ -1557,33 +1571,35 @@ export class PlanfinderComponent implements OnInit {
     this.getCrosswalkDefault(this.selectedSnptype);
   }
 
-  onSnptypeDeSelect() {
-    this.clearLeftSideItems();
-    this.selectedCrosswalkItems = [];
-    this.selectedSnptype = "";
-    this.isSelectAllChecked = false;
-    this.isAllClicked = false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
-    if (this.selectedSnptypesItems.length > 0) {
-      for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
-        this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
-      }
-      this.getCrosswalkDefault(this.selectedSnptype);
-    } else {
-      this.selectedSnptype = "0";
-      this.selectedCrosswalk = "0";
-      this.spinner.hide();
-    }
-    // this.selectedSnptype == "" ? "" : this.getCrosswalkDefault(this.selectedSnptype);
-  }
+  // onSnptypeDeSelect() {
+  //   this.clearLeftSideItems();
+  //   this.selectedCrosswalkItems = [];
+  //   this.crosswalk=[];
+  //   this.selectedSnptype = "";
+  //   this.isSelectAllChecked = false;
+  //   this.isAllClicked = false;
+  //   this.isTop5Clicked = false;
+  //   this.isTop10Clicked = false;
+  //   this.isTop15Clicked = false;
+  //   if (this.selectedSnptypesItems.length > 0) {
+  //     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
+  //       this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
+  //     }
+  //     this.getCrosswalkDefault(this.selectedSnptype);
+  //   } else {
+  //     this.selectedSnptype = "0";
+  //     this.selectedCrosswalk = "0";
+  //     this.spinner.hide();
+  //   }
+  //    this.selectedSnptype == "" ? "" : this.getCrosswalkDefault(this.selectedSnptype);
+  // }
 
   onSnptypeDeSelectAll(items: any) {
     this.clearLeftSideItems();
     this.selectedSnptypesItems = [];
     this.selectedSnptype = "0";
     this.selectedCrosswalkItems = [];
+    this.crosswalk = [];
     this.selectedCrosswalk = "0";
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
@@ -1607,26 +1623,34 @@ export class PlanfinderComponent implements OnInit {
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
+    for (let i = 0; i < this.selectedCrosswalkItems.length; i++) {
+      this.selectedCrosswalk = i == 0 ? this.selectedCrosswalkItems[i].id.toString() : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[i].id.toString();
+    }
+
   }
   onCrossWalkSelectAll(items: any) {
     this.clearLeftSideItems();
+    this.isSelectAllChecked = false;
+    this.isAllClicked = false;
+    this.isTop5Clicked = false;
+    this.isTop10Clicked = false;
+    this.isTop15Clicked = false;
+    this.selectedCrosswalk = "";
+    this.selectedCrosswalkItems = items;
+    for (let i = 0; i < this.selectedCrosswalkItems.length; i++) {
+      this.selectedCrosswalk = i == 0 ? this.selectedCrosswalkItems[i].id.toString() : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[i].id.toString();
+    }
     if (!this.isTopFilterChangeActive) {
       this.isTopFilterChangeActive = true;
       this.onChangeTopFilterNotifier();
     }
-    this.isSelectAllChecked = false; this.isAllClicked = false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
   }
   onCrossWalkDeSelectAll(items: any) {
-    this.selectedCrosswalkItems = [];
     this.clearLeftSideItems();
-    if (!this.isTopFilterChangeActive) {
-      this.isTopFilterChangeActive = true;
-      this.onChangeTopFilterNotifier();
-    }
-    this.isSelectAllChecked = false; this.isAllClicked = false;
+    this.selectedCrosswalk = "";
+    this.selectedCrosswalkItems = items;
+    this.isSelectAllChecked = false;
+    this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
@@ -1635,17 +1659,17 @@ export class PlanfinderComponent implements OnInit {
       this.onChangeTopFilterNotifier();
     }
   }
-  onCrossWalkDeSelect() {
-    this.clearLeftSideItems();
-    if (!this.isTopFilterChangeActive) {
-      this.isTopFilterChangeActive = true;
-      this.onChangeTopFilterNotifier();
-    }
-    this.isSelectAllChecked = false; this.isAllClicked = false;
-    this.isTop5Clicked = false;
-    this.isTop10Clicked = false;
-    this.isTop15Clicked = false;
-  }
+  // onCrossWalkDeSelect() {
+  //   this.clearLeftSideItems();
+  //   if (!this.isTopFilterChangeActive) {
+  //     this.isTopFilterChangeActive = true;
+  //     this.onChangeTopFilterNotifier();
+  //   }
+  //   this.isSelectAllChecked = false; this.isAllClicked = false;
+  //   this.isTop5Clicked = false;
+  //   this.isTop10Clicked = false;
+  //   this.isTop15Clicked = false;
+  // }
 
   onAllBenefitGroupsItemSelect() {
     this.selectedFilterBenefitGroups = "";
@@ -1776,7 +1800,7 @@ export class PlanfinderComponent implements OnInit {
         }
 
         if (this.selectedBenifit == "TPV") {
-          this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
+          this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? -1 : 1 });
         }
 
         if (this.selectedBenifit == "OOPC") {
@@ -2056,7 +2080,7 @@ export class PlanfinderComponent implements OnInit {
       }
 
       if (this.selectedBenifit == "TPV") {
-        this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? 1 : -1 });
+        this.plans = this.plans.sort((a, b) => { return a.tpv > b.tpv ? -1 : 1 });
       }
 
       if (this.selectedBenifit == "OOPC") {
@@ -2683,7 +2707,7 @@ export class PlanfinderComponent implements OnInit {
       };
       if (!this.isColorCodeSelected) {
         worksheet.spliceColumns(4, 1);
-        }
+      }
       workbook.xlsx.writeBuffer().then((plansBenefitCopy: any) => {
         import("file-saver").then(FileSaver => {
           const blob = new Blob([plansBenefitCopy], {
@@ -2724,9 +2748,6 @@ export class PlanfinderComponent implements OnInit {
         let enrollmentSelect = result[0].enrollmentMonth.split(",");
         let enrollmentFromSelect = result[0].enrollmentFromMonth.split(",");
         let enrollmentToSelect = result[0].enrollmentToMonth.split(",");
-        // console.log(benefitName);
-        // this.OnBenefitSelect(benefitName);
-        // this.sortBySelected.push(this.benefits[2]);
         this.selectedBenefitModel = [];
         this.selectedEnrollmentModel = [];
         this.selectedEnrollmentToModel = [];
@@ -2828,7 +2849,7 @@ export class PlanfinderComponent implements OnInit {
         });
         this.selectedPlantypeItems = userSelectedPlanTypeItems;
         for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
-          this.selectedPlantypes = i == 0 ? result[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
+          this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
         }
         this.loadSnptypevalues(this.selectedPlantypes, snpTypes, crossWalks);
       }
@@ -2849,7 +2870,7 @@ export class PlanfinderComponent implements OnInit {
         });
         this.selectedSnptypesItems = userSelectedSnpTypeItems;
         for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
-          this.selectedSnptype = i == 0 ? result[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
+          this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
         }
         this.loadCrosswalkValues(this.selectedSnptype, crossWalks);
       }
@@ -2860,8 +2881,8 @@ export class PlanfinderComponent implements OnInit {
     this.selectedCrosswalkItems = [];
     this._crossWalkService.getCrosswalks(this.selectedState, this.selectedPlantype, snptype, this.selectedCounty).subscribe((result) => {
       if (result != null) {
-        this.selectedSnptype = snptype
-        this.crosswalk = result
+        this.selectedSnptype = snptype;
+        this.crosswalk = result;
         let userSelectedCrossWalkItems = [];
         result.forEach(element => {
           if (userCrossWalks.includes(element.id.toString())) {
@@ -2870,7 +2891,7 @@ export class PlanfinderComponent implements OnInit {
         });
         this.selectedCrosswalkItems = userSelectedCrossWalkItems;
         for (let i = 0; i < this.selectedCrosswalkItems.length; i++) {
-          this.selectedCrosswalk = i == 0 ? result[i].id.toString() : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[i].id.toString();
+          this.selectedCrosswalk = i == 0 ? this.selectedCrosswalkItems[i].id.toString() : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[i].id.toString();
         }
         this.checkForLoadAllPlans();
       }
@@ -2892,6 +2913,7 @@ export class PlanfinderComponent implements OnInit {
         if (result.length > 0) {
           this.plans = result;
           this.copyOfPlans = result;
+          console.log(result);
           this.loadDefaultRangeValues();
           this.loadLeftFilterValues();
           this.loadBidIds();
@@ -2935,7 +2957,7 @@ export class PlanfinderComponent implements OnInit {
     if (this.plans != null) {
       this.premiumMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.premiumCD; }));
       this.premiumMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.premiumCD; }));
-
+      ;
       this.enrollmentMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.enrollment; }));
       this.enrollmentMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.enrollment; }));
 
@@ -2950,7 +2972,6 @@ export class PlanfinderComponent implements OnInit {
 
       this.DDMinValue = Math.min.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
       this.DDMaxValue = Math.max.apply(Math, this.plans.map(function (o) { return o.anualDrugDeductible }));
-
       this.loadRangeValues();
     }
   }
@@ -3076,6 +3097,7 @@ export class PlanfinderComponent implements OnInit {
   }
 
   loadFilterPlanValues() {
+
     let partD = this.isPremiumChecked == true ? 0 : -1;
     let partB = this.isPartBChecked == true ? 0 : -1;
     let planCoverage = this.isPlanCoverageChecked == true ? 'MA' : 'Test';
@@ -3095,7 +3117,6 @@ export class PlanfinderComponent implements OnInit {
     let plans1 = [...this.copyOfPlans];
 
     if (this.isPremiumChecked == true) {
-
       this.plans = plans1.filter(x => x.premiumCD == x.partD && x.partD != partD && x.partBGiveBack != partB && x.planCoverage != planCoverage &&
         // x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible 
         x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
@@ -3116,15 +3137,18 @@ export class PlanfinderComponent implements OnInit {
       this.plans = this.plans.filter(x => this.isMealChecked == true ? x.sbMeal == 1 : x.sbMeal != -1);
       this.plans = this.plans.filter(x => this.isChiropractorChecked == true ? x.sbChiropractor == 1 : x.sbChiropractor != -1)
       this.plans = this.plans.filter(x => this.isOTCChecked == true ? x.sbOTC == 1 : x.sbOTC != -1);
+
     }
     else {
+
       this.plans = plans1.filter(x => x.partBGiveBack != partB && x.planCoverage != planCoverage &&
         // x.healthDeductible != healthDeductible && x.anualDrugDeductible != drugDeductible 
         x.healthDeductible >= this.selectedHDMinValue && x.healthDeductible <= this.selectedHDMaxValue &&
         x.anualDrugDeductible >= this.selectedDDMinValue && x.anualDrugDeductible <= this.selectedDDMaxValue
         && x.premiumCD >= this.selectedPremiumMinValue && x.premiumCD <= this.selectedPremiumMaxValue &&
-        x.enrollment >= this.selectedEnrollmentMinValue && x.enrollment <= this.selectedEnrollmentMaxValue && x.moop >= this.selectedMoopMinValue &&
-        x.moop <= this.selectedMoopMaxValue && !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) && !x.sbFitness.includes(Fitness) &&
+        x.enrollment >= this.selectedEnrollmentMinValue && x.enrollment <= this.selectedEnrollmentMaxValue &&
+        x.moop >= this.selectedMoopMinValue && x.moop <= this.selectedMoopMaxValue &&
+        !x.sbAmbulance.includes(ambulance) && !x.sbCompDental.includes(compDental) && !x.sbFitness.includes(Fitness) &&
         x.sbHearing != hearing && x.sbVision != vision && x.sbWorldWideEmergency != emergency && x.sbTeleHealth != teleHealth && x.sbHomeSaftey != homeSaftey &&
         x.sbHomeSupport != homeSupport && x.sbPers != pers
       );
@@ -3133,6 +3157,8 @@ export class PlanfinderComponent implements OnInit {
       this.plans = this.plans.filter(x => this.isMealChecked == true ? x.sbMeal == 1 : x.sbMeal != -1);
       this.plans = this.plans.filter(x => this.isChiropractorChecked == true ? x.sbChiropractor == 1 : x.sbChiropractor != -1)
       this.plans = this.plans.filter(x => this.isOTCChecked == true ? x.sbOTC == 1 : x.sbOTC != -1);
+
+
     }
 
     if (this.selectedBenifit == "Premium") {
@@ -3154,6 +3180,7 @@ export class PlanfinderComponent implements OnInit {
     if (this.selectedBenifit == "Enrollment Growth") {
       this.plans = this.plans.sort((a, b) => { return b.enrollmentGrowth > a.enrollmentGrowth ? 1 : -1 });
     }
+
     this.spinner.hide();
   }
 
@@ -3161,6 +3188,15 @@ export class PlanfinderComponent implements OnInit {
     if (this.userSelectedScenarioResults != null) {
       if (this.userSelectedScenarioResults[0].bidId != "") {
         this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");
+        if (this.selectedBidIds.length > 0) {
+          for(let i=0;i<this.selectedBidIds.length;i++)
+          {
+            var checkBidId=this.plans.includes(this.selectedBidIds[i]);            
+            if(checkBidId!=undefined)
+            {
+              this.selectedPlanName.push(this.plans.filter(x=>x.bidId===this.selectedBidIds[i])[0].planName);
+            }
+          }         
       }
       else {
         this.selectedBidIds = [];
@@ -3171,10 +3207,9 @@ export class PlanfinderComponent implements OnInit {
         this.bindPlanBenfefitDetails();
         this.showCompareButton = false;
       }
-
     }
   }
-
+  }
   checkScenarioName() {
     if (this.SaveScenarioName.trim().length === 0) {
       this.checkValidScenario = true;

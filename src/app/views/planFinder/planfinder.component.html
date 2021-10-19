@@ -46,7 +46,7 @@
                                     [(ngModel)]="selectedSalesRegionItems" class="pc-filter-multiselect"
                                     (onSelect)="onSalesRegionSelect()" (onSelectAll)="onSalesRegionSelectAll($event)"
                                     (onDeSelectAll)="onSalesRegionDeSelectAll($event)"
-                                    (onDeSelect)="onSalesRegionDeSelect()" id="pcFilterSalesRegion">
+                                    (onDeSelect)="onSalesRegionSelect()" id="pcFilterSalesRegion">
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
@@ -54,7 +54,7 @@
                                     [data]="counties" [(ngModel)]="selectedCountyItems" class="pc-filter-multiselect"
                                     id="pcFilterCounty" (onSelect)="onCountyItemSelect()"
                                     (onSelectAll)="onCountySelectAll($event)"
-                                    (onDeSelectAll)="onCountyDeSelectAll($event)" (onDeSelect)="onCountyDeSelect()">
+                                    (onDeSelectAll)="onCountyDeSelectAll($event)" (onDeSelect)="onCountyItemSelect()">
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class=" d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
@@ -63,7 +63,8 @@
                                     [(ngModel)]="selectedPlantypeItems" class="pc-filter-multiselect"
                                     id="pcFilterPlanType" (onSelect)="onPlanTypeItemSelect()"
                                     (onSelectAll)="onPlanTypeSelectAll($event)"
-                                    (onDeSelectAll)="onPlanTypeDeSelectAll($event)" (onDeSelect)="onPlanTypeDeSelect()">
+                                    (onDeSelectAll)="onPlanTypeDeSelectAll($event)"
+                                    (onDeSelect)="onPlanTypeItemSelect()">
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
@@ -71,7 +72,7 @@
                                     [settings]="snptypeDropdownSettings" [data]="snptypes"
                                     [(ngModel)]="selectedSnptypesItems" class="pc-filter-multiselect" id="pcFilterSNP"
                                     (onSelect)="onSnptypeItemSelect()" (onSelectAll)="onSnptypeSelectAll($event)"
-                                    (onDeSelectAll)="onSnptypeDeSelectAll($event)" (onDeSelect)="onSnptypeDeSelect()">
+                                    (onDeSelectAll)="onSnptypeDeSelectAll($event)" (onDeSelect)="onSnptypeItemSelect()">
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
@@ -81,7 +82,7 @@
                                     id="pcFilterCrosswalk" (onSelect)="onCrossWalkItemSelect()"
                                     (onSelectAll)="onCrossWalkSelectAll($event)"
                                     (onDeSelectAll)="onCrossWalkDeSelectAll($event)"
-                                    (onDeSelect)="onCrossWalkDeSelect()">
+                                    (onDeSelect)="onCrossWalkItemSelect()">
                                 </ng-multiselect-dropdown>
                             </div>
                             <div class="d-inline-flex ml-2 mr-2 my-2">
@@ -459,8 +460,9 @@
                                     <button type="button" class="btn btn-sm px-4 mr-3"
                                         style="white-space: nowrap;margin-left: 20px;"
                                         [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
-                                        [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"data-toggle="modal"
-                                        data-target="#colorModal" (click)="pushIntoCustomBids()">Color
+                                        [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"
+                                        data-toggle="modal" data-target="#colorModal"
+                                        (click)="pushIntoCustomBids()">Color
                                         Code</button>
                                     YOY &nbsp;&nbsp;
                                     <ng-multiselect-dropdown #yoy
@@ -1012,7 +1014,7 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits                                            
+                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
                                             [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
                                             [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
                                             <ng-container *ngFor="let col of columns,let i = index">
@@ -1024,7 +1026,8 @@
                                                         class="textRotation dont-break-out">{{rowData.sortGroup}}</span>
                                                 </td>
                                                 <td *ngIf=" i > 0 && i != 2 &&i != 3"
-                                                    [tooltipDisabled]="!isColorCodeSelected" tooltipStyleClass="tooltip-custom"
+                                                    [tooltipDisabled]="!isColorCodeSelected"
+                                                    tooltipStyleClass="tooltip-custom"
                                                     pTooltip="{{i===1?rowData.businessLogic:''}}" tooltipPosition="top"
                                                     [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
                                                     [ngClass]="{'benefits-font-bold' : i === 1}" class="dont-break-out "
