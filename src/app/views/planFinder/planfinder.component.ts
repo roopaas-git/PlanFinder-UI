@@ -3189,14 +3189,13 @@ export class PlanfinderComponent implements OnInit {
       if (this.userSelectedScenarioResults[0].bidId != "") {
         this.selectedBidIds = this.userSelectedScenarioResults[0].bidId.split(",");
         if (this.selectedBidIds.length > 0) {
-          for(let i=0;i<this.selectedBidIds.length;i++)
-          {
-            var checkBidId=this.plans.includes(this.selectedBidIds[i]);            
-            if(checkBidId!=undefined)
-            {
-              this.selectedPlanName.push(this.plans.filter(x=>x.bidId===this.selectedBidIds[i])[0].planName);
+          for (let i = 0; i < this.selectedBidIds.length; i++) {
+            var checkBidId = this.plans.includes(this.selectedBidIds[i]);
+            if (checkBidId != undefined) {
+              this.selectedPlanName.push(this.plans.filter(x => x.bidId === this.selectedBidIds[i])[0].planName);
             }
-          }         
+          }
+        }
       }
       else {
         this.selectedBidIds = [];
@@ -3208,7 +3207,6 @@ export class PlanfinderComponent implements OnInit {
         this.showCompareButton = false;
       }
     }
-  }
   }
   checkScenarioName() {
     if (this.SaveScenarioName.trim().length === 0) {
