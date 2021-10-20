@@ -514,7 +514,7 @@ export class PlanfinderComponent implements OnInit {
     return true;
   }
 
-  rebindPlanBenfefitDetails() {
+  rebindPlanBenfefitDetails() {   
     if (this.isBenefitGroupSelected()) {
       if (this.isColorCodeSelected == true) {
         this.isColorCodeSelected = false;
@@ -1397,17 +1397,27 @@ export class PlanfinderComponent implements OnInit {
   }
 
   onSalesRegionDeSelect() {
+
     this.clearLeftSideItems();
     this.selectedCountyItems = [];
     this.selectedPlantypeItems = [];
     this.selectedSnptypesItems = [];
     this.selectedCrosswalkItems = [];
+    this.counties = [];
+    this.plantypes = [];
+    this.snptypes = [];
+    this.crosswalk = [];
     this.isSelectAllChecked = false;
     this.isAllClicked = false;
     this.isTop5Clicked = false;
     this.isTop10Clicked = false;
     this.isTop15Clicked = false;
-    // this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);
+
+    this.selectedSalesRegion = "";
+    for (let i = 0; i < this.selectedSalesRegionItems.length; i++) {
+      this.selectedSalesRegion = i == 0 ? this.selectedSalesRegionItems[i].id.toString() : this.selectedSalesRegion + "," + this.selectedSalesRegionItems[i].id.toString();
+    }
+    this.getCountiesDefault(this.selectedState, this.selectedSalesRegion);    
     if (!this.isTopFilterChangeActive) {
       this.isTopFilterChangeActive = true;
       this.onChangeTopFilterNotifier();
@@ -1493,6 +1503,10 @@ export class PlanfinderComponent implements OnInit {
     for (let i = 0; i < this.selectedPlantypeItems.length; i++) {
       this.selectedPlantypes = i == 0 ? this.selectedPlantypeItems[i].id.toString() : this.selectedPlantypes + "," + this.selectedPlantypeItems[i].id.toString();
     }
+    if(this.selectedPlantypes=="")
+    {
+      this.selectedPlantypes="0";
+    }
     this.getSnptypeDefault(this.selectedPlantypes);
   }
 
@@ -1549,6 +1563,10 @@ export class PlanfinderComponent implements OnInit {
     this.isTop15Clicked = false;
     for (let i = 0; i < this.selectedSnptypesItems.length; i++) {
       this.selectedSnptype = i == 0 ? this.selectedSnptypesItems[i].id.toString() : this.selectedSnptype + "," + this.selectedSnptypesItems[i].id.toString();
+    }
+    if(this.selectedSnptype=="")
+    {
+      this.selectedSnptype="0";
     }
     this.getCrosswalkDefault(this.selectedSnptype);
   }
@@ -1626,7 +1644,10 @@ export class PlanfinderComponent implements OnInit {
     for (let i = 0; i < this.selectedCrosswalkItems.length; i++) {
       this.selectedCrosswalk = i == 0 ? this.selectedCrosswalkItems[i].id.toString() : this.selectedCrosswalk + "," + this.selectedCrosswalkItems[i].id.toString();
     }
-
+    if(this.selectedCrosswalk=="")
+    {
+      this.selectedCrosswalk="0";
+    }
   }
   onCrossWalkSelectAll(items: any) {
     this.clearLeftSideItems();

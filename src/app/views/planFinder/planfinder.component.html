@@ -751,7 +751,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbFitness.indexOf('-') == -1">
+                                                            *ngIf="plan.sbFitness.indexOf('-') !=0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -761,7 +761,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbFitness.includes('-')">
+                                                            *ngIf="plan.sbFitness.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -901,7 +901,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbHomeSupport.indexOf('-') == -1 && plan.sbHomeSupport?.length > 2">
+                                                            *ngIf="plan.sbHomeSupport.indexOf('-') != 0 && plan.sbHomeSupport?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -911,7 +911,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbHomeSupport.includes('-')">
+                                                            *ngIf="plan.sbHomeSupport.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -926,7 +926,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbHomeSaftey.indexOf('-') == -1 && plan.sbHomeSaftey?.length > 2">
+                                                            *ngIf="plan.sbHomeSaftey.indexOf('-') != 0 && plan.sbHomeSaftey?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -936,7 +936,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbHomeSaftey.includes('-')">
+                                                            *ngIf="plan.sbHomeSaftey.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -951,7 +951,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbPers.indexOf('-') == -1 && plan.sbPers?.length > 2">
+                                                            *ngIf="plan.sbPers.indexOf('-') != 0 && plan.sbPers?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -961,7 +961,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbPers.includes('-')">
+                                                            *ngIf="plan.sbPers.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -1162,7 +1162,7 @@
                 </div>
                 <div class="modal-body clearfix p-4">
                     <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
-                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName" [showClear]="true"
                         (onChange)="onBasePlanSelect($event.value.pidName)">
                     </p-dropdown>
 
