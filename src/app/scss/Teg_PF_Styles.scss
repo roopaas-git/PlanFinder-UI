@@ -67,6 +67,7 @@ select {
   appearance: none;
   background-position: right 5px center;
   padding-right: 20px !important;
+
 }
 
 .btn {
@@ -484,8 +485,8 @@ select {
     &:before,
     &:after {
       color: #fff;
-      background-color: $primary;
-      border-color: $primary;
+      background-color:  #F28D86;
+      border-color: #F28D86;
     }
   }
 }
@@ -543,7 +544,11 @@ select {
   font-size: 10px;
   font-style: italic;
 }
-
+.previousToYear{
+  background-color: #81a5e7 !important;
+  font-size: 10px;
+  font-style: italic;
+}
 .custom-toast{
   .ui-toast-top-right{
       top: 70px !important;
@@ -563,4 +568,101 @@ select {
   } 
 }
 
+@keyframes customHWmultiselectScale{50%{box-shadow:0 0 0 2px #f4a39d}}
+@-webkit-keyframes customHWmultiselectScale{50%{box-shadow:0 0 0 2px #f4a39d}}
 
+
+// Version 2
+
+// Ribbon 
+
+.plan-mem-ribbon:nth-child(even) {
+  margin-right: 4%;
+}
+@media (max-width: 500px) {
+  .plan-mem-ribbon {
+    width: 100%;
+  }
+  .plan-mem-ribbon:nth-child(even) {
+    margin-right: 0%;
+  }
+}
+
+.plan-mem-ribbon-inner {
+  width: 165px;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 15px;
+  position: absolute;
+  right: -9.3px;
+  top: 20px;
+  background: #58a946;
+  font-weight: 600;
+  color: #fff;
+  font-size: 12px;
+}
+.plan-mem-ribbon-inner:before, .plan-mem-ribbon-inner:after {
+  content: "";
+  position: absolute;
+}
+.plan-mem-ribbon-inner:before {
+  height: 0;
+  width: 0;
+  top: -8.5px;
+  right: 0.1px;
+  border-bottom: 9px solid #47873F;
+  border-left: 9px solid transparent;
+  transform: rotate(90deg);
+}
+.plan-mem-ribbon-inner:after {
+  height: 0;
+  width: 0;
+  left: -8.2%;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 14.1px solid #58a946;
+  transform: rotate(180deg);
+}
+
+// Custom Filter Header
+
+.custom-filter-label{
+  justify-content: center;
+  width: 160px;
+  color: #78338b !important;
+  font-weight: 700;
+}
+
+.custom-filter-section-left{
+  height: 25px;
+  width: 5% !important;
+  display: inline-block !important;
+}
+
+.custom-filter-section-right{    
+  width: 94% !important;
+  display: inline-block !important;
+}
+
+.custom-filter-section-right>div:first-child{
+  height: 25px;    
+}
+
+.pc-filter-multiselect-wrap {
+  min-width: 14.20% !important;
+  width: 14.2% !important;
+}
+
+span.selected-item.ng-star-inserted {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.tooltip-custom.ui-tooltip .ui-tooltip-text {
+  font-size: 11px;
+ 
+}
+.tooltip-custom.ui-tooltip
+{
+  max-width: 300px;
+}

@@ -15,6 +15,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SampleGridComponent } from './TestGrid/sample-grid.component';
 import { TestComponent } from './Test/test.component';
 import { TableComponent } from './tableRowSpan/table.component';
+import {​​​​​​​​ UiSwitchModule }​​​​​​​​ from'ngx-toggle-switch';
+import { DropdownModule} from 'primeng/dropdown';
+import { AutoCompleteModule} from 'primeng/autocomplete';
+import { ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
     declarations: [
@@ -33,10 +39,15 @@ import { TableComponent } from './tableRowSpan/table.component';
         NgMultiSelectDropDownModule,
         ComponentsModule,
         ToastModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        UiSwitchModule,
+        DropdownModule,
+        AutoCompleteModule,
+        ConfirmDialogModule,
+        TooltipModule
     ],
     exports: [],
-    providers: []
+    providers: [ConfirmationService]
 })
 
 export class ViewModule { }

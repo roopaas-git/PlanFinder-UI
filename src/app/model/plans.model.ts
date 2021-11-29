@@ -37,6 +37,7 @@ export interface IPlans {
     sbPers: string;
     enrollment: number;
     enrollment1: number;
+    enrollmentGrowth:number;
 }
 
 
