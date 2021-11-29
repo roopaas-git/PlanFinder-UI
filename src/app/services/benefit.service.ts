@@ -8,12 +8,11 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BenefitService {
-    
+
     constructor(private http : HttpClient, @Inject(APP_CONFIG) private config : AppConfig) { }
 
     getBenefits(): Observable<IBenefit[]> {
         return this.http.get<IBenefit[]>(`${this.config.apiEndpoint}Benefit/Get`).pipe(map((data: any) => {
-            console.log(data.result.benefits);
             return data.result.benefits
         }))
     }

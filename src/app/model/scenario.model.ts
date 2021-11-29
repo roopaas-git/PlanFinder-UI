@@ -15,8 +15,8 @@ export interface IScenarioResults {
     isPartDPremium: boolean,
     isPartBGiveBack: boolean,
     isPlanCoverage: boolean,
-    isHealthDeductible: boolean,
-    isDrugDeductible: boolean,
+    // isHealthDeductible: boolean,
+    // isDrugDeductible: boolean,
     isAmbulance: boolean,
     isComprehensiveDental: boolean,
     isChiropractor: boolean,
@@ -38,9 +38,15 @@ export interface IScenarioResults {
     enrollmentChangeMax : number,
     moopMin : number,
     moopMax : number,
+    hdMin : number,
+    hdMax : number,
+    ddMin : number,
+    ddMax : number,
     enrollmentMonth: string,
     enrollmentFromMonth: string,
     enrollmentToMonth: string,
     isEnrollmentSelected : number,
-    isSortBy : string
+    isSortBy : string,
+    planBenefitGroups: string,
+    isCostShareOnly: boolean
 }
