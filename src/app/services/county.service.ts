@@ -13,7 +13,7 @@ export class CountyService {
 
     getCounties(state: number, salesRegionId: string, clientId: number): Observable<ICounty[]> {
         return this.http.get<ICounty[]>(`${this.config.apiEndpoint}County/Get/${state}/${salesRegionId}/${clientId}`).pipe(map((data: any) => {
-            console.log(data.result.counties);
+            
             return data.result.counties
         }))
     }

@@ -1,64 +1,96 @@
-<div class="pc hw-page bg-light d-flex flex-column" id="top">
+<div class="pc hw-page bg-light d-flex flex-column" id="top" [ngStyle]="{'width':!showPlanCompare? '100%' : 'auto'}">
     <app-header [firstName]="firstName" [clientName]="clientName"></app-header>
     <div class="hw-pagecontent mb-5">
         <div class="pc-header">
             <div class="pc-header-filter pc-filter d-flex flex-column px-3 pt-3 mb-3">
-                <div class="pc-filter-group-wrap d-flex align-items-center">
-                    <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3">
-                        Dropdown Filters
+                <div *ngIf="!showPlanCompare" class="pc-filter-group-wrap bg-white shadow-sm pb-3 align-items-center">
+                    <div class="left pc-filter-group-name text-nowrap mr-2 my-2 pl-3 d-flex custom-filter-section-left">
+                        Plans
                     </div>
-                    <div class="center pc-filter-group d-flex flex-wrap ml-2">
-                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'Select State'" [settings]="stateDropdownSettings"
-                                [data]="states" [(ngModel)]="selectedStateItems" class="pc-filter-multiselect"
-                                (onSelect)="onStateItemSelect()" (onDeSelect)="onStateDeSelect()" id="pcFilterState">
-                            </ng-multiselect-dropdown>
+                    <div class="center pc-filter-group custom-filter-section-right">
+                        <div class="center pc-filter-group  flex-wrap ml-2 ">
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                State
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                Region
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                County
+                            </div>
+                            <div class=" d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                Plan Type
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                SNP Plans
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap custom-filter-label">
+                                Crosswalk
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2">
+                                <span></span>
+                            </div>
                         </div>
-                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'Sales Region'"
-                                [settings]="salesRegionDropdownSettings" [data]="salesRegions"
-                                [(ngModel)]="selectedSalesRegionItems" class="pc-filter-multiselect"
-                                (onSelect)="onSalesRegionSelect()" (onSelectAll)="onSalesRegionSelectAll($event)"
-                                (onDeSelectAll)="onSalesRegionDeSelectAll($event)"
-                                (onDeSelect)="onSalesRegionDeSelect()" id="pcFilterSalesRegion">
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'County'" [settings]="countyDropdownSettings"
-                                [data]="counties" [(ngModel)]="selectedCountyItems" class="pc-filter-multiselect"
-                                id="pcFilterCounty" (onSelect)="onCountyItemSelect()"
-                                (onSelectAll)="onCountySelectAll($event)" (onDeSelectAll)="onCountyDeSelectAll($event)"
-                                (onDeSelect)="onCountyDeSelect()">
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <div class=" d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'Plan Type'" [settings]="planTypeDropdownSettings"
-                                [data]="plantypes" [(ngModel)]="selectedPlantypeItems" class="pc-filter-multiselect"
-                                id="pcFilterPlanType" (onSelect)="onPlanTypeItemSelect()"
-                                (onSelectAll)="onPlanTypeSelectAll($event)"
-                                (onDeSelectAll)="onPlanTypeDeSelectAll($event)" (onDeSelect)="onPlanTypeDeSelect()">
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'Select Snptypes'"
-                                [settings]="snptypeDropdownSettings" [data]="snptypes"
-                                [(ngModel)]="selectedSnptypesItems" class="pc-filter-multiselect" id="pcFilterSNP"
-                                (onSelect)="onSnptypeItemSelect()" (onSelectAll)="onSnptypeSelectAll($event)"
-                                (onDeSelectAll)="onSnptypeDeSelectAll($event)" (onDeSelect)="onSnptypeDeSelect()">
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
-                            <ng-multiselect-dropdown [placeholder]="'Crosswalk'" [settings]="crossWalkDropdownSettings"
-                                [data]="crosswalk" [(ngModel)]="selectedCrosswalkItems" class="pc-filter-multiselect"
-                                id="pcFilterCrosswalk" (onSelect)="onCrossWalkItemSelect()"
-                                (onSelectAll)="onCrossWalkSelectAll($event)"
-                                (onDeSelectAll)="onCrossWalkDeSelectAll($event)" (onDeSelect)="onCrossWalkDeSelect()">
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <div class="d-inline-flex mr-2 my-2">
-                            <button class="btn btn-sm btn-primary pc-filter-apply-btn px-4" (click)="getAllPlans()">
-                                Apply
-                            </button>
+                        <div class="center pc-filter-group  flex-wrap ml-2">
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+
+                                <ng-multiselect-dropdown [placeholder]="'Select State'"
+                                    [settings]="stateDropdownSettings" [data]="states" [(ngModel)]="selectedStateItems"
+                                    class="pc-filter-multiselect" (onSelect)="onStateItemSelect()"
+                                    (onDeSelect)="onStateDeSelect()" id="pcFilterState">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                                <ng-multiselect-dropdown [placeholder]="'Sales Region'"
+                                    [settings]="salesRegionDropdownSettings" [data]="salesRegions"
+                                    [(ngModel)]="selectedSalesRegionItems" class="pc-filter-multiselect"
+                                    (onSelect)="onSalesRegionSelect()" (onSelectAll)="onSalesRegionSelectAll($event)"
+                                    (onDeSelectAll)="onSalesRegionDeSelectAll($event)"
+                                    (onDeSelect)="onSalesRegionSelect()" id="pcFilterSalesRegion">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                                <ng-multiselect-dropdown [placeholder]="'County'" [settings]="countyDropdownSettings"
+                                    [data]="counties" [(ngModel)]="selectedCountyItems" class="pc-filter-multiselect"
+                                    id="pcFilterCounty" (onSelect)="onCountyItemSelect()"
+                                    (onSelectAll)="onCountySelectAll($event)"
+                                    (onDeSelectAll)="onCountyDeSelectAll($event)" (onDeSelect)="onCountyItemSelect()">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class=" d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                                <ng-multiselect-dropdown [placeholder]="'Plan Type'"
+                                    [settings]="planTypeDropdownSettings" [data]="plantypes"
+                                    [(ngModel)]="selectedPlantypeItems" class="pc-filter-multiselect"
+                                    id="pcFilterPlanType" (onSelect)="onPlanTypeItemSelect()"
+                                    (onSelectAll)="onPlanTypeSelectAll($event)"
+                                    (onDeSelectAll)="onPlanTypeDeSelectAll($event)"
+                                    (onDeSelect)="onPlanTypeItemSelect()">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                                <ng-multiselect-dropdown [placeholder]="'SNP Plans'"
+                                    [settings]="snptypeDropdownSettings" [data]="snptypes"
+                                    [(ngModel)]="selectedSnptypesItems" class="pc-filter-multiselect" id="pcFilterSNP"
+                                    (onSelect)="onSnptypeItemSelect()" (onSelectAll)="onSnptypeSelectAll($event)"
+                                    (onDeSelectAll)="onSnptypeDeSelectAll($event)" (onDeSelect)="onSnptypeItemSelect()">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="d-inline-flex mr-2 my-2 pc-filter-multiselect-wrap">
+                                <ng-multiselect-dropdown [placeholder]="'Crosswalk'"
+                                    [settings]="crossWalkDropdownSettings" [data]="crosswalk"
+                                    [(ngModel)]="selectedCrosswalkItems" class="pc-filter-multiselect"
+                                    id="pcFilterCrosswalk" (onSelect)="onCrossWalkItemSelect()"
+                                    (onSelectAll)="onCrossWalkSelectAll($event)"
+                                    (onDeSelectAll)="onCrossWalkDeSelectAll($event)"
+                                    (onDeSelect)="onCrossWalkItemSelect()">
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="d-inline-flex ml-2 mr-2 my-2">
+                                <button class="btn btn-sm pc-filter-apply-btn px-4 btn-hw-before"
+                                    (click)="getAllPlans()">
+                                    Find Plans
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,7 +105,7 @@
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
                                 <p-slider id="premiumRangeSlider" [(ngModel)]="premiumRangeValues" [range]="true"
                                     (onChange)="ChangePremium($event)" [max]="premiumMaxDefaultValue"
-                                    [min]="premiumMinDefaultValue">
+                                    [disabled]="disableSliderPremium" [min]="premiumMinDefaultValue">
                                 </p-slider>
                             </div>
                             <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
@@ -122,19 +154,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
-                        <div class="pc-sidebar-filter-item px-3">
+                        <div *ngIf="disableEnrollments" class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div *ngIf="disableEnrollments" class="pc-sidebar-filter-item px-3">
                             <h3 class="pc-sidebar-filter-title mb-3">Enrollment</h3>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <label class="mb-0" for="enrollMonth">Enrollment Month</label>
-                                <select class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
-                                    (change)="OnEnrollmentPeriodChange($event.target.value)">
-                                    <option selected>Select</option>
-                                    <option *ngFor="let enrollment of enrollmentPeriod" [ngValue]="enrollment"
-                                        [id]="enrollment.id" [selected]="enrollment.period===CurrentPeriod">
-                                        {{enrollment.period}}
-                                    </option>
-                                </select>
+                                <p-dropdown class="w-auto d-inline-flex ml-2 setSize"
+                                    [options]="(enrollmentPeriod)?.reverse()" optionLabel="period"
+                                    optionValue="enrollmentPeriod"
+                                    (onChange)="OnEnrollmentPeriodChange($event.value.period)"
+                                    [(ngModel)]="selectedEnrollmentModel">
+                                </p-dropdown>
                             </div>
                             <div class="d-flex align-items-center justify-content-between  bg-light border p-2 mb-4">
                                 <div class="w-25 left">
@@ -148,39 +178,32 @@
                                     <div class="pc-sidebar-filter-slider mb-2 pl-2">
                                         <p-slider id="enrollmentRangeSlider" [(ngModel)]="enrollmentRangeValues"
                                             (onChange)="ChangeEnrollment($event)" [range]="true"
-                                            [max]="enrollmentMaxDefaultValue" [min]="enrollmentMinDefaultValue">
+                                            [disabled]="disableSliderEnr" [max]="enrollmentMaxDefaultValue"
+                                            [min]="enrollmentMinDefaultValue">
                                         </p-slider>
                                     </div>
                                 </div>
                             </div>
                             <div class=" mb-3">
-                                <div class="bg-secondary border-secondary text-white p-2 text-center">Change in
+                                <div class="text-white p-2 text-center change-in-enrollment">Change in
                                     Enrollment</div>
-                                <div
-                                    class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2">
+                                <div class="pc-sidebar-filter-selector bg-light border d-flex align-items-center justify-content-between p-2"
+                                    style="border-bottom: 1px solid #dddada !important;border-top: none !important;">
                                     <div class="pc-sidebar-filter-min d-flex align-items-center">
                                         <label class="m-0" for="enrRangeMin">From</label>
-                                        <select id="enrRangeMin"
-                                            class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
-                                            (change)="OnEnrollmentFromPeriodChange($event.target.value)">
-                                            <option selected>Select</option>
-                                            <option *ngFor="let enrollment of enrollmentPeriod" [ngValue]="enrollment"
-                                                [id]="enrollment.id" [selected]="enrollment.period===fromPeriod">
-                                                {{enrollment.period}}
-                                            </option>
-                                        </select>
+                                        <p-dropdown id="enrRangeMin" class="w-auto d-inline-flex ml-2 setSize"
+                                            [options]="enrollmentPeriod" optionLabel="period"
+                                            optionValue="enrollmentPeriod" [(ngModel)]="selectedEnrollmentToModel"
+                                            (onChange)="OnEnrollmentFromPeriodChange($event.value.period)">
+                                        </p-dropdown>
                                     </div>
                                     <div class="pc-sidebar-filter-max d-flex align-items-center ml-3">
                                         <label class="m-0" for="enrRangeMax">To</label>
-                                        <select id="enrRangeMax"
-                                            class="form-control form-control-sm w-auto d-inline-flex ml-2 text-truncate"
-                                            (change)="OnEnrollmentToPeriodChange($event.target.value)">
-                                            <option selected disabled>Select</option>
-                                            <option *ngFor="let enrollment of enrollmentPeriod" [ngValue]="enrollment"
-                                                [id]="enrollment.id" [selected]="enrollment.period=== toPeriod">
-                                                {{enrollment.period}}
-                                            </option>
-                                        </select>
+                                        <p-dropdown id="enrRangeMax" class="w-auto d-inline-flex ml-2 setSize"
+                                            [options]="enrollmentPeriod" optionLabel="period"
+                                            optionValue="enrollmentPeriod" [(ngModel)]="selectedEnrollmentFromModel"
+                                            (onChange)="OnEnrollmentToPeriodChange($event.value.period)">
+                                        </p-dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -196,44 +219,76 @@
                                     <div class="pc-sidebar-filter-slider mb-2 pl-2">
                                         <p-slider id="enrollmentDiffRangeSlider"
                                             [(ngModel)]="enrollmentChangeRangeValues"
-                                            (onChange)="ChangeEnrollmentIn($event)" [range]="true"
-                                            [max]="enrollmentChangeMaxDefaultValue"
+                                            [disabled]="disableSliderChangeEnr" (onChange)="ChangeEnrollmentIn($event)"
+                                            [range]="true" [max]="enrollmentChangeMaxDefaultValue"
                                             [min]="enrollmentChangeMinDefaultValue">
                                         </p-slider>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
-                        <div class="pc-sidebar-filter-item px-3">
-                            <h3 class="pc-sidebar-filter-title mb-3">Deductible</h3>
-                            <div class="pc-sidebar-filter-check">
-                                <div class="form-check form-check-right custom-checkbox mb-3">
-                                    <input type="checkbox" class="form-check-input d-none" id="healthD"
-                                        [(ngModel)]="isHealthDeductibleChecked" (change)="OnHealthDedictibleChange()">
-                                    <label class="form-check-label" for="healthD">
-                                        <span class="w-100">Health Deductible</span>
-                                    </label>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
+                        <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
+                            <h3 class="pc-sidebar-filter-title mb-3">Health Deductible</h3>
+                            <div class="pc-sidebar-filter-slider mb-3 pl-2">
+                                <p-slider id="HDRangeSlider" [(ngModel)]="HDRangeValues" [range]="true"
+                                    [disabled]="disableSliderHD" (onChange)="ChangeHD($event)" [max]="HDMaxDefaultValue"
+                                    [min]="HDMinDefaultValue">
+                                </p-slider>
+                            </div>
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
+                                <div class="pc-sidebar-filter-min d-flex align-items-center">
+                                    <label class="m-0 pr-2" for="HDMin">From</label>
+                                    <input type="text" id="HDMin"
+                                        class="form-control form-control-sm d-inline-flex text-truncate"
+                                        value="${{HDRangeValues[0]}}" aria-label="HD Min"
+                                        (input)="ChangeHDFromMinInput($event.target.value)">
                                 </div>
-                                <div class="form-check form-check-right custom-checkbox mb-3">
-                                    <input type="checkbox" class="form-check-input d-none" id="drugDedictible"
-                                        [(ngModel)]="isDrugDedictibleChecked" (change)="OnDrugDeductibleChange()">
-                                    <label class="form-check-label" for="drugDedictible">
-                                        <span class="w-100">Drug Deductible</span>
-                                    </label>
+                                <div class="pc-sidebar-filter-max d-flex align-items-center pl-3">
+                                    <label class="m-0 pr-2" for="HDMax">To</label>
+                                    <input type="text" id="HDMax"
+                                        class="form-control form-control-sm d-inline-flex text-truncate"
+                                        value="${{HDRangeValues[1]}}" aria-label="HD max amount"
+                                        (input)="ChangeHDFromMaxInput($event.target.value)">
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-divider border-bottom mt-5 mb-4"></div>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
+                        <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
+                            <h3 class="pc-sidebar-filter-title mb-3">Drug Deductible</h3>
+                            <div class="pc-sidebar-filter-slider mb-3 pl-2">
+                                <p-slider id="DDRangeSlider" [(ngModel)]="DDRangeValues" [range]="true"
+                                    [disabled]="disableSliderDD" (onChange)="ChangeDD($event)" [max]="DDMaxDefaultValue"
+                                    [min]="DDMinDefaultValue">
+                                </p-slider>
+                            </div>
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
+                                <div class="pc-sidebar-filter-min d-flex align-items-center">
+                                    <label class="m-0 pr-2" for="DDMin">From</label>
+                                    <input type="text" id="DDMin"
+                                        class="form-control form-control-sm d-inline-flex text-truncate"
+                                        value="${{DDRangeValues[0]}}" aria-label="DD Min"
+                                        (input)="ChangeDDFromMinInput($event.target.value)">
+                                </div>
+                                <div class="pc-sidebar-filter-max d-flex align-items-center pl-3">
+                                    <label class="m-0 pr-2" for="DDMax">To</label>
+                                    <input type="text" id="DDMax"
+                                        class="form-control form-control-sm d-inline-flex text-truncate"
+                                        value="${{DDRangeValues[1]}}" aria-label="DD max amount"
+                                        (input)="ChangeDDFromMaxInput($event.target.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-divider border-bottom mt-5" style="margin-bottom: 2rem !important;"></div>
                         <div class="pc-sidebar-filter-item px-3 d-flex flex-column">
                             <h3 class="pc-sidebar-filter-title mb-3">MOOP</h3>
                             <div class="pc-sidebar-filter-slider mb-3 pl-2">
                                 <p-slider id="moopRangeSlider" [(ngModel)]="moopRangeValues" [range]="true"
                                     (onChange)="ChangeMOOP($event)" [max]="moopMaxDefaultValue"
-                                    [min]="moopMinDefaultValue">
+                                    [disabled]="disableSliderMOOP" [min]="moopMinDefaultValue">
                                 </p-slider>
                             </div>
-                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-4">
+                            <div class="pc-sidebar-filter-range d-flex align-items-center justify-content-between mb-0">
                                 <div class="pc-sidebar-filter-min d-flex align-items-center">
                                     <label class="m-0 pr-2" for="moopMin">From</label>
                                     <input type="text" id="moopMin"
@@ -352,114 +407,217 @@
                     </div>
                 </div>
             </div>
-            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 px-3 pb-5">
-                <div class="pc-plans-header pc-plans-sort d-flex align-items-start mb-4">
-                    <div *ngIf="showPlanCompare">
-                        <button role="button" class="btn btn-sm btn-outline-primary pc-plan-compare-back-btn mr-3"
-                            (click)="toggleComparePlanBack()">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-left"
-                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                            </svg>
-                            <span class="ml-2">Go back</span>
-                        </button>
-                    </div>
-                    <div class="filter-wrapper d-flex align-items-center mr-3">
-                        <div class="mr-3">Sort by</div>
-                        <select #benefit class="form-control form-control-sm w-auto d-inline-flex ml-2"
-                            (change)="OnBenefitSelect($event.target.value)">
-                            <option *ngFor="let benefit of benefits" [ngValue]="benefit" [id]="benefit.id" [selected]="benefit.benefit == selectedBenifit">
-                                {{benefit.benefit}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="ml-auto d-flex align-items-center ml-3">
-                        <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
-                            <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isColorCodeSelected, 'btn-secondary' : !isColorCodeSelected}"
-                                data-toggle="modal" data-target="#colorModal">Color Code</button>
-                            <button type="button" class="btn btn-sm px-4 mr-3"
-                                [ngClass]="{'btn-primary' : isYOYSelected, 'btn-secondary' : !isYOYSelected}" 
-                                (click)="getYOY()">YOY</button>
-                        </div>
-                        <div class="dropdown ml-3">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg">
+            <div class="pc-plans-wrapper d-flex flex-column flex-grow-1 bg-white borer shadow-sm ml-3 pt-3 pb-5"
+                style="width: 100%;">
+                <div id="divFloat"
+                    [ngClass]="{'pc-compare-plans-header-wrapper' : showPlanCompare, 'pc-plans-list-header-wrapper' : !showPlanCompare ,'floatinDiv' : floatCheck == true,'divFloat-width-set':floatCheck == true && selectedBidIds?.length>5}">
+                    <div class="pc-plans-header pc-plans-sort d-flex mb-4">
+                        <div *ngIf="showPlanCompare" style="padding-top: 2px;">
+                            <button role="button" class="btn btn-outline-primary-new pc-plan-compare-back-btn mr-3 "
+                                (click)="toggleComparePlanBack()" style="border-radius:50%;padding: 4px 4px 4px 4px;">
+                                <svg width="1.5em" height="1.5em" viewBox="0 0 19 18" class="bi bi-chevron-left"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
-                                        d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                                 </svg>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#openModal"><svg
-                                        width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder2-open"
+                        </div>
+                        <div *ngIf="!showPlanCompare"
+                            class="form-check form-check-left custom-checkbox custom-selectAll align-items-start">
+                            <input type="checkbox" class="form-check-input d-none" id="SelectAll"
+                                [(ngModel)]="isSelectAllChecked" (change)="checkUncheckAll()" value="SelectAll" />
+                            <label class="form-check-label" for="SelectAll">
+                                <span>Select All</span><span style="padding-left: 40px;">Showing {{plans?.length}}
+                                    Plans</span>
+                            </label>
+                        </div>
+                        <div class="ml-auto d-flex align-items-center ml-3">
+                            <div class="filter-wrapper d-flex align-items-center mr-3">
+                                <div *ngIf="! showPlanCompare" class="mr-3">
+                                    <span>
+                                        <a [attr.href]="isAllClicked ? null : '#'" (click)="QuickFilter(0);"
+                                            data-toggle="modal"><span class="ml-2">All</span></a>
+                                        |<a [attr.href]="isTop5Clicked ? null : '#'" (click)="QuickFilter(5);"
+                                            data-toggle="modal"><span class="ml-2">Top
+                                                5</span></a>
+                                        |<a [attr.href]="isTop10Clicked ? null : '#'" (click)="QuickFilter(10);"
+                                            data-toggle="modal"><span class="ml-2">Top
+                                                10</span></a>
+                                        |<a [attr.href]="isTop15Clicked ? null : '#'" (click)="QuickFilter(15);"
+                                            data-toggle="modal"><span class="ml-2">Top
+                                                15</span></a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div
+                                [ngClass]="{'position-change-sortBy ' : showPlanCompare,'filter-wrapper d-flex align-items-center': !showPlanCompare,'div-sortBy-padding':floatCheck==true }">
+                                <div class="mr-3" [ngClass]="{'label-sortBy-padding':showPlanCompare}">Sort by</div>
+                                <p-dropdown [options]="benefits" [(ngModel)]="selectedBenefitModel" class="different"
+                                    optionLabel="benefit" optionValue="benefit"
+                                    (onChange)="OnBenefitSelect($event.value.benefit)">
+                                </p-dropdown>
+                                <div *ngIf="showPlanCompare" class="ml-auto d-flex align-items-center ml-3">
+                                    <button type="button" class="btn btn-sm px-4 mr-3"
+                                        style="white-space: nowrap;margin-left: 20px;"
+                                        [ngClass]="{'btn-hw-before' : isColorCodeSelected, 'btn-hw-click' : !isColorCodeSelected}"
+                                        [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"
+                                        data-toggle="modal" data-target="#colorModal"
+                                        (click)="pushIntoCustomBids()">Color
+                                        Code</button>
+                                    YOY &nbsp;&nbsp;
+                                    <ng-multiselect-dropdown #yoy
+                                        [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"
+                                        [placeholder]="'Select Year'" [settings]="yoyDropdownSettings"
+                                        style="width: 160px !important;" [data]="optionsYOY"
+                                        [(ngModel)]="selectedYoYItems" class="pc-filter-multiselect yoy-custom-compare"
+                                        (onSelect)="onYoYItemSelect()" (onDeSelect)="onYoYItemDeSelect()">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                            <div class="filter-wrapper d-flex align-items-center mr-3 div-margin-top">
+                                <div *ngIf="showPlanCompare" class="align-items-start" style="top: 2px;">
+                                    <ui-switch [(ngModel)]="isCostShareOnly" (change)="onCostOnlyToggleChange($event)"
+                                        [disabled]="selectedFilterBenefitGroupsItems.length === 0 ? true : false"
+                                        labelOn="Cost Only" labelOff="Cost Only" defaultBgColor="#ed6f66"
+                                        color="#59A946">
+                                    </ui-switch>
+                                </div>
+                            </div>
+                            <div class="dropdown ml-3" [ngClass]="{'div-margin-top':showPlanCompare}">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle " type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    (click)="clearSelection(openView)" aria-expanded="false">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
-                                            d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z" />
+                                            d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
                                     </svg>
-                                    <span class="ml-2">Open</span></a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#saveViewModal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-save">
-                                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z">
-                                        </path>
-                                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                                        <polyline points="7 3 7 8 15 8"></polyline>
-                                    </svg>
-                                    <span class="ml-2">Save</span></a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#saveAsModal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" width="24" height="24"
-                                        stroke-width="2">
-                                        <g>
-                                            <path class="st0"
-                                                d="M12,3.4H5.1c-1.1,0-2,0.9-2,2V19c0,1.1,0.9,2,2,2h13.7c1.1,0,2-0.9,2-2v-6.8">
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#openModal"><svg
+                                            width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-folder2-open"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14V3.5zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5V6zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7H1.633z" />
+                                        </svg>
+                                        <span class="ml-2">Open</span></a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal"
+                                        data-target="#saveViewModal"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-save">
+                                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z">
                                             </path>
-                                            <path class="st0"
-                                                d="M18,3.5c0.6-0.6,1.7-0.6,2.3,0s0.6,1.7,0,2.3l-7.3,7.3L10,13.8l0.8-3.1L18,3.5z">
-                                            </path>
-                                            <polyline class="st0" points="7,21 7,17.2 16.9,17.2 16.9,21 	"></polyline>
-                                            <polyline class="st0" points="7,3.4 7,7 9.4,7 	"></polyline>
-                                        </g>
-                                    </svg>
-                                    <span class="ml-2">Save as</span></a>
-                                <a class="dropdown-item" (click)="exportExcel()" [class.disabled]="isDownload"
-                                    style="cursor: pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-download">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="7 10 12 15 17 10"></polyline>
-                                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                                    </svg><span class="ml-2">Download</span></a>
+                                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                            <polyline points="7 3 7 8 15 8"></polyline>
+                                        </svg>
+                                        <span class="ml-2">Save</span></a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#saveAsModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" width="24" height="24" stroke-width="2">
+                                            <g>
+                                                <path class="st0"
+                                                    d="M12,3.4H5.1c-1.1,0-2,0.9-2,2V19c0,1.1,0.9,2,2,2h13.7c1.1,0,2-0.9,2-2v-6.8">
+                                                </path>
+                                                <path class="st0"
+                                                    d="M18,3.5c0.6-0.6,1.7-0.6,2.3,0s0.6,1.7,0,2.3l-7.3,7.3L10,13.8l0.8-3.1L18,3.5z">
+                                                </path>
+                                                <polyline class="st0" points="7,21 7,17.2 16.9,17.2 16.9,21 	">
+                                                </polyline>
+                                                <polyline class="st0" points="7,3.4 7,7 9.4,7 	"></polyline>
+                                            </g>
+                                        </svg>
+                                        <span class="ml-2">Save as</span></a>
+                                    <a class="dropdown-item" (click)="exportExcel()" [class.disabled]="isDownload"
+                                        style="cursor: pointer" style="color: #333333 !important;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-download">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg><span class="ml-2">Download</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="showPlanCompare" class="pc-plans-header pc-plans-sort align-items-start d-flex mb-4">
+                        <div *ngIf="showPlanCompare" class="mr-1"
+                            style="width: 160px;white-space: nowrap;margin-left: 45px;margin-top: 5px;">
+                            Benefit Group</div>
+                        <ng-multiselect-dropdown *ngIf="showPlanCompare" [placeholder]="'Select Benefit Group'"
+                            style="width: 280px;margin-left:-67px;" [settings]="filterBenefitGroupsDropdownSettings"
+                            [data]="filterBenefitGroups" [(ngModel)]="selectedFilterBenefitGroupsItems"
+                            class="pc-filter-multiselect" (onSelect)="onAllBenefitGroupsItemSelect()"
+                            (onDeSelect)="onAllBenefitGroupsDeSelect()"
+                            (onSelectAll)="onAllBenefitGroupsSelectAll($event)"
+                            (onDeSelectAll)="onAllBenefitGroupsDeSelectAll($event)" id="pcFilterBenefitGroups">
+                        </ng-multiselect-dropdown>
+                        <button *ngIf="showPlanCompare"
+                            class="btn btn-sm pc-filter-apply-btn px-4 custom-benefit-ddb btn-hw-before"
+                            (click)="rebindPlanBenfefitDetails()" style="margin-top: 0px;">
+                            Apply
+                        </button>
+                        <div class="ml-auto d-flex align-items-center ml-3"
+                            style="margin-top: -10px;margin-right: -15px;">
+                            Benefits
+                            <p-autoComplete *ngIf="showPlanCompare" class="align-items-start margin-second-pane mr-3 "
+                                placeholder="Search Benefit" type="search" field="benefits" [style]="{'width':'50%'}"
+                                [inputStyle]="{'width':'50%'}" [suggestions]="filteredBenefits" [minLength]="1"
+                                (onClear)=onClearFilterBenefit() (completeMethod)="filterBenefits($event)"
+                                (onSelect)="onSelectFilterBenefit($event)" emptyMessage="No benefit(s) found">
+                            </p-autoComplete>
+                            <button type="button" class="btn btn-sm px-4 mr-3 btn-hw-before" style="white-space: nowrap;margin: 10px 3px 10px -16px;border-left: 
+                           none;height: 35px;border-radius: 0 5px 5px 0;"
+                                [disabled]="searchBenefitEvent === null ? true : false" (click)="selectFilterBenefit()">
+                                Search </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="pc-plans-body flex-grow-1">
+                <div class="pc-plans-body flex-grow-1" [ngStyle]="{'margin':showPlanCompare? '0 1rem' : '0rem'}">
                     <div *ngIf="!showPlanCompare">
-                        <div class="pc-plans">
+                        <div class="pc-plans" style="margin:0 1rem;">
                             <div class="pc-plan card" *ngFor="let plan of plans, let i = index">
                                 <div class="card-body pb-1">
-                                    <h3 class="pc-plan-name">{{plan.planName}} ({{plan.bidId}})</h3>
+                                    <div>
+                                        <h3 class="pc-plan-name dont-break-out"
+                                            style="display: inline-block;position: absolute;">{{i+1}}.</h3>
+                                        <span style="margin-left: 26px;"></span>
+                                        <h3 class="pc-plan-name dont-break-out"
+                                            style="display: inline-block;width: 67%;"
+                                            [ngClass]="{'margin-13-twoDigit' : (i+1)>9 && (i+1)<=99,'margin-13-threeDigit' : (i+1)>99}">
+                                            {{plan.planName}} ({{plan.bidId}})</h3>
+                                    </div>
+                                    <div *ngIf="disableEnrollments"
+                                        class="pc-plan-mem-count ml-3 px-2 font-weight-normal plan-mem-ribbon"
+                                        style="display: inline-block;float: right;">
+                                        <span class="plan-mem-ribbon-inner">
+                                            <span style="margin-left: -9px;">{{plan.enrollment}} members &nbsp;</span>
+                                            <span style="float: right;padding-right: 10px !important">
+                                                <span class="growth-percent-ribbon" style="margin-right: -3.5px;">
+                                                    <i *ngIf="plan.enrollmentGrowth > 0" class="fas fa-arrow-up"></i>
+                                                    <i *ngIf="plan.enrollmentGrowth < 0" class="fas fa-arrow-down"></i>
+                                                    <i *ngIf="plan.enrollmentGrowth === 0" class="fas fa-minus"></i>
+                                                </span>&nbsp;
+                                                <span class="growth-percent-ribbon">
+                                                    {{plan.enrollmentGrowth}}%
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
                                     <div class="d-flex pc-plan-content">
                                         <div class="left flex-grow-1 pr-4">
                                             <div class="mb-2">
-                                                <div class="pc-plan-rating badge badge-info px-2">
+                                                <div class="pc-plan-rating badge badge-info px-2"
+                                                    [ngClass]="{'star-rating' : plan.starRating.includes('Not enough data available'),'star-rating1' : plan.starRating.includes('Plan too new to be measured')}">
                                                     <span class="pc-plan-rating-val mr-2">{{plan.starRating}}</span>
                                                     <svg class="pc-plan-rating-icon" xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                                         <polygon
                                                             points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                                     </svg>
-                                                </div>
-                                                <div
-                                                    class="pc-plan-mem-count badge badge-light ml-3 px-2 font-weight-normal">
-                                                    {{plan.enrollment}} members
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-start">
@@ -593,7 +751,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbFitness.indexOf('-') == -1">
+                                                            *ngIf="plan.sbFitness.indexOf('-') !=0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -603,7 +761,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbFitness.includes('-')">
+                                                            *ngIf="plan.sbFitness.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -743,7 +901,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbHomeSupport.indexOf('-') == -1 && plan.sbHomeSupport?.length > 2">
+                                                            *ngIf="plan.sbHomeSupport.indexOf('-') != 0 && plan.sbHomeSupport?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -753,7 +911,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbHomeSupport.includes('-')">
+                                                            *ngIf="plan.sbHomeSupport.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -768,7 +926,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbHomeSaftey.indexOf('-') == -1 && plan.sbHomeSaftey?.length > 2">
+                                                            *ngIf="plan.sbHomeSaftey.indexOf('-') != 0 && plan.sbHomeSaftey?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -778,7 +936,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbHomeSaftey.includes('-')">
+                                                            *ngIf="plan.sbHomeSaftey.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -793,7 +951,7 @@
                                                     </li>
                                                     <li class="pc-plan-benefits-item">
                                                         <span class="pc-plan-benefits-item-icon text-success"
-                                                            *ngIf="plan.sbPers.indexOf('-') == -1 && plan.sbPers?.length > 2">
+                                                            *ngIf="plan.sbPers.indexOf('-') != 0 && plan.sbPers?.length > 1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -803,7 +961,7 @@
                                                             </svg>
                                                         </span>
                                                         <span class="pc-plan-benefits-item-icon text-danger"
-                                                            *ngIf="plan.sbPers.includes('-')">
+                                                            *ngIf="plan.sbPers.indexOf('-')==0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="22"
                                                                 height="22" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="3"
@@ -844,9 +1002,11 @@
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
                                             <ng-container *ngFor="let col of columns, let i = index">
-                                                <th *ngIf=" i === 0 " style="width: 55px">
+                                                <th class="dont-break-out" *ngIf=" i === 0 "
+                                                    [ngStyle]="{'width':selectedBidIds.length>5? '200px' : '100px'}">
                                                 </th>
-                                                <th *ngIf=" i != 2 && i !=0 ">
+                                                <th class="dont-break-out" *ngIf=" i != 2 && i !=0 &&i != 3"
+                                                    [ngStyle]="{'width':selectedBidIds.length>5? '250px' : '100px'}">
                                                     {{col.header}}
                                                 </th>
                                             </ng-container>
@@ -854,16 +1014,23 @@
                                     </ng-template>
                                     <ng-template pTemplate="body" let-rowData let-columns="columns"
                                         let-rowIndex="rowIndex">
-                                        <tr *ngIf="rowData.year != previousBenifitYear ? true : false"
-                                            [ngClass]="{'previousYear' : rowData.year == previousBenifitYears}"
-                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year == previousBenifitYears">
+                                        <tr class="dont-break-out" [attr.aria-custom-tr]=rowData.benefits
+                                            [ngClass]="{'previousYear' : rowData.year == currentBenifitYear-1,'previousToYear' : rowData.year == currentBenifitYear-2}"
+                                            [hidden]="rowData.sortGroup == 'Plan Information' && rowData.year != currentBenifitYear">
                                             <ng-container *ngFor="let col of columns,let i = index">
                                                 <td *ngIf=" i === 0 && rowGroupMetadata[rowData.sortGroup].index === rowIndex"
                                                     [attr.rowspan]="rowGroupMetadata[rowData.sortGroup].size"
-                                                    class="sortOrderTd">
-                                                    <span class="textRotation">{{rowData.sortGroup}}</span></td>
-                                                <td *ngIf=" i > 0 && i != 2 "
+                                                    class="sortOrderTd dont-break-out "
+                                                    style="font-weight: bold !important;">
+                                                    <span
+                                                        class="textRotation dont-break-out">{{rowData.sortGroup}}</span>
+                                                </td>
+                                                <td *ngIf=" i > 0 && i != 2 &&i != 3"
+                                                    [tooltipDisabled]="!isColorCodeSelected"
+                                                    tooltipStyleClass="tooltip-custom"
+                                                    pTooltip="{{i===1?rowData.businessLogic:''}}" tooltipPosition="top"
                                                     [ngClass]="applyColors(i,rowData.year,rowData[col.field], col.field)"
+                                                    [ngClass]="{'benefits-font-bold' : i === 1}" class="dont-break-out "
                                                     (click)="handleClick(col.field)"> {{rowData[col.field]}}
                                                 </td>
                                             </ng-container>
@@ -874,13 +1041,14 @@
                         </div>
                     </div>
                     <div *ngIf="showCompareButton">
-                        <button type="button" class="btn btn-sm btn-primary pc-plan-compare-btn px-4"
+                        <button #btnClick type="button" class="btn btn-sm pc-plan-compare-btn px-4 btn-hw-before"
                             (click)="toggleComparePlan()">
                             Compare <span class="badge badge-light ml-2">{{selectedBidIds.length}}</span>
                         </button>
                     </div>
                 </div>
             </div>
+            <div [ngClass]="{'pc-plans-wrapper-blur':isTopFilterChangeActiveNotify}"></div>
         </div>
         <button *ngIf="showScrollTopBtn" role="button" class="back-to-top-btn" aria-label="Scroll to Top"
             (click)="goToTop()">
@@ -889,6 +1057,10 @@
                 <path fill-rule="evenodd"
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-10.646.354a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11a.5.5 0 0 1-1 0V6.207L5.354 8.354z" />
             </svg>
+        </button>
+        <button *ngIf="showPlanCompare && showDiscoverMoreBtn" class="btn-custom-discoverMore discoverMore"
+            (click)="showTopDiv()">
+            Discover more &nbsp; <i class="fas fa-caret-down" style="font-size:22px !important"></i>
         </button>
     </div>
     <div class="modal fade" id="saveViewModal" tabindex="-1" role="dialog" aria-labelledby="saveViewModalTitle"
@@ -908,12 +1080,13 @@
                             #SaveScenarioControl="ngModel" (input)="checkScenarioName()"
                             [ngClass]="{ 'is-invalid': saveForm.submitted && SaveScenarioControl.invalid }" required>
                         <div *ngIf="saveForm.submitted && SaveScenarioControl.errors" class="invalid-feedback">
-                            <div *ngIf="SaveScenarioControl.errors.required">Scenario name is required</div>
+                            <div *ngIf="SaveScenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
+                                name is required</div>
                         </div>
                         <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
                             {{scenarioAlreadyExists}}
                         </div>
-                        <button type="submit" id="btnSaveScenario" class="btn btn-primary float-right px-5"
+                        <button type="submit" id="btnSaveScenario" class="btn btn-hw-before float-right px-5"
                             (click)="saveUserInputs($event)">Save</button>
                     </div>
                 </form>
@@ -930,13 +1103,19 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="OnScenarioSelect($event.target.value)">
-                        <option selected>Select Scenario</option>
-                        <option *ngFor="let scenario of scenarios" value="{{scenario.id}}">
-                            {{scenario.scenario}}
-                        </option>
-                    </select>
-                    <!-- <button type="button" class="btn btn-primary float-right px-5">Open</button> -->
+                    <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+                    <p-dropdown #openView [style]="{'width': '100%'}" placeholder="Select Scenario"
+                        class="mb-4 customColor" [options]="scenarios" optionLabel="scenario">
+                        <ng-template let-option pTemplate="item">
+                            <div>
+                                <div class="custom-select-scenario" (click)="OnScenarioSelect(option.value.id)">
+                                    {{option.value.scenario}} </div>
+                                <div class="custom-delete-scenario"
+                                    (click)="OnConfirmationDeleteScenario(option.value.id, option.value.scenario)"><i
+                                        class="fa fa-trash"></i></div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
                 </div>
             </div>
         </div>
@@ -957,21 +1136,24 @@
                             (input)="checkSaveASScenarioName()"
                             [ngClass]="{ 'is-invalid': saveAsForm.submitted && scenarioControl.invalid }" required>
                         <div *ngIf="saveAsForm.submitted && scenarioControl.errors" class="invalid-feedback">
-                            <div *ngIf="scenarioControl.errors.required">Scenario Name is required</div>
+                            <div *ngIf="scenarioControl.errors.required" style="color: #ED6F66 !important;">Scenario
+                                Name is required</div>
                         </div>
                         <div *ngIf="scenarioAlreadyExists != ''" class="alert alert-danger">
                             {{scenarioAlreadyExists}}
                         </div>
-                        <button type="submit" class="btn btn-primary float-right px-5" id="btnSaveAsScenario"
+                        <button type="submit" class="btn btn-hw-before float-right px-5" id="btnSaveAsScenario"
                             (click)="saveUserInputs($event)">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
+    <div *ngIf="showModalBox" class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 808px;
+            right: 130px;">
                 <div class="modal-header px-4">
                     <h5 class="modal-title" id="openModalTitle">Base Plan</h5>
                     <button #colorModal type="button" class="close" data-dismiss="modal" aria-label="Close" #openModal>
@@ -979,18 +1161,17 @@
                     </button>
                 </div>
                 <div class="modal-body clearfix p-4">
-                    <select class="form-control form-control-md mb-4" (change)="onBasePlanSelect($event.target.value)">
-                        <option selected>Select Base Plan</option>
-                        <option *ngFor="let BidId of selectedBidIds">
-                            {{BidId}}
-                        </option>
-                    </select>
+                    <p-dropdown [style]="{'width': '760px'}" placeholder="Select Base Plan" class="mb-4 customColor"
+                        [options]="customSelectedPlanName" optionLabel="pname" optionValue="pidName" [showClear]="true"
+                        (onChange)="onBasePlanSelect($event.value.pidName)">
+                    </p-dropdown>
+
                 </div>
             </div>
         </div>
     </div>
-    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#FFA500">
-        <p style="color: #FFA500">Please Wait. </p>
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-fussion" color="#f6b5b1">
+        <p style="color: #FFF">Please Wait. </p>
     </ngx-spinner>
     <p-toast position="top-right" class="custom-toast" sticky=false></p-toast>
 </div>

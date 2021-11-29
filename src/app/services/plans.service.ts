@@ -17,7 +17,7 @@ export class PlansService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<IPlans[]>(`${this.config.apiEndpoint}Plans/Get/${state}/${plantype}/${snptype}/${crosswalk}`, county, { headers: headers })
             .pipe(map((data: any) => {
-                console.log("Plans : ", data.result);
+                
                 return data.result;
             }))
     }
@@ -28,7 +28,7 @@ export class PlansService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<IPlans[]>(`${this.config.apiEndpoint}Plans/GetByPeriod/${state}/${plantype}/${snptype}/${crosswalk}/${period}`, county, { headers: headers })
             .pipe(map((data: any) => {
-                console.log("Plans By Period : ", data.result);
+                
                 return data.result;
             }))
     }
@@ -38,7 +38,7 @@ export class PlansService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<IPlans[]>(`${this.config.apiEndpoint}Plans/GetEnrollementsBetweenPeriod/${state}/${plantype}/${snptype}/${crosswalk}/${fromPeriod}/${toPeriod}`, county, { headers: headers })
             .pipe(map((data: any) => {
-                console.log("Plans Between Periods : ", data.result);
+                
                 return data.result;
             }))
     }

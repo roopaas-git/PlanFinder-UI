@@ -10,6 +10,7 @@ import { ViewModule } from './views/views.module';
 import { ServicesModule } from './services/services.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ViewModule,
     ServicesModule,
     BrowserAnimationsModule,
+    TooltipModule,
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent]
